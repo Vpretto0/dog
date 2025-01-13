@@ -64,7 +64,7 @@ class law_and_order:
             
         def addData():
             if pid.get() == "" or name.get() == "" or lastname.get() == "":
-                tkinter.messagebox.showerror("THE LAW AND ORDER", "Enter Correct Details,don't be stupid")
+                tkinter.messagebox.showerror("THE LAW AND ORDER", "Enter Correct Details. \n don't be stupid")
                 
             else: 
                 conn, c  = db_identity.create_connection()
@@ -99,7 +99,8 @@ class law_and_order:
                 else:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
-        def traineeinfo(ev):
+                    
+        def traineeinfo(ev):#la funcion mas profesional de todas
             viewInfo = self.people_records.focus()
             learnerData = self.people_records.item(viewInfo)
             row = learnerData['values']
@@ -109,6 +110,59 @@ class law_and_order:
             lastname.set(row [3])
             mail.set(row [4])
             photo.set(row[5])
+        
+        def update():
+            print("Starting update function")
+            conn, c  = db_identity.create_connection()
+            if conn is not None and c is not None:
+                c.execute("UPDATE people SET class=%s, id=%s, name=%s, lastname=%s, mail=%s, photo=%s",
+                          (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), photo.get()))
+                conn.commit()
+                DisplayData()
+                db_identity.close_connection(conn, c)
+                tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Updated Successfully")
+                #arreglado
+            else:
+                tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Updating the database")
+                #super dificil de arreglar
+                
+        def delete():
+            print("Starting DELETE function")
+            conn, c  = db_identity.create_connection()
+            if conn is not None and c is not None:
+                c.execute("DELETE FROM people WHERE id=%s", pid.get())
+                conn.commit()
+                DisplayData()
+                db_identity.close_connection(conn, c)
+                tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Successfully DELETED")
+                #arreglado
+                Reset()
+            else:
+                tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Updating the database")
+                #super dificil de arreglar
+                
+        def searchdb():
+            try:
+                print("Starting SEARCH function")
+                conn, c  = db_identity.create_connection()
+                if conn is not None and c is not None:
+                    c.execute("SELECT * FROM people WHERE id=%s", pid.get())
+
+                    row = c.fetchall()
+                    Class.set(row[0]) 
+                    pid.set(row [1]) 
+                    name.set(row [2]) 
+                    lastname.set(row [3])
+                    mail.set(row [4])
+                    photo.set(row[5])
+        
+                    conn.commit()
+
+            except:
+                db_identity.close_connection(conn, c)
+                tkinter.messagebox.showinfo("Not Found", "No Such Record FOUND")
+                #super dificil de arreglar
+                Reset()
         #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7)
@@ -172,7 +226,7 @@ class law_and_order:
         self.people_records.column("photo", width= 70)
         
         self.people_records.pack(fill =BOTH, expand =1)
-        #self.people_records.bind("<ButtonRelease-1>", traineeinfo)
+        self.people_records.bind("<ButtonRelease-1>", traineeinfo)
         DisplayData()
         #___________________________________________________BUTTONS____________________________________________________#
         self.btnAddNew = Button(RightFrame1a, text = "Add Data", font =('courier', 14, 'bold'),
@@ -182,13 +236,13 @@ class law_and_order:
             padx =15, pady=2, width =8, height =2,command =DisplayData, bd =4). grid(row =1, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Update", font =('courier', 14, 'bold'),
-            padx =15, pady=2, width =8, height =2, bd =4). grid(row =2, column =0, padx =0)
+            padx =15, pady=2, width =8, height =2,command =update, bd =4). grid(row =2, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Delete", font =('courier', 14, 'bold'),
-            padx =15, pady=2, width =8, height =2, bd =4). grid(row =3, column =0, padx =0)
+            padx =15, pady=2, width =8, height =2, command= delete, bd =4). grid(row =3, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Search", font =('courier', 14, 'bold'),
-            padx =15, pady=2, width =8, height =2, bd =4). grid(row =4, column =0, padx =0)
+            padx =15, pady=2, width =8, height =2, command =searchdb, bd =4). grid(row =4, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Reset", font =('courier', 14, 'bold'),
             padx =15, pady=2, width =8, height =2, command =Reset,  bd =4). grid(row =5, column =0, padx =0)
