@@ -99,6 +99,16 @@ class law_and_order:
                 else:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
+        def traineeinfo(ev):
+            viewInfo = self.people_records.focus()
+            learnerData = self.people_records.item(viewInfo)
+            row = learnerData['values']
+            Class.set(row[0]) 
+            pid.set(row [1]) 
+            name.set(row [2]) 
+            lastname.set(row [3])
+            mail.set(row [4])
+            photo.set(row[5])
         #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7)
@@ -162,12 +172,14 @@ class law_and_order:
         self.people_records.column("photo", width= 70)
         
         self.people_records.pack(fill =BOTH, expand =1)
+        #self.people_records.bind("<ButtonRelease-1>", traineeinfo)
+        DisplayData()
         #___________________________________________________BUTTONS____________________________________________________#
         self.btnAddNew = Button(RightFrame1a, text = "Add Data", font =('courier', 14, 'bold'),
             padx =15, pady=2, width =8, height =2,command =addData, bd =4). grid(row =0, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Display", font =('courier', 14, 'bold'),
-            padx =15, pady=2, width =8, height =2, command =DisplayData, bd =4). grid(row =1, column =0, padx =0)
+            padx =15, pady=2, width =8, height =2,command =DisplayData, bd =4). grid(row =1, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Update", font =('courier', 14, 'bold'),
             padx =15, pady=2, width =8, height =2, bd =4). grid(row =2, column =0, padx =0)
