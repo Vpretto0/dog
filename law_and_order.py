@@ -53,7 +53,7 @@ class law_and_order:
                 root.destroy()
                 return
         
-        def Reset(self):
+        def Reset():
             self.entclass.delete(0, END)
             self.entID.delete(0, END)
             self.entfirstname.delete(0, END)
@@ -74,6 +74,7 @@ class law_and_order:
                     db_identity.close_connection(conn, c)
                     tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
                     #arreglado
+                    Reset()
                 else:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
@@ -115,13 +116,13 @@ class law_and_order:
             print("Starting update function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("UPDATE people SET class=%s, id=%s, name=%s, lastname=%s, mail=%s, photo=%s",
-                          (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), photo.get()))
+                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, photo=%s WHERE id=%s",
+                          (Class.get(), name.get(), lastname.get(), mail.get(), photo.get(), pid.get()))
                 conn.commit()
-                DisplayData()
                 db_identity.close_connection(conn, c)
                 tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Updated Successfully")
                 #arreglado
+                Reset()
             else:
                 tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Updating the database")
                 #super dificil de arreglar
@@ -131,12 +132,13 @@ class law_and_order:
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
                 c.execute("DELETE FROM people WHERE id=%s", pid.get())
-                conn.commit()
+                Reset()
                 DisplayData()
+                conn.commit()
                 db_identity.close_connection(conn, c)
                 tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Successfully DELETED")
                 #arreglado
-                Reset()
+                
             else:
                 tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Updating the database")
                 #super dificil de arreglar
@@ -149,6 +151,7 @@ class law_and_order:
                     c.execute("SELECT * FROM people WHERE id=%s", pid.get())
 
                     row = c.fetchall()
+                    
                     Class.set(row[0]) 
                     pid.set(row [1]) 
                     name.set(row [2]) 
