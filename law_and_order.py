@@ -53,18 +53,18 @@ class law_and_order:
                 root.destroy()
                 return
         
-        def Reset():
+        def Reset(self):
             self.entclass.delete(0, END)
             self.entID.delete(0, END)
             self.entfirstname.delete(0, END)
             self.entlastname.delete(0, END)
             self.entmail.delete(0, END)
-            photo.set("False")
+            photo.set(False)
             
             
         def addData():
             if pid.get() == "" or name.get() == "" or lastname.get() == "":
-                tkinter.messagebox.showerror("THE LAW AND ORDER", "Enter Correct Details.\n\n    don't be stupid")
+                tkinter.messagebox.showerror("THE LAW AND ORDER", "Enter Correct Details,don't be stupid")
                 
             else: 
                 conn, c  = db_identity.create_connection()
@@ -78,49 +78,71 @@ class law_and_order:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
             
+        def DisplayData():
+                print("starting display data")
+                conn, c  = db_identity.create_connection()
+                if conn is not None and c is not None:
+                    c.execute("SELECT * FROM `people`") #si da error eliminar *
+                    
+                    result = c.fetchall()
+                    print(f"Fetched {len(result)} records")
+                    
+                    if len(result) !=0:
+                        self.people_records.delete(*self.people_records.get_children())
+                        for row in result:
+                            self.people_records.insert('', END, values = row)
+                            print("Yes data")
+                    else:
+                        print("No data")
+                            
+                    db_identity.close_connection(conn, c)
+                else:
+                    tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
+                    #super dificil de arreglar
         #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7)
         self.lbltitle.grid(row =0, column =0, padx =153)
+        #_______________________________________________________________________________________________________#el del codigo los sepaara así
         
         
         self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bd =7)
-        self.lblclass.grid(row =1, column =0,sticky=W, padx =5 )
+        self.lblclass.grid(row =0, column =0,sticky=W, padx =5 )
         self.entclass = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= Class)
-        self.entclass.grid(row =1, column =1,sticky=W, padx =5 )
+        self.entclass.grid(row =0, column =1,sticky=W, padx =5 )
         
         self.lblID = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="ID", bd =7)
-        self.lblID.grid(row =2, column =0,sticky=W, padx =5 )
+        self.lblID.grid(row =1, column =0,sticky=W, padx =5 )
         self.entID = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= pid)
-        self.entID.grid(row =2, column =1,sticky=W, padx =5 )
+        self.entID.grid(row =1, column =1,sticky=W, padx =5 )
         
         self.lblfirstname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="First Name", bd =7)
-        self.lblfirstname.grid(row =3, column =0,sticky=W, padx =5 )
+        self.lblfirstname.grid(row =2, column =0,sticky=W, padx =5 )
         self.entfirstname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= name)
-        self.entfirstname.grid(row =3, column =1,sticky=W, padx =5 )
+        self.entfirstname.grid(row =2, column =1,sticky=W, padx =5 )
         
         self.lbllastname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Last Name", bd =7)
-        self.lbllastname.grid(row =4, column =0,sticky=W, padx =5 )
+        self.lbllastname.grid(row =3, column =0,sticky=W, padx =5 )
         self.entlastname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= lastname)
-        self.entlastname.grid(row =4, column =1,sticky=W, padx =5 )
+        self.entlastname.grid(row =3, column =1,sticky=W, padx =5 )
         
         self.lblmail = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Mail", bd =7)
-        self.lblmail.grid(row =5, column =0,sticky=W, padx =5 )
+        self.lblmail.grid(row =4, column =0,sticky=W, padx =5 )
         self.entmail = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= mail)
-        self.entmail.grid(row =5, column =1,sticky=W, padx =5 )
+        self.entmail.grid(row =4, column =1,sticky=W, padx =5 )
         
         self.lblphoto = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Photo", bd =5)
-        self.lblphoto.grid(row =6, column =0,sticky=W, padx =5 )
+        self.lblphoto.grid(row =5, column =0,sticky=W, padx =5 )
         self.cbophoto = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =42, state ='readonly', textvariable = photo)
         self.cbophoto['values'] = ('False', 'True')
-        self.cbophoto.current(0)
+        self.cbophoto.set(False)
         #Si es verdadero, que se abra una pestaña que muestre la foto, si es falso, que aparezca un boton con un texto que diga anadir foto
-        self.cbophoto.grid(row =6, column =1,sticky=W, padx =5 )
+        self.cbophoto.grid(row =5, column =1,sticky=W, padx =5 )
         
         #___________________________________________________TABLE TREEVIEW____________________________________________________#
         
         scroll_y = Scrollbar(LeftFrame, orient = VERTICAL)
-        self.people_records = ttk.Treeview(LeftFrame, height =14, columns =("class", "pid", "name", "lastname", "mail", "photo"), yscrollcommand = scroll_y.set)
+        self.people_records = ttk.Treeview(LeftFrame, height =10, columns =("class", "pid", "name", "lastname", "mail", "photo"), yscrollcommand = scroll_y.set)
         scroll_y.pack(side =RIGHT, fill =Y)
         
         self.people_records.heading("class", text="Class")
@@ -145,7 +167,7 @@ class law_and_order:
             padx =15, pady=2, width =8, height =2,command =addData, bd =4). grid(row =0, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Display", font =('courier', 14, 'bold'),
-            padx =15, pady=2, width =8, height =2, bd =4). grid(row =1, column =0, padx =0)
+            padx =15, pady=2, width =8, height =2, command =DisplayData, bd =4). grid(row =1, column =0, padx =0)
         
         self.btnAddNew = Button(RightFrame1a, text = "Update", font =('courier', 14, 'bold'),
             padx =15, pady=2, width =8, height =2, bd =4). grid(row =2, column =0, padx =0)

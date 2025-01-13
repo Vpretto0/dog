@@ -16,7 +16,7 @@ def create_connection(): #account
         print("CREATED CONECTION")
         
         c = conn.cursor()
-        sleep(2)
+        sleep(1)
         c.execute("SELECT 1")
         print("Database verified and accessible")
         return conn, c
