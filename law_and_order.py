@@ -1,7 +1,7 @@
 #GUI
 import db_identity
 from db_identity import *
-import qr_generation
+import qr_generator
 import qr_indentification
 
 from tkinter import *
@@ -150,9 +150,9 @@ class law_and_order:
                 if conn is not None and c is not None:
                     c.execute("SELECT * FROM people WHERE id=%s", pid.get())
 
-                    row = c.fetchall()
+                    row = c.fetchone() #no fetchall
                     
-                    Class.set(row[0]) 
+                    Class.set(row[0])
                     pid.set(row [1]) 
                     name.set(row [2]) 
                     lastname.set(row [3])
@@ -162,10 +162,10 @@ class law_and_order:
                     conn.commit()
 
             except:
-                db_identity.close_connection(conn, c)
                 tkinter.messagebox.showinfo("Not Found", "No Such Record FOUND")
                 #super dificil de arreglar
                 Reset()
+            db_identity.close_connection(conn, c)
         #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7)
@@ -198,13 +198,13 @@ class law_and_order:
         self.entmail = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= mail)
         self.entmail.grid(row =4, column =1,sticky=W, padx =5 )
         
-        self.lblphoto = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Photo", bd =5)
-        self.lblphoto.grid(row =5, column =0,sticky=W, padx =5 )
-        self.cbophoto = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =42, state ='readonly', textvariable = photo)
-        self.cbophoto['values'] = ('False', 'True')
-        self.cbophoto.set(False)
-        #Si es verdadero, que se abra una pestaña que muestre la foto, si es falso, que aparezca un boton con un texto que diga anadir foto
-        self.cbophoto.grid(row =5, column =1,sticky=W, padx =5 )
+        # self.lblphoto = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Photo", bd =5)
+        # self.lblphoto.grid(row =5, column =0,sticky=W, padx =5 )
+        # self.cbophoto = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =42, state ='readonly', textvariable = photo)
+        # self.cbophoto['values'] = ('False', 'True')
+        # self.cbophoto.set(False)
+        # #Si es verdadero, que se abra una pestaña que muestre la foto, si es falso, que aparezca un boton con un texto que diga anadir foto
+        # self.cbophoto.grid(row =5, column =1,sticky=W, padx =5 )
         
         #___________________________________________________TABLE TREEVIEW____________________________________________________#
         
