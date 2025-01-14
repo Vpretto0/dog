@@ -1,8 +1,15 @@
 #GUI
 import db_identity
 from db_identity import *
+
 import qr_generator
+from qr_generator import *
+
 import qr_indentification
+from qr_generator import *
+
+import photo
+from photo import *
 
 from tkinter import *
 from tkinter import ttk
@@ -15,31 +22,39 @@ class law_and_order:
     def __init__(self, root):
         
         root.overrideredirect(True) #quitar la barra de arriba
+        style = ttk.Style()
+        style.theme_use('clam')
+        
         
         #editar la parte de arriba, para que solo se vea el titulo y ajustar las posiciones y loas tamaños correctos
+        root.configure(bg='#f1f1f1')
         self.root = root
         titlespace = " "
         self.root.title(102 * titlespace + "THE LAW AND ORDER")
         self.root.geometry("800x613+50+50") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
+        self.root.configure(bg = '#1f1f1f')
         
-        MainFrame = Frame(self.root, bd =10, width =770, height =700, relief = RIDGE, bg = '#1f1f1f', fg= '#1f1f1f')
+        MainFrame = Frame(self.root, bd =10, width =770, height =700, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         
-        TitleFrame = Frame(MainFrame, bd =7, width =770, height =100, relief = RIDGE)
+        TitleFrame = Frame(MainFrame, bd =7, width =770, height =100, relief = RIDGE, bg = '#1f1f1f')
         TitleFrame.grid(row =0, column =0)
-        TopFrame3 = Frame(MainFrame, bd =5, width =770, height =500, relief = RIDGE)
+        TopFrame3 = Frame(MainFrame, bd =5, width =770, height =500, relief = RIDGE, bg = '#1f1f1f')
         TopFrame3.grid(row =1, column =0)
         
-        LeftFrame = Frame(TopFrame3, bd =5, width =770, height =400,padx =2, relief = RIDGE, bg = '#1f1f1f', fg= '#1f1f1f')
+        LeftFrame = Frame(TopFrame3, bd =5, width =770, height =400,padx =2, relief = RIDGE, bg = '#1f1f1f')
         LeftFrame.pack(side =LEFT)
-        LeftFrame1 = Frame(LeftFrame, bd =5, width =600, height =180,padx =2, pady =4, relief = RIDGE)
+        LeftFrame1 = Frame(LeftFrame, bd =5, width =600, height =180,padx =2, pady =4, relief = RIDGE, bg = '#1f1f1f')
         LeftFrame1.pack(side =TOP, padx =0, pady =0)
         
-        RightFrame1 = Frame(TopFrame3, bd =5, width =100, height =400,padx =2, relief = RIDGE, bg = '#1f1f1f', fg= '#1f1f1f')
+        RightFrame1 = Frame(TopFrame3, bd =5, width =100, height =400,padx =2, bg = '#1f1f1f')
         RightFrame1.pack(side =RIGHT)
-        RightFrame1a = Frame(RightFrame1, bd =5, width =90, height =300,padx =2, pady =2, relief = RIDGE)
+        RightFrame1a = Frame(RightFrame1, bd =5, width =90, height =300,padx =2, pady =2, relief = RIDGE, bg = '#1f1f1f')
         RightFrame1a.pack(side =TOP, padx =0, pady =0)
+        
+        #———————————————————————————————————————————————————————————————————————————————————————————————————————#
+    
         #_______________________________________________________________________________________________________#
         Class = StringVar()
         pid = IntVar()
@@ -171,34 +186,34 @@ class law_and_order:
             db_identity.close_connection(conn, c)
         #_______________________________________________________________________________________________________#
         
-        self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7)
+        self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7, fg='white', bg='#1f1f1f')
         self.lbltitle.grid(row =0, column =0, padx =153)
         #_______________________________________________________________________________________________________#el del codigo los sepaara así
         
         
-        self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bd =7)
-        self.lblclass.grid(row =0, column =0,sticky=W, padx =5 )
-        self.entclass = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= Class)
+        self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bd =7, bg='#1f1f1f', fg='white')
+        self.lblclass.grid(row =0, column =0,sticky=W, padx =5)
+        self.entclass = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= Class, bg='black', fg='white')
         self.entclass.grid(row =0, column =1,sticky=W, padx =5 )
         
-        self.lblID = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="ID", bd =7)
+        self.lblID = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="ID", bd =7, bg='#1f1f1f', fg='white')
         self.lblID.grid(row =1, column =0,sticky=W, padx =5 )
-        self.entID = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= pid)
+        self.entID = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= pid, bg='black', fg='white')
         self.entID.grid(row =1, column =1,sticky=W, padx =5 )
         
-        self.lblfirstname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="First Name", bd =7)
+        self.lblfirstname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="First Name", bd =7, bg='#1f1f1f', fg='white')
         self.lblfirstname.grid(row =2, column =0,sticky=W, padx =5 )
-        self.entfirstname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= name)
+        self.entfirstname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= name, bg='black', fg='white')
         self.entfirstname.grid(row =2, column =1,sticky=W, padx =5 )
         
-        self.lbllastname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Last Name", bd =7)
+        self.lbllastname = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Last Name", bd =7, bg='#1f1f1f', fg='white')
         self.lbllastname.grid(row =3, column =0,sticky=W, padx =5 )
-        self.entlastname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= lastname)
+        self.entlastname = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= lastname, bg='black', fg='white')
         self.entlastname.grid(row =3, column =1,sticky=W, padx =5 )
         
-        self.lblmail = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Mail", bd =7)
+        self.lblmail = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Mail", bd =7, bg='#1f1f1f', fg='white')
         self.lblmail.grid(row =4, column =0,sticky=W, padx =5 )
-        self.entmail = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= mail)
+        self.entmail = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= mail, bg='black', fg='white')
         self.entmail.grid(row =4, column =1,sticky=W, padx =5 )
         
         # self.lblphoto = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Photo", bd =5)
@@ -211,9 +226,16 @@ class law_and_order:
         
         #___________________________________________________TABLE TREEVIEW____________________________________________________#
         
-        scroll_y = Scrollbar(LeftFrame, orient = VERTICAL)
+        scroll_y = Scrollbar(LeftFrame, orient = VERTICAL, bg='#1f1f1f')
         self.people_records = ttk.Treeview(LeftFrame, height =10, columns =("class", "pid", "name", "lastname", "mail", "photo"), yscrollcommand = scroll_y.set)
         scroll_y.pack(side =RIGHT, fill =Y)
+        
+        style = ttk.Style()
+        
+        style.configure("Treeview", background="#1f1f1f", foreground="white", rowheight=25, fieldbackground="#1f1f1f")
+        style.map("Treeview", background=[('selected', 'black')], foreground=[('selected', 'gray')])
+        
+        style.configure("Treeview.Heading", background='#1f1f1f', foreground="gray", font=('courier', 12, 'bold'))
         
         self.people_records.heading("class", text="Class")
         self.people_records.heading("pid", text="ID")
