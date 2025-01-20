@@ -9,7 +9,7 @@ import qr_indentification
 from qr_generator import *
 
 import photo
-from photo import *
+from photo import photo_class
 
 from tkinter import *
 from tkinter import ttk
@@ -25,13 +25,12 @@ class law_and_order:
         style = ttk.Style()
         style.theme_use('clam')
         
-        
         #editar la parte de arriba, para que solo se vea el titulo y ajustar las posiciones y loas tamaños correctos
         root.configure(bg='#f1f1f1')
         self.root = root
         titlespace = " "
         self.root.title(102 * titlespace + "THE LAW AND ORDER")
-        self.root.geometry("800x613+50+50") # width x height + X coordinate + Y coordinate
+        self.root.geometry("800x613+175+100") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
@@ -53,6 +52,8 @@ class law_and_order:
         RightFrame1a = Frame(RightFrame1, bd =5, width =90, height =300,padx =2, pady =2, relief = RIDGE, bg = '#1f1f1f')
         RightFrame1a.pack(side =TOP, padx =0, pady =0)
         
+        
+        
         #———————————————————————————————————————————————————————————————————————————————————————————————————————#
     
         #_______________________________________________________________________________________________________#
@@ -64,6 +65,13 @@ class law_and_order:
         photo = BooleanVar()
         
         #———————————————————————————————————————————————————————————————————————————————————————————————————————#
+        def photo(self):
+        
+            photo_window = Toplevel(self.root)  
+            photo_class(photo_window) 
+        photo(self)
+        
+        
         
         def iExit():
             iExit = tkinter.messagebox.askyesno("THE LAW AND ORDER", "Confirm if you want to exit")

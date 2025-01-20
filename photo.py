@@ -1,15 +1,23 @@
 
 from tkinter import ttk
 from tkinter import *
+import tkinter.messagebox
 
-def photo_run():
-    print("running from photo.py")
+import pymysql
+import db_identity
+from db_identity import *
+
+import io
+from io import BytesIO
+from PIL import Image
+
+
     
 class photo_class:
-    
+    print("photo.py is working")
     def __init__(self, root):
         
-        #root.overrideredirect(True)
+        root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
         
@@ -18,7 +26,7 @@ class photo_class:
         self.root = root
         titlespace = " "
         self.root.title(102 * titlespace + "Photo Frame")
-        self.root.geometry("235x380+850+350") # width x height + X coordinate + Y coordinate
+        self.root.geometry("235x380+1080+380") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
@@ -48,15 +56,61 @@ class photo_class:
         
         
         def show_image():
-            pass
+
+            try:
+                print("Starting SEARCH function")
+                conn, c  = db_identity.create_connection()
+                    
+                try: 
+                               
+                    fotito="SELECT photo FROM people WHERE id = '86765' "
+                    
+                    conn.commit()
+                    c.execute(fotito)
+                    data_display=c.fetchall() 
+
+                    if data_display:
+                        
+                        data=  io.BytesIO(data_display[0][0])
+                            #get first image from db and convert it to bytes
+                            
+                        imagen=Image.open(data)
+                        
+                        IO = io.BytesIO() 
+                        
+                        imagen.save(IO, "PNG")
+                        IO.seek(0)
+                        byimg = IO.read()
+                                            
+                        IO = io.BytesIO(byimg)
+                        Image.open(IO)
+                        Image.open(IO).show()
+                        
+                    else:
+                        tkinter.messagebox.showinfo("Error", "no data ")
+                        
+                        
+                except Exception as e:
+                    print(F"Error -> {e}")
+                    
+                finally:
+                    db_identity.close_connection(conn, c)
+                    #image.save('image.png')    
+                        
+
+            except Exception as e:
+                tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
+                
+
+            
             
         
         #_______________________________________________________________________________________________________#
         
-        self.btnAddNew = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',
+        self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray', command = show_image,
             padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
         
-        self.btnAddNew = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
+        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
             padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
         #_______________________________________________________________________________________________________#
         
