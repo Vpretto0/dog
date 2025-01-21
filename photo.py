@@ -4,7 +4,6 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter.messagebox
 
-import pymysql
 import db_identity
 from db_identity import *
 
@@ -74,14 +73,14 @@ class photo_class:
                 conn, c  = db_identity.create_connection()
                     
                 try: 
-                               
-                    fotito="SELECT photo FROM people WHERE id = '86765' "
+                             
+                    fotito="SELECT photo FROM people WHERE id = %s "
                     
                     #conn.commit()
                     c.execute(fotito)
                     data_display=c.fetchall() 
 
-                    if data_display is not None:
+                    try:
                         
                         data= io.BytesIO(data_display[0][0])
                             #get first image from db and convert it to bytes   
@@ -92,8 +91,7 @@ class photo_class:
                         canvas.create_image(0, 0, anchor="nw", image=frame_image)
                         canvas.image = frame_image 
                         
-                        
-                    else:
+                    except Exception:
                         tkinter.messagebox.showinfo("Error", "no data ")
                         
                         
@@ -110,6 +108,7 @@ class photo_class:
             
             
         def add_image():
+
             global file_path
             file_path = filedialog.askopenfilename(initialdir="C:\images")
                 
@@ -123,9 +122,14 @@ class photo_class:
             canvas.new_image = new_image
             canvas.create_image(0, 0, image=new_image, anchor="nw") 
             
-            change_image(file_path, id=86765)
+            change_image(file_path)
 
-        def change_image(file_path, id):
+        def change_image(file_path, id_vl):
+            
+            if not id_vl:
+                print("ID no ingresado")
+                return
+            
             try:
                 print("Starting SAVE function")
                 conn, c  = db_identity.create_connection()

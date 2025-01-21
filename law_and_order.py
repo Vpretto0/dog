@@ -51,8 +51,7 @@ class law_and_order:
         RightFrame1.pack(side =RIGHT)
         RightFrame1a = Frame(RightFrame1, bd =5, width =90, height =300,padx =2, pady =2, relief = RIDGE, bg = '#1f1f1f')
         RightFrame1a.pack(side =TOP, padx =0, pady =0)
-        
-        
+    
         
         #———————————————————————————————————————————————————————————————————————————————————————————————————————#
     
@@ -62,14 +61,16 @@ class law_and_order:
         name = StringVar()
         lastname = StringVar()
         mail = StringVar()
-        photo = BooleanVar()
         
         #———————————————————————————————————————————————————————————————————————————————————————————————————————#
-        def photo(self):
-        
+        def photo_():
+            id_vl = pid.get()
+            photo.change_image(id_vl)
+            photo.add_image(id_vl)
+            
             photo_window = Toplevel(self.root)  
             photo_class(photo_window) 
-        photo(self)
+        photo_()
         
         
         
@@ -85,7 +86,6 @@ class law_and_order:
             self.entfirstname.delete(0, END)
             self.entlastname.delete(0, END)
             self.entmail.delete(0, END)
-            photo.set(False)
             
             
         def addData():
@@ -95,7 +95,7 @@ class law_and_order:
             else: 
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
-                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), photo.get()))
+                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get()))
                     conn.commit()
                     db_identity.close_connection(conn, c)
                     tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
@@ -136,14 +136,13 @@ class law_and_order:
             name.set(row [2]) 
             lastname.set(row [3])
             mail.set(row [4])
-            photo.set(row[5])
         
         def update():
             print("Starting update function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, photo=%s WHERE id=%s",
-                          (Class.get(), name.get(), lastname.get(), mail.get(), photo.get(), pid.get()))
+                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s WHERE id=%s",
+                          (Class.get(), name.get(), lastname.get(), mail.get(), pid.get()))
                 conn.commit()
                 db_identity.close_connection(conn, c)
                 tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Updated Successfully")
@@ -183,7 +182,6 @@ class law_and_order:
                     name.set(row [2]) 
                     lastname.set(row [3])
                     mail.set(row [4])
-                    photo.set(row[5])
         
                     conn.commit()
 
@@ -235,7 +233,7 @@ class law_and_order:
         #___________________________________________________TABLE TREEVIEW____________________________________________________#
         
         scroll_y = Scrollbar(LeftFrame, orient = VERTICAL, bg='#1f1f1f')
-        self.people_records = ttk.Treeview(LeftFrame, height =10, columns =("class", "pid", "name", "lastname", "mail", "photo"), yscrollcommand = scroll_y.set)
+        self.people_records = ttk.Treeview(LeftFrame, height =10, columns =("class", "pid", "name", "lastname", "mail"), yscrollcommand = scroll_y.set)
         scroll_y.pack(side =RIGHT, fill =Y)
         
         style = ttk.Style()
@@ -250,7 +248,6 @@ class law_and_order:
         self.people_records.heading("name", text="First Name")
         self.people_records.heading("lastname", text="Last Name")
         self.people_records.heading("mail", text="Mail")
-        self.people_records.heading("photo", text="Photo")
         
         self.people_records['show'] = 'headings'
         
@@ -259,7 +256,6 @@ class law_and_order:
         self.people_records.column("name", width= 100)
         self.people_records.column("lastname", width= 100)
         self.people_records.column("mail", width= 100)
-        self.people_records.column("photo", width= 70)
         
         self.people_records.pack(fill =BOTH, expand =1)
         self.people_records.bind("<ButtonRelease-1>", traineeinfo)
@@ -291,6 +287,7 @@ class law_and_order:
         
 if __name__=='__main__':
     root = Tk()
+    
     aplication = law_and_order(root)
     root.mainloop()
     
