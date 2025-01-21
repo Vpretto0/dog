@@ -55,7 +55,7 @@ class photo_class:
         photo.pack()
         
         
-        def show_image():
+        def get_image():
 
             try:
                 print("Starting SEARCH function")
@@ -63,28 +63,19 @@ class photo_class:
                     
                 try: 
                                
-                    fotito="SELECT photo FROM people WHERE id = '86765' "
+                    fotito="SELECT photo FROM people WHERE id = '%s' "
                     
-                    conn.commit()
+                    #conn.commit()
                     c.execute(fotito)
                     data_display=c.fetchall() 
 
-                    if data_display:
+                    if data_display is not None:
                         
-                        data=  io.BytesIO(data_display[0][0])
-                            #get first image from db and convert it to bytes
-                            
-                        imagen=Image.open(data)
-                        
-                        IO = io.BytesIO() 
-                        
-                        imagen.save(IO, "PNG")
-                        IO.seek(0)
-                        byimg = IO.read()
-                                            
-                        IO = io.BytesIO(byimg)
-                        Image.open(IO)
-                        Image.open(IO).show()
+                        data= io.BytesIO(data_display[0][0])
+                            #get first image from db and convert it to bytes   
+                        imagen=Image.open(data)                   
+                        imagen.show()
+                        print("show_image function working")
                         
                     else:
                         tkinter.messagebox.showinfo("Error", "no data ")
@@ -102,7 +93,8 @@ class photo_class:
                 tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
                 
 
-            
+            def display_image():
+                pass
             
         
         #_______________________________________________________________________________________________________#
