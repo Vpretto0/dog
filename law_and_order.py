@@ -16,6 +16,8 @@ from tkinter import ttk
 import tkinter.messagebox
 import pymysql
 
+from tkinter import filedialog
+
 
 class law_and_order:
     
@@ -64,12 +66,14 @@ class law_and_order:
         
         #———————————————————————————————————————————————————————————————————————————————————————————————————————#
         def photo_():
-            id_vl = pid.get()
-            photo.change_image(id_vl)
-            photo.add_image(id_vl)
+            # file_path = filedialog.askopenfilename(initialdir="C:\images")
+            #p1 = photo_class(Toplevel(self.root))
+            # id_vl = 86765
+            # id_vl = pid.get()
+            #p1.change_image(file_path,id_vl)
             
             photo_window = Toplevel(self.root)  
-            photo_class(photo_window) 
+            self.pw = photo_class(photo_window) 
         photo_()
         
         
@@ -136,6 +140,7 @@ class law_and_order:
             name.set(row [2]) 
             lastname.set(row [3])
             mail.set(row [4])
+            self.pw.load_image(row[5])
         
         def update():
             print("Starting update function")

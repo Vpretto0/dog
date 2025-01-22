@@ -7,6 +7,7 @@ import tkinter.messagebox
 import db_identity
 from db_identity import *
 
+
 import io
 from PIL import Image, ImageTk
 
@@ -74,7 +75,7 @@ class photo_class:
                     
                 try: 
                              
-                    fotito="SELECT photo FROM people WHERE id = %s "
+                    fotito="SELECT photo FROM people WHERE id = 86765 "
                     
                     #conn.commit()
                     c.execute(fotito)
@@ -124,11 +125,9 @@ class photo_class:
             
             change_image(file_path)
 
-        def change_image(file_path, id_vl):
-            
-            if not id_vl:
-                print("ID no ingresado")
-                return
+        def change_image(file_path, id_vl=0):
+            id_vl= 86765
+        
             
             try:
                 print("Starting SAVE function")
@@ -139,7 +138,7 @@ class photo_class:
                         photo = file.read()
                             
                     sql = "UPDATE people SET photo = %s WHERE id = %s "
-                    c.execute(sql, (photo, id))
+                    c.execute(sql, (photo, id_vl))
                     conn.commit()
                     print("IT'S WORKING!!")
                         
@@ -170,4 +169,5 @@ class photo_class:
 if __name__=='__main__':
     root = Tk()
     aplication = photo_class(root)
+    #aplication.get_Image()
     root.mainloop()
