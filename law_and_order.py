@@ -3,7 +3,7 @@ import db_identity
 import qr_generator
 import qr_indentification
 
-import photo
+from bar_code import *
 from photo import *
 
 from tkinter import *
@@ -68,8 +68,7 @@ class law_and_order:
         def photo_():
             id_vl = pid.get()
             if not id_vl:
-                print("waiting for id...")
-                self.root.after(1000, photo_) 
+                print("NO id")
                 return
                 
             if id_vl == pid.get():
@@ -77,11 +76,18 @@ class law_and_order:
                 self.pw = photo_class(photo_window, id_vl)
                 self.root.after(1000) 
             #self.root.after(1000, photo_)
+            
+        def code_bar():
+            id_vl = pid.get()
+            if not id_vl:
+                print("NO id")
+                return
                 
-        photo_()
-        
-        
-        
+            if id_vl == pid.get():
+                barcode_window = Toplevel(self.root) 
+                self.pw = barcode_class(barcode_window, id_vl)
+                self.root.after(1000) 
+            #self.root.after(1000, photo_)
         
         def iExit():
             iExit = tkinter.messagebox.askyesno("THE LAW AND ORDER", "Confirm if you want to exit")
@@ -152,6 +158,7 @@ class law_and_order:
             mail.set(row [4])
             image.set(row[5])
             photo_()
+            code_bar()
         
         def update():
             print("Starting update function")
