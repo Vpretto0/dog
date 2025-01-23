@@ -6,7 +6,6 @@ import tkinter.messagebox
 
 import db_identity
 
-
 import io
 from PIL import Image, ImageTk
 
@@ -14,14 +13,15 @@ id_vl= 86765
    
 class photo_class:
     print("photo.py is working")
-    def __init__(self, root):
+    def __init__(self, root, id_vl):
         
         root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
         
         root.configure(bg='#f1f1f1')
-        self.root = root
+        self.root = root 
+        self.id_vl = id_vl
         titlespace = " "
         self.root.title(102 * titlespace + "Photo Frame")
         self.root.geometry("241x395+1080+380") # width x height + X coordinate + Y coordinate
@@ -56,10 +56,10 @@ class photo_class:
         canvas = tkinter.Canvas(photo, background = 'black', width=182, height=228) # problema si introduces directamente esto: image= frame_image
         canvas.grid(sticky = 'nsew')
         #_______________________________________________________________________________________________________#
-        def try_image():
-            global id_vl
-            import law_and_order
-            id_vl = law_and_order.id_vl 
+        # def try_image():
+        #     global id_vl
+        #     import law_and_order
+        #     id_vl = law_and_order.id_vl 
         
         def load_image(data):
             global frame_image
@@ -124,7 +124,7 @@ class photo_class:
             canvas.new_image = new_image
             canvas.create_image(0, 0, image=new_image, anchor="nw") 
             
-            change_image(file_path)
+            change_image(file_path, id_vl)
 
         
         def change_image(file_path, id_vl):

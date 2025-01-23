@@ -25,6 +25,7 @@ class law_and_order:
         #editar la parte de arriba, para que solo se vea el titulo y ajustar las posiciones y loas tamaños correctos
         root.configure(bg='#f1f1f1')
         self.root = root
+        
         titlespace = " "
         self.root.title(102 * titlespace + "THE LAW AND ORDER")
         self.root.geometry("800x613+175+100") # width x height + X coordinate + Y coordinate
