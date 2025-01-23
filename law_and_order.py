@@ -1,15 +1,10 @@
 #GUI
 import db_identity
-from db_identity import *
-
 import qr_generator
-from qr_generator import *
-
 import qr_indentification
-from qr_generator import *
 
 import photo
-from photo import photo_class
+from photo import *
 
 from tkinter import *
 from tkinter import ttk
@@ -63,18 +58,27 @@ class law_and_order:
         name = StringVar()
         lastname = StringVar()
         mail = StringVar()
+        image = StringVar()
         
-        #———————————————————————————————————————————————————————————————————————————————————————————————————————#
+        
+        #———————————————————————————————————————————————————————————————————————————————————————————————————————
+        
+        
         def photo_():
-            # file_path = filedialog.askopenfilename(initialdir="C:\images")
-            #p1 = photo_class(Toplevel(self.root))
-            # id_vl = 86765
-            # id_vl = pid.get()
-            #p1.change_image(file_path,id_vl)
-            
-            photo_window = Toplevel(self.root)  
-            self.pw = photo_class(photo_window) 
+            id_vl = pid.get()
+            if not id_vl:
+                print("waiting for id...")
+                self.root.after(1000, photo_) 
+                return
+                
+            if id_vl == pid.get():
+                photo_window = Toplevel(self.root) 
+                self.pw = photo_class(photo_window, id_vl)
+                self.root.after(1000) 
+            #self.root.after(1000, photo_)
+                
         photo_()
+        
         
         
         
@@ -90,6 +94,7 @@ class law_and_order:
             self.entfirstname.delete(0, END)
             self.entlastname.delete(0, END)
             self.entmail.delete(0, END)
+            image.set("")
             
             
         def addData():
@@ -99,7 +104,8 @@ class law_and_order:
             else: 
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
-                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get()))
+                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get()))
+                    #photo_()
                     conn.commit()
                     db_identity.close_connection(conn, c)
                     tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
@@ -126,12 +132,15 @@ class law_and_order:
                     else:
                         print("No data")
                             
-                    db_identity.close_connection(conn, c)
                 else:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
+                db_identity.close_connection(conn, c)
                     
         def traineeinfo(ev):#la funcion mas profesional de todas
+            global id_vl1
+            
+
             viewInfo = self.people_records.focus()
             learnerData = self.people_records.item(viewInfo)
             row = learnerData['values']
@@ -140,16 +149,18 @@ class law_and_order:
             name.set(row [2]) 
             lastname.set(row [3])
             mail.set(row [4])
-            self.pw.load_image(row[5])
+            image.set(row[5])
+            photo_()
         
         def update():
             print("Starting update function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s WHERE id=%s",
-                          (Class.get(), name.get(), lastname.get(), mail.get(), pid.get()))
+                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, image=%s WHERE id=%s",
+                          (Class.get(), name.get(), lastname.get(), mail.get(),image.get(), pid.get()))
                 conn.commit()
                 db_identity.close_connection(conn, c)
+                #photo_()
                 tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Updated Successfully")
                 #arreglado
                 Reset()
@@ -187,8 +198,10 @@ class law_and_order:
                     name.set(row [2]) 
                     lastname.set(row [3])
                     mail.set(row [4])
+                    image.set(row[5])
         
                     conn.commit()
+                    #photo_()
 
             except:
                 tkinter.messagebox.showinfo("Not Found", "No Such Record FOUND")
@@ -292,8 +305,7 @@ class law_and_order:
         
 if __name__=='__main__':
     root = Tk()
-    
-    aplication = law_and_order(root)
+    application = law_and_order(root)
     root.mainloop()
     
     

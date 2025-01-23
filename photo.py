@@ -5,14 +5,13 @@ from tkinter import filedialog
 import tkinter.messagebox
 
 import db_identity
-from db_identity import *
 
 
 import io
 from PIL import Image, ImageTk
 
-
-    
+id_vl= 86765   
+   
 class photo_class:
     print("photo.py is working")
     def __init__(self, root):
@@ -57,7 +56,10 @@ class photo_class:
         canvas = tkinter.Canvas(photo, background = 'black', width=182, height=228) # problema si introduces directamente esto: image= frame_image
         canvas.grid(sticky = 'nsew')
         #_______________________________________________________________________________________________________#
-        
+        def try_image():
+            global id_vl
+            import law_and_order
+            id_vl = law_and_order.id_vl 
         
         def load_image(data):
             global frame_image
@@ -66,8 +68,7 @@ class photo_class:
             photo_imagen= photo_imagen.resize((182, 228))
             frame_image= ImageTk.PhotoImage(photo_imagen)
         
-        
-        def get_image():
+        def get_image(id_vl):
 
             try:
                 print("Starting SEARCH function")
@@ -75,10 +76,10 @@ class photo_class:
                     
                 try: 
                              
-                    fotito="SELECT photo FROM people WHERE id = 86765 "
+                    fotito="SELECT photo FROM people WHERE id = %s "
                     
                     #conn.commit()
-                    c.execute(fotito)
+                    c.execute(fotito, (id_vl))
                     data_display=c.fetchall() 
 
                     try:
@@ -125,9 +126,8 @@ class photo_class:
             
             change_image(file_path)
 
-        def change_image(file_path, id_vl=0):
-            id_vl= 86765
         
+        def change_image(file_path, id_vl):
             
             try:
                 print("Starting SAVE function")
@@ -149,8 +149,8 @@ class photo_class:
                     db_identity.close_connection(conn, c)
                         
             except Exception as e:
-                tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
-        get_image()
+                tkinter.messagebox.showinfo("Errror", f"It's not working: {e}")
+        get_image(id_vl)
             
         #_______________________________________________________________________________________________________#
         
@@ -170,4 +170,5 @@ if __name__=='__main__':
     root = Tk()
     aplication = photo_class(root)
     #aplication.get_Image()
+    
     root.mainloop()
