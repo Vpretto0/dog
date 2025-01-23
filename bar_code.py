@@ -15,7 +15,7 @@ class barcode_class:
     print("bar_code.py is working")
     def __init__(self, root, id_vl):
         
-        root.overrideredirect(True)
+        #root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
         
@@ -24,11 +24,11 @@ class barcode_class:
         self.id_vl = id_vl
         titlespace = " "
         self.root.title(102 * titlespace + "Barcode")
-        self.root.geometry("241x395+1080+80") # width x height + X coordinate + Y coordinate
-        self.root.resizable(width =False, height =False)
+        self.root.geometry("500x200+950+520") # width x height + X coordinate + Y coordinate
+        #self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
-        MainFrame = Frame(self.root, bd =10, width =225, height =270, relief = RIDGE, bg = '#1f1f1f')
+        MainFrame = Frame(self.root, bd =10, width =500, height =200, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         
         TitleFrame = Frame(MainFrame, bd =7, width =215, height =25, relief = RIDGE, bg = '#1f1f1f')
@@ -62,99 +62,100 @@ class barcode_class:
         #     id_vl = law_and_order.id_vl 
         
         def load_image(data):
-            global frame_image
+            pass
+            # global frame_image
             
-            photo_imagen=Image.open(data) 
-            photo_imagen= photo_imagen.resize((182, 228))
-            frame_image= ImageTk.PhotoImage(photo_imagen)
+            # photo_imagen=Image.open(data) 
+            # photo_imagen= photo_imagen.resize((182, 228))
+            # frame_image= ImageTk.PhotoImage(photo_imagen)
         
         def get_image(id_vl):
-
-            try:
-                print("Starting SEARCH function")
-                conn, c  = db_identity.create_connection()
+            pass
+            # try:
+            #     print("Starting SEARCH function")
+            #     conn, c  = db_identity.create_connection()
                     
-                try: 
+            #     try: 
                              
-                    fotito="SELECT photo FROM people WHERE id = %s "
+            #         fotito="SELECT barcode FROM people WHERE id = %s "
                     
-                    #conn.commit()
-                    c.execute(fotito, (id_vl))
-                    data_display=c.fetchall() 
+            #         #conn.commit()
+            #         c.execute(fotito, (id_vl))
+            #         data_display=c.fetchall() 
 
-                    try:
+            #         try:
                         
-                        data= io.BytesIO(data_display[0][0])
-                            #get first image from db and convert it to bytes   
-                        imagen=Image.open(data)                   
-                        print("show_image function is working")
+            #             data= io.BytesIO(data_display[0][0])
+            #                 #get first image from db and convert it to bytes   
+            #             imagen=Image.open(data)                   
+            #             print("show_image function is working")
                         
-                        load_image(data)
-                        canvas.create_image(0, 0, anchor="nw", image=frame_image)
-                        canvas.image = frame_image 
+            #             load_image(data)
+            #             canvas.create_image(0, 0, anchor="nw", image=frame_image)
+            #             canvas.image = frame_image 
                         
-                    except Exception:
-                        tkinter.messagebox.showinfo("Error", "no data ")
+            #         except Exception:
+            #             tkinter.messagebox.showinfo("Error", "no data ")
                         
                         
-                except Exception as e:
-                    print(F"Error -> {e}")
+            #     except Exception as e:
+            #         print(F"Error -> {e}")
                     
-                finally:
-                    db_identity.close_connection(conn, c)
-                    #image.save('image.png')    
+            #     finally:
+            #         db_identity.close_connection(conn, c)
+            #         #image.save('image.png')    
                         
 
-            except Exception as e:
-                tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
+            # except Exception as e:
+            #     tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
             
             
         def add_image():
-
-            global file_path
-            file_path = filedialog.askopenfilename(initialdir="C:\images")
+            pass
+            # global file_path
+            # file_path = filedialog.askopenfilename(initialdir="C:\images")
                 
-            new_image = Image.open(file_path)
-            width, height = int(182), int(228)
-            new_image = new_image.resize((width, height))
-            canvas.config(width=182, height=228)
+            # new_image = Image.open(file_path)
+            # width, height = int(182), int(228)
+            # new_image = new_image.resize((width, height))
+            # canvas.config(width=182, height=228)
                 
-            new_image = ImageTk.PhotoImage(new_image)
+            # new_image = ImageTk.PhotoImage(new_image)
                 
-            canvas.new_image = new_image
-            canvas.create_image(0, 0, image=new_image, anchor="nw") 
+            # canvas.new_image = new_image
+            # canvas.create_image(0, 0, image=new_image, anchor="nw") 
             
-            change_image(file_path, id_vl)
+            # change_image(file_path, id_vl)
 
         
         def change_image(file_path, id_vl):
-            
-            try:
-                print("Starting SAVE function")
-                conn, c  = db_identity.create_connection()
+            pass
+        #     try:
+        #         print("Starting SAVE function")
+        #         conn, c  = db_identity.create_connection()
                     
-                try:
-                    with open(file_path, 'rb') as file: # <"read binary">
-                        photo = file.read()
+        #         try:
+        #             with open(file_path, 'rb') as file: # <"read binary">
+        #                 photo = file.read()
                             
-                    sql = "UPDATE people SET photo = %s WHERE id = %s "
-                    c.execute(sql, (photo, id_vl))
-                    conn.commit()
-                    print("IT'S WORKING!!")
+        #             sql = "UPDATE people SET photo = %s WHERE id = %s "
+        #             c.execute(sql, (photo, id_vl))
+        #             conn.commit()
+        #             print("IT'S WORKING!!")
                         
-                except Exception as e:
-                    print(F"Error -> {e}")
+        #         except Exception as e:
+        #             print(F"Error -> {e}")
                     
-                finally:
-                    db_identity.close_connection(conn, c)
+        #         finally:
+        #             db_identity.close_connection(conn, c)
                         
-            except Exception as e:
-                tkinter.messagebox.showinfo("Errror", f"It's not working: {e}")
-        get_image(id_vl)
+        #     except Exception as e:
+        #         tkinter.messagebox.showinfo("Errror", f"It's not working: {e}")
+        # get_image(id_vl)
             
         #_______________________________________________________________________________________________________#
         
-        self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray', command=add_image,
+        self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',
             padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
         
         self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',

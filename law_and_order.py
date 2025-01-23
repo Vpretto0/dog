@@ -28,7 +28,7 @@ class law_and_order:
         
         titlespace = " "
         self.root.title(102 * titlespace + "THE LAW AND ORDER")
-        self.root.geometry("800x613+175+100") # width x height + X coordinate + Y coordinate
+        self.root.geometry("800x613+75+100") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
@@ -85,7 +85,7 @@ class law_and_order:
                 
             if id_vl == pid.get():
                 barcode_window = Toplevel(self.root) 
-                self.pw = barcode_class(barcode_window, id_vl)
+                self.ps = barcode_class(barcode_window, id_vl)
                 self.root.after(1000) 
             #self.root.after(1000, photo_)
         

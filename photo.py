@@ -24,7 +24,7 @@ class photo_class:
         self.id_vl = id_vl
         titlespace = " "
         self.root.title(102 * titlespace + "Photo Frame")
-        self.root.geometry("241x395+1080+380") # width x height + X coordinate + Y coordinate
+        self.root.geometry("241x395+950+80") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
