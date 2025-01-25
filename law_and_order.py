@@ -1,7 +1,7 @@
 #GUI
 import db_identity
-import qr_generator
-import qr_indentification
+import bar_generator
+import print_ident
 
 from bar_code import *
 from photo import *

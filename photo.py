@@ -24,7 +24,7 @@ class photo_class:
         self.id_vl = id_vl
         titlespace = " "
         self.root.title(102 * titlespace + "Photo Frame")
-        self.root.geometry("241x395+950+80") # width x height + X coordinate + Y coordinate
+        self.root.geometry("241x395+950+100") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
@@ -76,10 +76,10 @@ class photo_class:
                     
                 try: 
                              
-                    fotito="SELECT photo FROM people WHERE id = %s "
+                    delete="SELECT photo FROM people WHERE id = %s "
                     
                     #conn.commit()
-                    c.execute(fotito, (id_vl))
+                    c.execute(delete, (id_vl))
                     data_display=c.fetchall() 
 
                     try:
@@ -108,7 +108,35 @@ class photo_class:
             except Exception as e:
                 tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
             
-            
+        def delete_image(id_vl):
+
+            try:
+                print("Starting DELETE function")
+                conn, c  = db_identity.create_connection()
+                    
+                try: 
+                             
+                    fotito="DELETE FROM people photo WHERE id=86765;"
+                    
+                    #conn.commit()
+                    c.execute(fotito, (id_vl))
+                    data_display=c.fetchall() 
+                        
+                except Exception:
+                    tkinter.messagebox.showinfo("Error", "no data ")
+                        
+                        
+                except Exception as e:
+                    print(F"Error -> {e}")
+                    
+                finally:
+                    db_identity.close_connection(conn, c)
+                    #image.save('image.png')    
+                        
+
+            except Exception as e:
+                tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
+                    
         def add_image():
 
             global file_path
@@ -157,7 +185,7 @@ class photo_class:
         self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray', command=add_image,
             padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
         
-        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
+        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red', #command=delete_image,
             padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
         #_______________________________________________________________________________________________________#
         

@@ -15,7 +15,7 @@ class barcode_class:
     print("bar_code.py is working")
     def __init__(self, root, id_vl):
         
-        #root.overrideredirect(True)
+        root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
         
@@ -24,38 +24,40 @@ class barcode_class:
         self.id_vl = id_vl
         titlespace = " "
         self.root.title(102 * titlespace + "Barcode")
-        self.root.geometry("500x200+950+520") # width x height + X coordinate + Y coordinate
-        #self.root.resizable(width =False, height =False)
+        self.root.geometry("420x205+950+520") # width x height + X coordinate + Y coordinate
+        self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
         MainFrame = Frame(self.root, bd =10, width =500, height =200, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         
-        TitleFrame = Frame(MainFrame, bd =7, width =215, height =25, relief = RIDGE, bg = '#1f1f1f')
+        TitleFrame = Frame(MainFrame, bd =7, width =400, height =45, relief = RIDGE, bg = '#1f1f1f')
         TitleFrame.grid(row =0, column =0)
-        TopFrame3 = Frame(MainFrame, bd =5, width =215, height =245, relief = RIDGE, bg = '#1f1f1f')
-        TopFrame3.grid(row =1, column =0)
         
-        # LeftFrame = Frame(TopFrame3, bd =5, width =215, height=27,padx =2, relief = RIDGE, bg = '#1f1f1f')
-        # LeftFrame.pack(side =LEFT)
-        TopFrame = Frame(TopFrame3, bd =5, width =205, height =228,padx =2, pady =4, bg = '#1f1f1f')
-        TopFrame.pack(side =TOP, padx =0, pady =0)
-        BottomFrame = Frame(TopFrame3, bd =7, width =205, height =45,padx =2, pady =4, bg = '#1f1f1f')
-        BottomFrame.pack(side =BOTTOM, padx =0, pady =0)
-        #_______________________________________________________________________________________________________#
+        BarFrame = Frame(MainFrame, bd =5, width =400, height =130, relief = RIDGE, bg = '#1f1f1f')
+        BarFrame.grid(row =1, column =0)
         
-        self.lbltitle = Label(TitleFrame, font =('courier', 16, 'bold'),text ="PHOTO", bd =5, fg='white', bg='#1f1f1f')
-        self.lbltitle.grid(row =0, column =0, padx =64)
+        LeftFrame = Frame(TitleFrame, bd =7, width =40, height=40, bg = 'green')#put print func and icon here
+        LeftFrame.grid(row =0, column =1)
+        
+        # TopFrame = Frame(TopFrame3, bd =5, width =300, height =228,padx =2, pady =4, bg = '#1f1f1f')
+        # TopFrame.pack(side =TOP, padx =0, pady =0)
+        # BottomFrame = Frame(TopFrame3, bd =7, width =45, height =45,padx =2, pady =4, bg = '#1f1f1f')
+        # BottomFrame.pack(side =BOTTOM, padx =0, pady =0)
+        # #_______________________________________________________________________________________________________#
+        
+        self.lbltitle = Label(TitleFrame, font =('courier', 16, 'bold'),text ="BARCODE", bd =5, fg='white', bg='#1f1f1f')
+        self.lbltitle.grid(row =0, column =0, padx =121)
         #_______________________________________________________________________________________________________#
         
             #182x228y
-        photo = Frame(TopFrame, bd =7, width =182, height =228,relief= RIDGE, bg = '#1f1f1f') 
-        photo.pack()
+        # photo = Frame(TopFrame, bd =7, width =182, height =228,relief= RIDGE, bg = '#1f1f1f') 
+        # photo.pack()
         #photo frame
         
-        canvas = tkinter.Canvas(photo, background = 'black', width=182, height=228) # problema si introduces directamente esto: image= frame_image
-        canvas.grid(sticky = 'nsew')
-        #_______________________________________________________________________________________________________#
+        # canvas = tkinter.Canvas(photo, background = 'black', width=182, height=228) # problema si introduces directamente esto: image= frame_image
+        # canvas.grid(sticky = 'nsew')
+        # #_______________________________________________________________________________________________________#
         # def try_image():
         #     global id_vl
         #     import law_and_order
@@ -155,11 +157,11 @@ class barcode_class:
             
         #_______________________________________________________________________________________________________#
         
-        self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',
-            padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
+        # self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',
+        #     padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
         
-        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
-            padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
+        # self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
+        #     padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
         #_______________________________________________________________________________________________________#
         
         
@@ -169,7 +171,7 @@ class barcode_class:
         
 if __name__=='__main__':
     root = Tk()
-    aplication = barcode_class(root)
+    aplication = barcode_class(root, id_vl) 
     #aplication.get_Image()
     
     root.mainloop()
