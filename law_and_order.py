@@ -60,7 +60,7 @@ class law_and_order:
         lastname = StringVar()
         mail = StringVar()
         image = StringVar()
-        
+        barcode = StringVar()
         
         #———————————————————————————————————————————————————————————————————————————————————————————————————————
         
@@ -111,7 +111,7 @@ class law_and_order:
             else: 
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
-                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get()))
+                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get(), barcode.get()))
                     #photo_()
                     conn.commit()
                     db_identity.close_connection(conn, c)
@@ -127,6 +127,8 @@ class law_and_order:
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
                     c.execute("SELECT * FROM `people`") #si da error eliminar *
+                    code_bar()
+                    photo_()
                     
                     result = c.fetchall()
                     print(f"Fetched {len(result)} records")
@@ -157,15 +159,15 @@ class law_and_order:
             lastname.set(row [3])
             mail.set(row [4])
             image.set(row[5])
-            photo_()
             code_bar()
+            photo_()
         
         def update():
             print("Starting update function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, image=%s WHERE id=%s",
-                          (Class.get(), name.get(), lastname.get(), mail.get(),image.get(), pid.get()))
+                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, image=%s, barcode=%s WHERE id=%s",
+                          (Class.get(), name.get(), lastname.get(), mail.get(),image.get(), barcode.get(), pid.get()))
                 conn.commit()
                 db_identity.close_connection(conn, c)
                 #photo_()
@@ -180,7 +182,7 @@ class law_and_order:
             print("Starting DELETE function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("DELETE FROM people WHERE id=%s", pid.get())
+                c.execute("DELETE FROM people photo WHERE id=%s", pid.get())
                 Reset()
                 DisplayData()
                 conn.commit()

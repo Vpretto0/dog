@@ -51,110 +51,55 @@ class barcode_class:
         #_______________________________________________________________________________________________________#
         
             #182x228y
-        # photo = Frame(TopFrame, bd =7, width =182, height =228,relief= RIDGE, bg = '#1f1f1f') 
-        # photo.pack()
+        code = Frame(BarFrame, width =400, height =125, bg = '#1f1f1f') 
+        code.pack()
         #photo frame
         
-        # canvas = tkinter.Canvas(photo, background = 'black', width=182, height=228) # problema si introduces directamente esto: image= frame_image
-        # canvas.grid(sticky = 'nsew')
-        # #_______________________________________________________________________________________________________#
-        # def try_image():
-        #     global id_vl
-        #     import law_and_order
-        #     id_vl = law_and_order.id_vl 
+        canvas = tkinter.Canvas(code, background = 'black', width=385, height=120) # problema si introduces directamente esto: image= frame_image
+        canvas.grid(sticky = 'nsew')
+        #_______________________________________________________________________________________________________#
         
-        def load_image(data):
-            pass
-            # global frame_image
-            
-            # photo_imagen=Image.open(data) 
-            # photo_imagen= photo_imagen.resize((182, 228))
-            # frame_image= ImageTk.PhotoImage(photo_imagen)
         
-        def get_image(id_vl):
-            pass
-            # try:
-            #     print("Starting SEARCH function")
-            #     conn, c  = db_identity.create_connection()
+        def image_barcode():
+            try:
+                print("Starting IMAGE_BARCODE function")
+                conn, c  = db_identity.create_connection()
                     
-            #     try: 
-                             
-            #         fotito="SELECT barcode FROM people WHERE id = %s "
+                try: 
+                    codebar="SELECT barcode FROM people WHERE id = %s"
+                    c.execute(codebar, (id_vl,))
+                    data_display=c.fetchall() 
+                    try:
                     
-            #         #conn.commit()
-            #         c.execute(fotito, (id_vl))
-            #         data_display=c.fetchall() 
-
-            #         try:
-                        
-            #             data= io.BytesIO(data_display[0][0])
-            #                 #get first image from db and convert it to bytes   
-            #             imagen=Image.open(data)                   
-            #             print("show_image function is working")
-                        
-            #             load_image(data)
-            #             canvas.create_image(0, 0, anchor="nw", image=frame_image)
-            #             canvas.image = frame_image 
-                        
-            #         except Exception:
-            #             tkinter.messagebox.showinfo("Error", "no data ")
-                        
-                        
-            #     except Exception as e:
-            #         print(F"Error -> {e}")
-                    
-            #     finally:
-            #         db_identity.close_connection(conn, c)
-            #         #image.save('image.png')    
-                        
-
-            # except Exception as e:
-            #     tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
+                        data= io.BytesIO(data_display[0][0])                   
+                        print("show_image function is working")
             
-            
-        def add_image():
-            pass
-            # global file_path
-            # file_path = filedialog.askopenfilename(initialdir="C:\images")
-                
-            # new_image = Image.open(file_path)
-            # width, height = int(182), int(228)
-            # new_image = new_image.resize((width, height))
-            # canvas.config(width=182, height=228)
-                
-            # new_image = ImageTk.PhotoImage(new_image)
-                
-            # canvas.new_image = new_image
-            # canvas.create_image(0, 0, image=new_image, anchor="nw") 
-            
-            # change_image(file_path, id_vl)
-
-        
-        def change_image(file_path, id_vl):
-            pass
-        #     try:
-        #         print("Starting SAVE function")
-        #         conn, c  = db_identity.create_connection()
-                    
-        #         try:
-        #             with open(file_path, 'rb') as file: # <"read binary">
-        #                 photo = file.read()
+                        load_image(data)
+                        canvas.create_image(0, 0, anchor="nw", image=frame_code)
+                        canvas.image = frame_code 
                             
-        #             sql = "UPDATE people SET photo = %s WHERE id = %s "
-        #             c.execute(sql, (photo, id_vl))
-        #             conn.commit()
-        #             print("IT'S WORKING!!")
+                    except Exception:
+                        tkinter.messagebox.showinfo("Backend is Sad :(", """   no image data found""")
                         
-        #         except Exception as e:
-        #             print(F"Error -> {e}")
+                except Exception as e:
+                    print(F"Error -> {e}")
                     
-        #         finally:
-        #             db_identity.close_connection(conn, c)
-                        
-        #     except Exception as e:
-        #         tkinter.messagebox.showinfo("Errror", f"It's not working: {e}")
-        # get_image(id_vl)
-            
+                finally:
+                    db_identity.close_connection(conn, c)
+                    #image.save('image.png')    
+
+            except Exception as e:
+                print(f"Error -> {e}")
+                
+        def load_image(data):
+                global frame_code
+                    
+                bar_imagen=Image.open(data) 
+                bar_imagen= bar_imagen.resize((385, 120))
+                frame_code= ImageTk.PhotoImage(bar_imagen)
+                    
+        image_barcode()
+        
         #_______________________________________________________________________________________________________#
         
         # self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',

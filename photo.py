@@ -71,21 +71,20 @@ class photo_class:
         def get_image(id_vl):
 
             try:
-                print("Starting SEARCH function")
+                print("Starting get_image function")
                 conn, c  = db_identity.create_connection()
                     
                 try: 
                              
-                    delete="SELECT photo FROM people WHERE id = %s "
-                    
+                    fotito="SELECT photo FROM people WHERE id = %s "
                     #conn.commit()
-                    c.execute(delete, (id_vl))
+                    c.execute(fotito, (id_vl,))
                     data_display=c.fetchall() 
 
                     try:
                         
                         data= io.BytesIO(data_display[0][0])
-                            #get first image from db and convert it to bytes   
+                            #get first image from db and convert it to bytes  
                         imagen=Image.open(data)                   
                         print("show_image function is working")
                         
@@ -93,8 +92,9 @@ class photo_class:
                         canvas.create_image(0, 0, anchor="nw", image=frame_image)
                         canvas.image = frame_image 
                         
+                        
                     except Exception:
-                        tkinter.messagebox.showinfo("Error", "no data ")
+                        tkinter.messagebox.showinfo("Backend is Sad :(", """   no image data found \n\npress "Change" to add image""")
                         
                         
                 except Exception as e:
@@ -108,7 +108,7 @@ class photo_class:
             except Exception as e:
                 tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
             
-        def delete_image(id_vl):
+        def delete_image():
 
             try:
                 print("Starting DELETE function")
@@ -116,12 +116,11 @@ class photo_class:
                     
                 try: 
                              
-                    fotito="DELETE FROM people photo WHERE id=86765;"
+                    delete="UPDATE people SET photo = NULL WHERE id= %s;"
                     
-                    #conn.commit()
-                    c.execute(fotito, (id_vl))
-                    data_display=c.fetchall() 
-                        
+                    data_diplay =c.execute(delete, (id_vl,)) #TUPLE == , <---------- = COMA
+                    conn.commit()#after c.execute
+                    
                 except Exception:
                     tkinter.messagebox.showinfo("Error", "no data ")
                         
@@ -131,7 +130,8 @@ class photo_class:
                     
                 finally:
                     db_identity.close_connection(conn, c)
-                    #image.save('image.png')    
+                    
+                    
                         
 
             except Exception as e:
@@ -178,6 +178,8 @@ class photo_class:
                         
             except Exception as e:
                 tkinter.messagebox.showinfo("Errror", f"It's not working: {e}")
+                
+        #KEY:
         get_image(id_vl)
             
         #_______________________________________________________________________________________________________#
@@ -185,7 +187,7 @@ class photo_class:
         self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray', command=add_image,
             padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
         
-        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red', #command=delete_image,
+        self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red', command=delete_image,
             padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
         #_______________________________________________________________________________________________________#
         
@@ -196,7 +198,6 @@ class photo_class:
         
 if __name__=='__main__':
     root = Tk()
-    aplication = photo_class(root)
+    aplication = photo_class(root, id_vl)
     #aplication.get_Image()
-    
     root.mainloop()
