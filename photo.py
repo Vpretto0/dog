@@ -28,6 +28,8 @@ class photo_class:
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
+        root.attributes("-topmost", True)
+        
         MainFrame = Frame(self.root, bd =10, width =225, height =270, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         

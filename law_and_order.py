@@ -1,8 +1,7 @@
 #GUI
 import db_identity
-import bar_generator
-import print_ident
 
+import print_ident
 from bar_code import *
 from photo import *
 
@@ -32,6 +31,8 @@ class law_and_order:
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
+        root.attributes("-topmost", True)
+        
         MainFrame = Frame(self.root, bd =10, width =770, height =700, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         
@@ -56,6 +57,7 @@ class law_and_order:
         #_______________________________________________________________________________________________________#
         Class = StringVar()
         pid = IntVar()
+        max_lenid = 8
         name = StringVar()
         lastname = StringVar()
         mail = StringVar()
@@ -101,7 +103,6 @@ class law_and_order:
             self.entfirstname.delete(0, END)
             self.entlastname.delete(0, END)
             self.entmail.delete(0, END)
-            image.set("")
             
             
         def addData():
@@ -111,13 +112,24 @@ class law_and_order:
             else: 
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
-                    c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get(), barcode.get()))
-                    #photo_()
-                    conn.commit()
-                    db_identity.close_connection(conn, c)
-                    tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
-                    #arreglado
-                    Reset()
+                    if max_lenid < len(str(pid.get())):
+                        tkinter.messagebox.showerror("THE LAW AND ORDER", "ID must be 8 digits")
+                        db_identity.close_connection(conn, c)
+                        return
+                    elif max_lenid > len(str(pid.get())):
+                        tkinter.messagebox.showerror("THE LAW AND ORDER", "ID must be 8 digits")
+                        db_identity.close_connection(conn, c)
+                        return
+                        
+                    else:
+                        c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get(), barcode.get()))
+                        #photo_()
+                        conn.commit()
+                        db_identity.close_connection(conn, c)
+                        tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
+                        #arreglado
+                        Reset()
+                    
                 else:
                     tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
                     #super dificil de arreglar
@@ -136,7 +148,7 @@ class law_and_order:
                     if len(result) !=0:
                         self.people_records.delete(*self.people_records.get_children())
                         for row in result:
-                            self.people_records.insert('', END, values = row)
+                            self.people_records.insert("",END, values = row)
                             print("Yes data")
                     else:
                         print("No data")
@@ -147,9 +159,7 @@ class law_and_order:
                 db_identity.close_connection(conn, c)
                     
         def traineeinfo(ev):#la funcion mas profesional de todas
-            global id_vl1
             
-
             viewInfo = self.people_records.focus()
             learnerData = self.people_records.item(viewInfo)
             row = learnerData['values']
@@ -158,7 +168,6 @@ class law_and_order:
             name.set(row [2]) 
             lastname.set(row [3])
             mail.set(row [4])
-            image.set(row[5])
             code_bar()
             photo_()
         
@@ -166,8 +175,8 @@ class law_and_order:
             print("Starting update function")
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
-                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s, image=%s, barcode=%s WHERE id=%s",
-                          (Class.get(), name.get(), lastname.get(), mail.get(),image.get(), barcode.get(), pid.get()))
+                c.execute("UPDATE people SET class=%s, name=%s, lastname=%s, mail=%s WHERE id=%s",
+                          (Class.get(), name.get(), lastname.get(), mail.get(), pid.get()))
                 conn.commit()
                 db_identity.close_connection(conn, c)
                 #photo_()
@@ -183,10 +192,10 @@ class law_and_order:
             conn, c  = db_identity.create_connection()
             if conn is not None and c is not None:
                 c.execute("DELETE FROM people photo WHERE id=%s", pid.get())
-                Reset()
-                DisplayData()
+                #COMIT ANTES DE VOLVER A ABRIR LA CONEXION
                 conn.commit()
                 db_identity.close_connection(conn, c)
+                DisplayData()
                 tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Successfully DELETED")
                 #arreglado
                 
@@ -225,9 +234,10 @@ class law_and_order:
         #_______________________________________________________________________________________________________#el del codigo los sepaara así
         
         
-        self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bd =7, bg='#1f1f1f', fg='white')
+        self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bg='#1f1f1f', fg='white', bd=5)
         self.lblclass.grid(row =0, column =0,sticky=W, padx =5)
-        self.entclass = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= Class, bg='black', fg='white')
+        self.entclass = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =43, textvariable= Class, state='readonly', style='Custom.TCombobox')
+        self.entclass['values'] = ( 'student', 'staff', 'guest')
         self.entclass.grid(row =0, column =1,sticky=W, padx =5 )
         
         self.lblID = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="ID", bd =7, bg='#1f1f1f', fg='white')
@@ -265,10 +275,10 @@ class law_and_order:
         scroll_y.pack(side =RIGHT, fill =Y)
         
         style = ttk.Style()
-        
+        style.configure('Custom.TCombobox', fieldbackground='black', background='white', foreground='white', selectbackground='black', selectforeground='white')
         style.configure("Treeview", background="#1f1f1f", foreground="white", rowheight=25, fieldbackground="#1f1f1f")
         style.map("Treeview", background=[('selected', 'black')], foreground=[('selected', 'gray')])
-        
+        style.map( 'Custom.TCombobox', fieldbackground=[('readonly', 'black')], foreground=[('readonly', 'white')], background=[('active', 'black')])
         style.configure("Treeview.Heading", background='#1f1f1f', foreground="gray", font=('courier', 12, 'bold'))
         
         self.people_records.heading("class", text="Class")

@@ -9,6 +9,9 @@ import db_identity
 import io
 from PIL import Image, ImageTk
 
+import barcode
+from barcode.writer import ImageWriter
+
 id_vl= 86765   
    
 class barcode_class:
@@ -28,6 +31,8 @@ class barcode_class:
         self.root.resizable(width =False, height =False)
         self.root.configure(bg = '#1f1f1f')
         
+        root.attributes("-topmost", True)
+        
         MainFrame = Frame(self.root, bd =10, width =500, height =200, relief = RIDGE, bg = '#1f1f1f')
         MainFrame.grid()
         
@@ -37,7 +42,7 @@ class barcode_class:
         BarFrame = Frame(MainFrame, bd =5, width =400, height =130, relief = RIDGE, bg = '#1f1f1f')
         BarFrame.grid(row =1, column =0)
         
-        LeftFrame = Frame(TitleFrame, bd =7, width =40, height=40, bg = 'green')#put print func and icon here
+        LeftFrame = Frame(TitleFrame, width =40, height=40, bg = '#1f1f1f')#put print func and icon here
         LeftFrame.grid(row =0, column =1)
         
         # TopFrame = Frame(TopFrame3, bd =5, width =300, height =228,padx =2, pady =4, bg = '#1f1f1f')
@@ -101,10 +106,64 @@ class barcode_class:
         image_barcode()
         
         #_______________________________________________________________________________________________________#
+        def generate_barcode(alphanum_string):
+            print("HELLO! from bar_generator.py")
+            module = {
+                'module_width': 0.3,
+                'module_height': 7.0,
+                'quiet_zone': 1.0,
+                'font_size': 0,
+                'text_distance': 0.0,
+                'background': 'white',
+                'foreground': 'black',
+                'write_text': False
+            }
+
+            code128 = barcode.get_barcode_class('code128') # The Code128 is a barcode symbology.
+            barcode_instance = code128(alphanum_string, writer=ImageWriter())
+
+            
+            return barcode_instance.save("barcode", options=module)
+              
+        #AJUSTAR RUTA DE GUARDADO
+        def pathfile():
+            global filepath
+            filepath = "C:/prctm_dog/barcode.png"
+                
+            new_image = Image.open(filepath)
+            width, height = int(385), int(120)
+            new_image = new_image.resize((width, height))
+            
+            
+        def barcode_id():
+            try:
+                print("Starting SAVE(barcode version) function")
+                conn, c  = db_identity.create_connection()
+                    
+                try:
+                    pathfile()
+                    generate_barcode(str(id_vl))
+                    with open(filepath, 'rb') as file: # <"read binary">
+                        bar = file.read()
+                            
+                    sql = "UPDATE people SET barcode= %s WHERE id = %s "
+                    c.execute(sql, (bar, id_vl))
+                    conn.commit()
+                    print("IT'S WORKING!!")
+                        
+                except Exception as e:
+                    print(F"Error -> {e}")
+                    
+                finally:
+                    db_identity.close_connection(conn, c)
+                        
+            except Exception as e:
+                tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
         
-        # self.btnChange = Button(BottomFrame, text = "Change", font =('courier', 10, 'bold'), fg='white', bg = '#212121', activebackground='gray',
-        #     padx =5, pady=1, width =8, height =1,  bd =5). grid(row =0, column =0, padx =3)
-        
+        #_______________________________________________________________________________________________________#
+        self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2', command=barcode_id). pack(side =LEFT, padx =6)
+
         # self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
         #     padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
         #_______________________________________________________________________________________________________#
