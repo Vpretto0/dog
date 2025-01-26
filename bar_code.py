@@ -12,21 +12,37 @@ from PIL import Image, ImageTk
 import barcode
 from barcode.writer import ImageWriter
 
+import win32api 
+
 id_vl = 86765
 state_action = False
+
+class_print = "prisioner"
+id_print = "69696969"
+name_print = "i am"
+lastn_print = "in jail"
    
 class barcode_class:
     print("bar_code.py is working")
-    def __init__(self, root, id_vl, state_action):
+    def __init__(self, root, id_vl, state_action, class_print, id_print, name_print, lastn_print):
         
         root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
         
         root.configure(bg='#f1f1f1')
+        
         self.root = root 
         self.id_vl = id_vl
+        
+        #print indentification
+        self.class_print = class_print
+        self.id_print = id_print
+        self.name_print = name_print
+        self.lastn_print = lastn_print
+        
         self.state_action = state_action
+        
         titlespace = " "
         self.root.title(102 * titlespace + "Barcode")
         self.root.geometry("420x205+950+520") # width x height + X coordinate + Y coordinate
@@ -122,7 +138,6 @@ class barcode_class:
             code128 = barcode.get_barcode_class('code128') # The Code128 is a barcode symbology.
             barcode_instance = code128(alphanum_string, writer=ImageWriter())
 
-            
             return barcode_instance.save("barcode", options=module)
               
         #AJUSTAR RUTA DE GUARDADO
@@ -167,11 +182,28 @@ class barcode_class:
             else:
                 print("Barcode is already generated")
                 return
-            
         #_______________________________________________________________________________________________________#
         
+        def print_ident():
+            import print_ident_color
+            print_ident_color.info(class_print, id_print, name_print, lastn_print)
+        
+        # Print File Function 
+        def print_file(): 
+            
+            # Ask for file (Which you want to print) 
+            file_to_print = filedialog.askopenfilename( 
+            initialdir="/", title="Select file",  
+            filetypes=(("Text files", "*.txt"), ("all files", "*.*"))) 
+            
+            if file_to_print: 
+                
+                # Print Hard Copy of File 
+                win32api.ShellExecute(0, "print", file_to_print, None, ".", 0) 
+                #_______________________________________________________________________________________________________#
+        
         self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
-        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2'). pack(side =LEFT, padx =6)
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2', command=print_file). pack(side =LEFT, padx =6)
         
         #_______________________________________________________________________________________________________#
         
@@ -181,6 +213,7 @@ class barcode_class:
      
 if __name__=='__main__':
     root = Tk()
-    aplication = barcode_class(root, id_vl, state_action)
+    
+    aplication = barcode_class(root, id_vl, state_action, class_print, id_print, name_print, lastn_print)
     #aplication.get_Image()
     root.mainloop()

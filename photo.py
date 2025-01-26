@@ -95,7 +95,9 @@ class photo_class:
                         load_image(data)
                         canvas.create_image(0, 0, anchor="nw", image=frame_image)
                         canvas.image = frame_image 
-                        
+                    
+                        output_path = "C:/prctm_dog/photo.png"
+                        imagen.save(output_path)
                         
                     except Exception:
                         tkinter.messagebox.showinfo("Backend is Sad :(", """   no image data found \n\npress "Change" to add image""")

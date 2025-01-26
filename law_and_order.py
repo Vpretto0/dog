@@ -67,8 +67,6 @@ class law_and_order:
         action = BooleanVar()
         action.set(False)
         #———————————————————————————————————————————————————————————————————————————————————————————————————————
-        
-        
         def photo_():
             id_vl = pid.get()
             if not id_vl:
@@ -83,6 +81,12 @@ class law_and_order:
             
         def code_bar():
             id_vl = pid.get()
+            
+            class_print = Class.get()
+            id_print = pid.get()
+            name_print = name.get()
+            lastn_print = lastname.get()
+            
             state_action = action.get()
             if not id_vl:
                 print("NO id")
@@ -91,7 +95,7 @@ class law_and_order:
             
             if id_vl == pid.get():
                 barcode_window = Toplevel(self.root) 
-                self.ps = barcode_class(barcode_window, id_vl, state_action)
+                self.ps = barcode_class(barcode_window, id_vl, state_action, class_print, id_print, name_print, lastn_print)
                 self.root.after(1000) 
                 
             #self.root.after(1000, photo_)
