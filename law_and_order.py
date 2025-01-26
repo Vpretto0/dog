@@ -1,7 +1,6 @@
 #GUI
 import db_identity
 
-import print_ident
 from bar_code import *
 from photo import *
 
@@ -64,6 +63,9 @@ class law_and_order:
         image = StringVar()
         barcode = StringVar()
         
+        #????
+        action = BooleanVar()
+        action.set(False)
         #———————————————————————————————————————————————————————————————————————————————————————————————————————
         
         
@@ -81,14 +83,17 @@ class law_and_order:
             
         def code_bar():
             id_vl = pid.get()
+            state_action = action.get()
             if not id_vl:
                 print("NO id")
+                action.set(True)
                 return
-                
+            
             if id_vl == pid.get():
                 barcode_window = Toplevel(self.root) 
-                self.ps = barcode_class(barcode_window, id_vl)
+                self.ps = barcode_class(barcode_window, id_vl, state_action)
                 self.root.after(1000) 
+                
             #self.root.after(1000, photo_)
         
         def iExit():
@@ -112,21 +117,33 @@ class law_and_order:
             else: 
                 conn, c  = db_identity.create_connection()
                 if conn is not None and c is not None:
-                    if max_lenid < len(str(pid.get())):
-                        tkinter.messagebox.showerror("THE LAW AND ORDER", "ID must be 8 digits")
-                        db_identity.close_connection(conn, c)
-                        return
-                    elif max_lenid > len(str(pid.get())):
+                    if max_lenid < len(str(pid.get())) or max_lenid > len(str(pid.get())):
+                        
                         tkinter.messagebox.showerror("THE LAW AND ORDER", "ID must be 8 digits")
                         db_identity.close_connection(conn, c)
                         return
                         
                     else:
                         c.execute("INSERT INTO people VALUES (%s, %s, %s, %s, %s, %s, %s)", (Class.get(), pid.get(), name.get(), lastname.get(), mail.get(), image.get(), barcode.get()))
-                        #photo_()
                         conn.commit()
+                        
                         db_identity.close_connection(conn, c)
+                        try: 
+                            
+                            action.set(True)
+                            #
+                            code_bar()
+                            #photo_()
+                            #
+                        except Exception as e:
+                            print(F"Error -> {e}")
+                            
+                        finally:
+                            action.set(False)
+                            
+                            tkinter.messagebox.showerror("Error with boolean", "Error accessing the boolean in barcode or photo")
                         tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
+                        
                         #arreglado
                         Reset()
                     

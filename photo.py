@@ -69,6 +69,8 @@ class photo_class:
             photo_imagen=Image.open(data) 
             photo_imagen= photo_imagen.resize((182, 228))
             frame_image= ImageTk.PhotoImage(photo_imagen)
+            #frame_image.save('photo')
+            
         
         def get_image(id_vl):
 
@@ -166,7 +168,6 @@ class photo_class:
                 try:
                     with open(file_path, 'rb') as file: # <"read binary">
                         photo = file.read()
-                            
                     sql = "UPDATE people SET photo = %s WHERE id = %s "
                     c.execute(sql, (photo, id_vl))
                     conn.commit()

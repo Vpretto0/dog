@@ -1,0 +1,1 @@
+#conseguir un input del lector qr y buscarl el id en la base de datos

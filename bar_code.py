@@ -12,11 +12,12 @@ from PIL import Image, ImageTk
 import barcode
 from barcode.writer import ImageWriter
 
-id_vl= 86765   
+id_vl = 86765
+state_action = False
    
 class barcode_class:
     print("bar_code.py is working")
-    def __init__(self, root, id_vl):
+    def __init__(self, root, id_vl, state_action):
         
         root.overrideredirect(True)
         style = ttk.Style()
@@ -25,6 +26,7 @@ class barcode_class:
         root.configure(bg='#f1f1f1')
         self.root = root 
         self.id_vl = id_vl
+        self.state_action = state_action
         titlespace = " "
         self.root.title(102 * titlespace + "Barcode")
         self.root.geometry("420x205+950+520") # width x height + X coordinate + Y coordinate
@@ -84,7 +86,7 @@ class barcode_class:
                         canvas.image = frame_code 
                             
                     except Exception:
-                        tkinter.messagebox.showinfo("Backend is Sad :(", """   no image data found""")
+                        tkinter.messagebox.showinfo("Backend is Sad :(", """   no barcode data found""")
                         
                 except Exception as e:
                     print(F"Error -> {e}")
@@ -102,8 +104,6 @@ class barcode_class:
                 bar_imagen=Image.open(data) 
                 bar_imagen= bar_imagen.resize((385, 120))
                 frame_code= ImageTk.PhotoImage(bar_imagen)
-                    
-        image_barcode()
         
         #_______________________________________________________________________________________________________#
         def generate_barcode(alphanum_string):
@@ -134,7 +134,7 @@ class barcode_class:
             width, height = int(385), int(120)
             new_image = new_image.resize((width, height))
             
-            
+
         def barcode_id():
             try:
                 print("Starting SAVE(barcode version) function")
@@ -159,23 +159,28 @@ class barcode_class:
                         
             except Exception as e:
                 tkinter.messagebox.showinfo("Error", f"It's not working: {e}")
-        
+                
+        def action_state(state_action):
+            if state_action == True:
+                barcode_id()
+                state_action = False
+            else:
+                print("Barcode is already generated")
+                return
+            
         #_______________________________________________________________________________________________________#
+        
         self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
-        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2', command=barcode_id). pack(side =LEFT, padx =6)
-
-        # self.btnDelete = Button(BottomFrame, text = "DELETE", font =('courier', 10, 'bold'), fg = "red", bg = '#212121', activebackground='red',
-        #     padx =5, pady=1, width =8, height =1, bd =5). grid(row =0, column =1, padx =3)
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2'). pack(side =LEFT, padx =6)
+        
         #_______________________________________________________________________________________________________#
         
-        
-        #canva
+        image_barcode()
+        action_state(state_action)
         #_______________________________________________________________________________________________________#
-        
-        
+     
 if __name__=='__main__':
     root = Tk()
-    aplication = barcode_class(root, id_vl) 
+    aplication = barcode_class(root, id_vl, state_action)
     #aplication.get_Image()
-    
     root.mainloop()
