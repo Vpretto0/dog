@@ -12,7 +12,7 @@ from PIL import Image, ImageTk
 import barcode
 from barcode.writer import ImageWriter
 
-import win32api 
+#import win32api  # type: ignore
 
 id_vl = 86765
 state_action = False
@@ -184,26 +184,27 @@ class barcode_class:
                 return
         #_______________________________________________________________________________________________________#
         
-        def print_ident():
-            import print_ident_color
-            print_ident_color.info(class_print, id_print, name_print, lastn_print)
+        # def print_ident():
+        #     import print_ident_color
+        #     print_ident_color.info(class_print, id_print, name_print, lastn_print)
         
-        # Print File Function 
-        def print_file(): 
+        # # Print File Function 
+        # def print_file(): 
             
-            # Ask for file (Which you want to print) 
-            file_to_print = filedialog.askopenfilename( 
-            initialdir="/", title="Select file",  
-            filetypes=(("Text files", "*.txt"), ("all files", "*.*"))) 
+        #     # Ask for file (Which you want to print) 
+        #     file_to_print = 
+        #     #filedialog.askopenfilename( 
+        #     #initialdir="/", title="Select file",  
+        #     #filetypes=(("Text files", "*.txt"), ("all files", "*.*")))
             
-            if file_to_print: 
+        #     if file_to_print: 
                 
-                # Print Hard Copy of File 
-                win32api.ShellExecute(0, "print", file_to_print, None, ".", 0) 
+        #         # Print Hard Copy of File 
+        #         win32api.ShellExecute(0, "print", file_to_print, None, ".", 0) 
                 #_______________________________________________________________________________________________________#
         
         self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
-        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2', command=print_file). pack(side =LEFT, padx =6)
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2'). pack(side =LEFT, padx =6)
         
         #_______________________________________________________________________________________________________#
         

@@ -86,8 +86,8 @@ def info(class_print, id_print, name_print, lastn_print):
     canvas.create_text(200, 305, text=f"{name_print} {lastn_print}", font=('verdana', 17, 'bold'), fill='white')
 
 
-
-
+identification_canva()
+info("student", "12345678", "i'm not", "a student")
 
 
 root.mainloop()
