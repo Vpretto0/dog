@@ -12,7 +12,7 @@ from PIL import Image, ImageTk
 import barcode
 from barcode.writer import ImageWriter
 
-#import win32api  # type: ignore
+#import win32api
 
 id_vl = 86765
 state_action = False
