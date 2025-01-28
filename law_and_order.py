@@ -246,13 +246,13 @@ class law_and_order:
             except:
                 tkinter.messagebox.showinfo("Not Found", "No Such Record FOUND")
                 #super dificil de arreglar
-                Reset()
+                Reset() 
             db_identity.close_connection(conn, c)
         #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 40, 'bold'),text ="The MATRIX DOG", bd =7, fg='white', bg='#1f1f1f')
         self.lbltitle.grid(row =0, column =0, padx =153)
-        #_______________________________________________________________________________________________________#el del codigo los sepaara así
+        #_______________________________________________________________________________________________________#el del codigo los separa así
         
         
         self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bg='#1f1f1f', fg='white', bd=5)
