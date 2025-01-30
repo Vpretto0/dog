@@ -3,59 +3,77 @@ import db_identity
 
 #_____________________________________________________________________________________#
 
-scanner_input = input()     #input from scanner
+scanner_input = 0    #input from scanner
 verification_id = scanner_input      #id from scanner
-people_id = 0  # %s     #tiene que ser igual a verification_id si no = warning_cmd
+people_id = int(1)  # %s     #tiene que ser igual a verification_id si no = warning_cmd
 
 #_____________________________________________________________________________________#
-def correct_id(verification_id, people_id):
+def while_running(verification_id, people_id):
     conn, c = db_identity.create_connection()
-    try: 
-        c.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
-        print("verification id: ", verification_id,". READED")
-        people_id = c.fetchone()
-        print("people id: ", people_id)
-        
+    
+    try:    
+        while True:
+            scanner_input = int(input())
+            verification_id = scanner_input
+            
+            c.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
+            print("verification id:", verification_id,". READED")
+            fetch = c.fetchone()
+            (people_id) = fetch
+            print("people id: ", people_id)
+            
+            if people_id == None:
+                print("This is your last chance, try again")
+                verification_id2 = input()
+                c.execute("SELECT id FROM people WHERE id = %s", (verification_id2,))
+                people_id = c.fetchone()
+                print("people id: ", people_id)
+                
+                if people_id == None:
+                    print("\n\nINTRUDE FOUND\n ...Initializing WARNING MODE\n")
+                    arduino_communication_warning() #WARNING MODE
+                    
+                    print("people id: ", people_id)
+                    while_running(verification_id, people_id)
+                    
+                else:
+                    print("Match found, the communication is working")
+                    arduino_communication_pass()
+                    while_running(verification_id, people_id)
+            else:
+                print("Match found, the communication is working")
+                arduino_communication_pass()
+                while_running(verification_id, people_id)
     except Exception as e:
         print(f"Error from correct_id: {e}")
     
     finally:
-        #db_identity_verification.close_connection(connn, cc)
         db_identity.close_connection(conn, c)
+        scanner_input
+        verification_id = scanner_input      #id from scanner
+        people_id = 0
         
 
-def db_check():
-    try:
-        connn, cc = db_identity_verification.create_connection()
-        conn, c = db_identity.create_connection()
-        if conn is not None and c is not None:
-            if connn is not None and cc is not None:
-                if verification_id == people_id:
-                    pass
-                
-            
-            
-            else:
-                print("THE LAW AND ORDER", "Error Entering to database(verification)")
-        else:
-            print("THE LAW AND ORDER", "Error Entering to database(people)")
+def arduino_communication_tryagain():
+    print("TRY AGAIN MODE")
 
-    except Exception as e:
-        pass
+def arduino_communication_warning():
+    print("WARNING MODE")
+    
+    #codigo, para cuando termine
+    
+def arduino_communication_pass():
+    print("PASS MODE")
+    
+    #codigo, para cuando termine
+    
 
 
-def arduino_communication():
-    pass
+    
 
-
-
-def while_running(scanner_input):
-    print("input readed: ", scanner_input)  
-    if verification_id == people_id:
-        pass
-correct_id(verification_id, people_id)
+while_running(verification_id, people_id)
 print("its working") 
-while_running(scanner_input)               	
+              	
 
             
                     
