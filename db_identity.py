@@ -1,3 +1,6 @@
+#FOR RASPBERRY PI
+
+
 import pymysql
 from pymysql.err import MySQLError
 from time import sleep

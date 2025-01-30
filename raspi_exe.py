@@ -1,11 +1,21 @@
+#FOR RASPBERRY PI
+
+
 import db_identity_verification
 import db_identity
 
+import serial
+
 #_____________________________________________________________________________________#
 
-scanner_input = 0    #input from scanner
-verification_id = scanner_input      #id from scanner
-people_id = int(1)  # %s     #tiene que ser igual a verification_id si no = warning_cmd
+#ARDUINO CONEXION
+#arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1) 
+# si no funciona probar con:
+#                         /dev/ttyCOM0 ex COM3 o COM4(el ultimo es el mas normal)
+
+scanner_input = 0 
+verification_id = scanner_input  
+people_id = int(1)  
 
 #_____________________________________________________________________________________#
 def while_running(verification_id, people_id):

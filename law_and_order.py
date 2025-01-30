@@ -281,6 +281,7 @@ class law_and_order:
         self.entmail = Entry(LeftFrame1, font =('courier', 12, 'bold'),bd =5, width =44, justify = 'left', textvariable= mail, bg='black', fg='white')
         self.entmail.grid(row =4, column =1,sticky=W, padx =5 )
         
+        
         # self.lblphoto = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Photo", bd =5)
         # self.lblphoto.grid(row =5, column =0,sticky=W, padx =5 )
         # self.cbophoto = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =42, state ='readonly', textvariable = photo)
