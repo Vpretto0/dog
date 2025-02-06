@@ -182,6 +182,7 @@ class barcode_class:
             else:
                 print("Barcode is already generated")
                 return
+            
         #_______________________________________________________________________________________________________#
         
         # def print_ident():

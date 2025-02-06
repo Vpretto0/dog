@@ -1,3 +1,6 @@
+#install pymysql
+#install time
+
 import pymysql
 from pymysql.err import MySQLError
 from time import sleep
@@ -6,7 +9,7 @@ from time import sleep
 def create_connection(): #account
     try:
 
-        conn = pymysql.connect(
+        connn = pymysql.connect(
             host="localhost",
             user="dog",
             password="4404",
@@ -15,24 +18,23 @@ def create_connection(): #account
         )
         print("CREATED CONECTION")
         
-        c = conn.cursor()
+        cc = connn.cursor()
         sleep(1)
-        c.execute("SELECT 1")
+        cc.execute("SELECT 1")
         print("Database verified and accessible(verification table)")
-        return conn, c
+        return connn, cc
     
     except MySQLError as e:
         print(f"Error connecting to database: {e}(verification table)")
         return None
         
         
-def create_table(conn, c): 
+def create_table(connn, cc): 
     try:
-        c.execute('''           
+        cc.execute('''           
             CREATE TABLE IF NOT EXISTS verification 
             (   
-                `date` varchar(10) NOT NULL,
-                `hour` varchar(5) NOT NULL,
+                `date_time` varchar(100) NOT NULL,
                 `ip_ipv6` varchar(39) NOT NULL,
                 `pass` tinyint(1) NOT NULL,
                 `class` varchar(25) NOT NULL,
@@ -44,19 +46,19 @@ def create_table(conn, c):
         ''')#copy
         
         
-        conn.commit()
+        connn.commit()
         print("Table created successfully(verification table)")
         
     except MySQLError as e:
         print(f"Error creating table: {e}(verification table)")
     
     
-def close_connection(conn, c):
+def close_connection(connn, cc):
     try:
-        if c:
-            c.close()  # Cierra el cursor explícitamente
-        if conn:
-            conn.close()  # Cierra la conexión
+        if cc:
+            cc.close()  # Cierra el cursor explícitamente
+        if connn:
+            connn.close()  # Cierra la conexión
             print("Closed Connection(verification table)")
     except MySQLError as e:
         print(f"Error when closing connection: {e}(verification table)")

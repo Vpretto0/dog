@@ -1,17 +1,20 @@
 #FOR RASPBERRY PI
 
+#install pyserial
+
 
 import db_identity_verification
 import db_identity
 
 import serial
+import datetime
 
 #_____________________________________________________________________________________#
 
 #ARDUINO CONEXION
 #arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1) 
 # si no funciona probar con:
-#                         /dev/ttyCOM0 ex COM3 o COM4(el ultimo es el mas normal)
+#                         /dev/ttyCOM0 ex: COM3 o COM4(el último es el mas normal)
 
 scanner_input = 0 
 verification_id = scanner_input  
@@ -62,7 +65,26 @@ def while_running(verification_id, people_id):
         scanner_input
         verification_id = scanner_input      #id from scanner
         people_id = 0
+def get_dbinfo(tiempo, ip, pase, clase, info, id):
+    try:
+        connn, cc = db_identity_verification.create_connection
+        #________________________________________________TIEMPO________________________________________________#
+        now = datetime.datetime.now()
+        tiempo = now
         
+        #________________________________________________IPv6  ________________________________________________#
+        #________________________________________________PASE  ________________________________________________#
+        #________________________________________________CLASE ________________________________________________#
+        #________________________________________________INFO  ________________________________________________#
+        #________________________________________________ID FK ________________________________________________#
+        #________________________________________________INSERT INTO___________________________________________#
+        cc.execute("INSERT INTO verification (date_time, ip_ipv6, pass, class, info, id) VALUES (%s, %s, %s, %s, %s, %s)", (tiempo, ip, pase, clase, info, id,))
+        
+    except Exception as e:
+        print("Error from get_db_info{e}")
+    finally:
+        db_identity_verification.close_connection(connn, cc)  
+        print(f"success upload info from database: {tiempo}, {ip}, {pase}, {clase}, {info}, {id}")    
 
 def arduino_communication_tryagain():
     print("TRY AGAIN MODE")
@@ -73,12 +95,22 @@ def arduino_communication_warning():
     #codigo, para cuando termine
     
 def arduino_communication_pass():
-    print("PASS MODE")
+    try:
+        #connn, cc = db_identity_verification.create_connection()
+        #cc.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
+        
+        print("PASS MODE")
+       
+    except Exception as e:
+        print(f"Error {e}")   
+        
+    finally:
+        pass
+        #db_identity_verification.close_connection(connn, cc) 
+    
     
     #codigo, para cuando termine
     
-
-
     
 
 while_running(verification_id, people_id)

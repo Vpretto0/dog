@@ -258,7 +258,7 @@ class law_and_order:
         self.lblclass = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="Class", bg='#1f1f1f', fg='white', bd=5)
         self.lblclass.grid(row =0, column =0,sticky=W, padx =5)
         self.entclass = ttk.Combobox(LeftFrame1, font =('courier', 12, 'bold'), width =43, textvariable= Class, state='readonly', style='Custom.TCombobox')
-        self.entclass['values'] = ( 'student', 'staff', 'guest')
+        self.entclass['values'] = ( 'None', 'student', 'staff', 'guest')
         self.entclass.grid(row =0, column =1,sticky=W, padx =5 )
         
         self.lblID = Label(LeftFrame1, font =('courier', 12, 'bold'),text ="ID", bd =7, bg='#1f1f1f', fg='white')
