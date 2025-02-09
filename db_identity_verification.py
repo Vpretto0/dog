@@ -40,10 +40,11 @@ def create_table(connn, cc):
                 `class` varchar(25) NOT NULL,
                 `info` int NOT NULL,
                 `id` int NOT NULL,
-                FOREIGN KEY (id) REFERENCES people(id),
-                CONSTRAINT check_class CHECK (`class` IN ('student', 'staff', 'guest'))
+                FOREIGN KEY (id) REFERENCES people(id))
             )
         ''')#copy
+        #constraint deleted: ,
+                #CONSTRAINT check_class CHECK (`class` IN ('student', 'staff', 'guest')
         
         
         connn.commit()
