@@ -76,7 +76,7 @@ class law_and_order:
             if id_vl == pid.get():
                 photo_window = Toplevel(self.root) 
                 self.pw = photo_class(photo_window, id_vl)
-                self.root.after(1000) 
+                self.root.after(100) 
             #self.root.after(1000, photo_)
             
         def code_bar():
@@ -96,7 +96,7 @@ class law_and_order:
             if id_vl == pid.get():
                 barcode_window = Toplevel(self.root) 
                 self.ps = barcode_class(barcode_window, id_vl, state_action, class_print, id_print, name_print, lastn_print)
-                self.root.after(1000) 
+                self.root.after(100) 
                 
             #self.root.after(1000, photo_)
         
@@ -341,7 +341,7 @@ class law_and_order:
         
         self.btnAddNew = Button(RightFrame1a, text = "EXIT", font =('courier', 14, 'bold'), fg = "red", bg = '#212121', activebackground='gray',
             padx =15, pady=2, width =8, height =2, command =iExit, bd =4). grid(row =6, column =0, padx =0)
-        
+
         
         
         
@@ -349,6 +349,3 @@ if __name__=='__main__':
     root = Tk()
     application = law_and_order(root)
     root.mainloop()
-    
-    
-# conseguir la informacion de todos los estudiantes de la clase e ingresarla en la base de datos

@@ -219,3 +219,5 @@ if __name__=='__main__':
     aplication = barcode_class(root, id_vl, state_action, class_print, id_print, name_print, lastn_print)
     #aplication.get_Image()
     root.mainloop()
+
+    
