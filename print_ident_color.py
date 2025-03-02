@@ -15,7 +15,7 @@ class class_print:
         self.root = root
         
         #root.overrideredirect(True)
-        root.geometry('400x600+0+0')
+        root.geometry('400x600')
         root.title('Canva')
         self.root.resizable(width =False, height =False)
         root.attributes("-topmost", True)

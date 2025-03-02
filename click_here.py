@@ -3,15 +3,13 @@ import win32print
 from PIL import Image
 import PIL.ImageGrab as ImageGrab
 from tkinter import filedialog
-from tkinter import messagebox
+from tkinter import Label
 from time import sleep
 from tkinter import Toplevel
 
-
-
 from print_ident_color import class_print
 import tkinter as tk
-
+from tkinter import Tk
 
 import win32print
 import win32ui
@@ -19,54 +17,52 @@ from PIL import Image, ImageWin
 
 class print_class:
     def __init__(self, root):
-        #root.overrideredirect(True) 
+        root.overrideredirect(True) 
         self.root = root
-    
-        self.root.geometry("400x600+0+0") # width x height + X coordinate + Y coordinate
+        
+        self.root.geometry("250x75") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
-        
         root.attributes("-topmost", True)
-
-        def get_info(self):
-
-            loop = "fries"
-            if loop is not None:
-                # try: 
-                #     filelocation = "C:/prctm_dog/canvas.png"
-                #     img = ImageGrab.grab(bbox=(0, 0, 400, 600))
-                #     img.save(filelocation)
-                #     #canvas.update_idletasks()
-
-                # except Exception as e:
-                #     print(F"Error -> {e}")  
-                canva = Toplevel(root) 
-                self.pw = class_print(canva)
-                self.root.after(100) 
-                sleep(1)
-                #self.pw.destroy_canvas()
-                loop = None
-                
-                
-            #    canvas.postscript(file=filename, colormode='color')
-                
-            #     img = Image.open("canvas.ps")  #abre el archivo .ps
-            #     img.save("output_image.png", "PNG")
-            #     with open(filename, 'rb') as flname:
-            #         raw_data = flname.read() #read postcrip to raw data
-            #         print("Raw data readed")
-
-
-            #     return raw_data
-            
-            
-    
-
         
-                
-                
-                
-        # def save_canvas():
+        root.withdraw()
+        root.update_idletasks()  # Update "requested size" from geometry manager <--- Hack
+        x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
+        y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
+        root.geometry("+%d+%d" % (x, y))
+        #_____________________________________________FUNCTIONS_____________________________________________#
+        
+        
+        
+        def save_as_png(self):
+                    root.deiconify()
+                    Label(root, text="PRINTING DATA...").pack()
+                    self.file = "C:/prctm_dog/canvas.png"
+                    ImageGrab.grab().crop((15, 15, 15, 15)).save(self.file)
+                    self.root.after(3000)
+                    root.withdraw()
+                    root.destroy()
+        
+        def edit_canvas(self):
             
+            #obtener las variables
+            
+            window_canvas = Toplevel(self.root)
+            self.canvitas = class_print(window_canvas)
+            self.root.after(3000)
+            # self.root.after(100, save_as_png(self))
+            
+            try:
+                self.canvitas.setup_gamer()
+                #editar esto para poner las variables
+                self.canvitas.info("FBI2", 123456782, "strange2", "nm & ln 2")
+            except Exception as e:
+                print(f"No se que le pasa :(\n{e}")
+
+            self.root.after(3000)
+            save_as_png(self)
+      
+        edit_canvas(self)
+
             
 if __name__ == "__main__":
     root = tk.Tk()
@@ -74,5 +70,3 @@ if __name__ == "__main__":
     root.mainloop()
 
 
-
-        

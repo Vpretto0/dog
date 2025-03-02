@@ -62,7 +62,7 @@ class law_and_order:
         mail = StringVar()
         image = StringVar()
         barcode = StringVar()
-        
+
         #????
         action = BooleanVar()
         action.set(False)
