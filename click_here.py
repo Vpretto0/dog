@@ -37,10 +37,7 @@ class print_class:
                     root.deiconify()
                     Label(root, text="PRINTING DATA...").pack()
                     self.file = "C:/prctm_dog/canvas.png"
-                    ImageGrab.grab().crop((15, 15, 15, 15)).save(self.file)
-                    self.root.after(3000)
-                    root.withdraw()
-                    root.destroy()
+                    ImageGrab.grab().crop((346,60,390,106)).save(self.file)
         
         def edit_canvas(self):
             

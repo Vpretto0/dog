@@ -13,7 +13,7 @@ import datetime
 #_____________________________________________________________________________________#
 
 #ARDUINO CONEXION
-#arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1) 
+arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1) 
 # si no funciona probar con:
 #                         /dev/ttyCOM0 ex: COM3 o COM4(el último es el mas normal)
 
@@ -45,15 +45,15 @@ def while_running(verification_id, people_id):
             
             if people_id == None:
                 print("This is your last chance, try again")
-                verification_id2 = input()
+                verification_id2 = int(input())
                 c.execute("SELECT id FROM people WHERE id = %s", (verification_id2,))
                 people_id = c.fetchone()
-                print("people id: ", people_id)
+                print("people id:", "Invalid")
 
                 if people_id == None:
                     print("\n\nINTRUDE FOUND\n ...Initializing WARNING MODE\n")
                     arduino_communication_warning() #WARNING MODE
-                    print("people id: ", people_id)
+                    print("people id:", "Invalid")
                     get_dbinfo(verification_id)
                     while_running(verification_id, people_id)
                     
@@ -67,6 +67,7 @@ def while_running(verification_id, people_id):
                 arduino_communication_pass()
                 get_dbinfo(verification_id)
                 while_running(verification_id, people_id)
+                
     except Exception as e:
         print(f"Error from while_running: {e}")
     
@@ -74,7 +75,7 @@ def while_running(verification_id, people_id):
         db_identity.close_connection(conn, c)
         scanner_input
         verification_id = scanner_input      #id from scanner
-        people_id = 0
+        people_id = 1
         pase = False
         
         
@@ -92,11 +93,10 @@ def get_dbinfo(id):
         
         #ip
         get_ip = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
-        get_ip.connect(("2001:4860:4860::8888", 69)) #google dns, ramdom port
-        ip = get_ip.getsockname()[0] #ipv6
+        get_ip.connect(("2001:4860:4860::8888", 69)) #google dns, ramdom port (no le hagas caso a lo que dice y ya)
+        ip = get_ip.getsockname()[0] #get ipv6
         print(f"IPv6: {ip}")
         
-
         #boolean/pase
         global pase
         
@@ -133,7 +133,6 @@ def get_dbinfo(id):
             
         #inserting  db
         cc.execute("INSERT INTO verification (date_time, ip_ipv6, pass, class, info, id) VALUES (%s, %s, %s, %s, %s, %s)", (tiempo, ip, pase, clase, info, id,))
-        print(f"Uploading info from database FINALLY STEP: {tiempo}, {ip}, {pase}, {clase}, {info}, {id}")
         connn.commit()
     except Exception as e:
         print("Error from get_dbinfo in general{e}")
@@ -148,7 +147,8 @@ def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
-    print("WARNING MODE")
+    print("WARNING MODE\n\n")
+    arduino.write("WARNING MODE\n")
     
     #codigo, para cuando termine
     
@@ -158,7 +158,8 @@ def arduino_communication_pass():
         #cc.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
         global pase
         pase = True
-        print("PASS MODE")
+        print("PASS MODE\n\n")
+        arduino.write(b"PASS MODE\n")
        
     except Exception as e:
         print(f"Error {e}")   

@@ -148,6 +148,7 @@ class barcode_class:
             new_image = Image.open(filepath)
             width, height = int(385), int(120)
             new_image = new_image.resize((width, height))
+            print("si no ves esto, no se guardo la imagen")
             
 
         def barcode_id():
