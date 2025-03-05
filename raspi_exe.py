@@ -158,7 +158,7 @@ def arduino_communication_pass():
         #cc.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
         global pase
         pase = True
-        print("PASS MODE\n\n")
+        print("PASS MODE\n\n-")
         arduino.write(b"PASS MODE\n")
        
     except Exception as e:
