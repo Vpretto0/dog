@@ -5,6 +5,7 @@
 
 import db_identity_verification
 import db_identity
+import time
 
 import serial
 import socket
@@ -19,7 +20,7 @@ arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 scanner_input = 0 
 verification_id = scanner_input  
-people_id = int(1)  
+people_id = 1  
 pase = False
 clase = "invalid"
 #_____________________________________________________________________________________#
@@ -29,7 +30,7 @@ def while_running(verification_id, people_id):
     
     try:    
         while True:
-            scanner_input = int(input())
+            scanner_input = input()
             verification_id = scanner_input
             
             c.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
@@ -37,7 +38,7 @@ def while_running(verification_id, people_id):
             fetch = c.fetchone()
             (people_id) = fetch
             if people_id is not None:
-                people_id = int(fetch[0])
+                people_id = fetch[0]
                 print("people id: ", people_id)
             else:
                 print("people id: ", people_id)
@@ -45,7 +46,7 @@ def while_running(verification_id, people_id):
             
             if people_id == None:
                 print("This is your last chance, try again")
-                verification_id2 = int(input())
+                verification_id2 = input()
                 c.execute("SELECT id FROM people WHERE id = %s", (verification_id2,))
                 people_id = c.fetchone()
                 print("people id:", "Invalid")
@@ -103,7 +104,7 @@ def get_dbinfo(id):
         #info
         get_info = cc.execute("SELECT count(*) FROM db_identity.verification WHERE true = true")
         get_info = cc.fetchone()
-        info_base= int(get_info[0])
+        info_base= get_info[0]
         info = info_base + 1
         print(info)
         
@@ -113,7 +114,7 @@ def get_dbinfo(id):
             get_id = c.execute("SELECT id FROM people WHERE id = %s", (id,))
             get_id = c.fetchone()
             if get_id is not None:
-                id = int(get_id[0])
+                id = get_id[0]
             else:
                 id = None
         except Exception as e:
@@ -142,13 +143,20 @@ def get_dbinfo(id):
 
 def arduino_communication_tryagain():
     print("TRY AGAIN MODE")
+    
+def write_read(x): 
+	arduino.write(bytes(x, 'utf-8')) 
+	time.sleep(0.05) 
+	data = arduino.readline() 
+	return data 
+
 
 def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
     print("WARNING MODE\n\n")
-    arduino.write("WARNING MODE\n")
+    write_read("WARNING_MODE") 
     
     #codigo, para cuando termine
     
@@ -159,7 +167,7 @@ def arduino_communication_pass():
         global pase
         pase = True
         print("PASS MODE\n\n-")
-        arduino.write(b"PASS MODE\n")
+        write_read("PASS_MODE")
        
     except Exception as e:
         print(f"Error {e}")   
