@@ -1,5 +1,5 @@
 #include "SoftwareSerial.h"
-#include "DFRobotDFPlayerMini.h"
+#include "DFRobotDFPlayerMini.h" 
 
 
 static const uint8_t PIN_MP3_TX = 2; // Connects to module's RX
@@ -9,6 +9,10 @@ SoftwareSerial softwareSerial(PIN_MP3_RX, PIN_MP3_TX);
 
 const int pot = A5;
 int potValue = 0;
+bool verif = false;
+bool green = false;
+bool warn = false;
+bool again_try = false;
 
 DFRobotDFPlayerMini player;
 
@@ -46,12 +50,22 @@ void sound(int number, int duration_ms){
 }
 
 void leds(){
-  //flashing green(pass)
-  //red, blue and white (warning)
-  //flashing white(verification)
-  //red and white(try again)
-  //LEDs off
+   if (green == true){
+        //green
+        //flashing green
+        green = false;
+   }else if (warn == true){
+        // led red, blue and white;
+    warn = false;
+   }else if (again_try == true){
+        //red and white
+   }else if (verif == true){
+        //leds flashing white and green and red
+   }else{
+        //leds flashing white
+   }
 }
+
 void scanner(){
   //bolean default False
   /*if true
@@ -65,14 +79,14 @@ void scanner(){
 
 /*______________________________________________________REAL FUNCTIONS________________________________________*/
 void pass(){
-  
+  green = true;
   Serial.print("PASS_MODE");
   sound(1, 1500);
 }
 void warning(){
+  warn = true;
   Serial.print("WARNING_MODE");
   sound(1, 1500);
-
 }
 void try_again(){
 
@@ -85,7 +99,7 @@ void verification(){
 void loop() {
 
   if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n');
+    String command = Serial.readStringUntil('\n'); //esto se puede cambiar a \r, pero no se si funcione
     if (command == "PASS_MODE") {
       pass();
 
@@ -93,4 +107,7 @@ void loop() {
       warning(); 
     }
   }
+
+
+  leds;
 }
