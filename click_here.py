@@ -18,7 +18,7 @@ class print_class:
         root.overrideredirect(True) 
         self.root = root
         
-        self.root.geometry("200x75") # width x height + X coordinate + Y coordinate
+        self.root.geometry("200x40") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         root.attributes("-topmost", True)
         
@@ -35,7 +35,7 @@ class print_class:
     
     
     def save_as_png(self):
-        Label(root, text="PRINTING DATA...").pack()
+        Label(root, text="PRINTING DATA...", font =('courier', 15, 'bold'), bd =7, fg='white', bg='black').pack()
         self.file = "C:/prctm_dog/canvas.png"
         ImageGrab.grab().crop((713, 168, 1210, 915)).save(self.file)
         
@@ -67,11 +67,13 @@ class print_class:
         except Exception as e:
             print(f"No se que le pasa :(\n{e}")
             
-        root.deiconify() 
+       
         self.root.after(3000, self.save_as_png)
-        self.root.after(6000, self.root.withdraw)
+        self.root.after(6000, root.deiconify)
         self.root.after(9000, self.print_funct)
+        root.withdraw()
         self.root.after(12000, root.destroy)
+        #habia que sumar el timempo, eso es nuevo
       
     def print_funct(self):
         

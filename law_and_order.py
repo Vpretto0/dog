@@ -7,9 +7,6 @@ from photo import *
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
-import pymysql
-
-from tkinter import filedialog
 
 
 class law_and_order:
@@ -49,10 +46,7 @@ class law_and_order:
         RightFrame1.pack(side =RIGHT)
         RightFrame1a = Frame(RightFrame1, bd =5, width =90, height =300,padx =2, pady =2, relief = RIDGE, bg = '#1f1f1f')
         RightFrame1a.pack(side =TOP, padx =0, pady =0)
-    
-        
-        #———————————————————————————————————————————————————————————————————————————————————————————————————————#
-    
+
         #_______________________________________________________________________________________________________#
         Class = StringVar()
         pid = IntVar()
