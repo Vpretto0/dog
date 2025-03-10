@@ -30,12 +30,11 @@ class print_class:
         y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
         root.geometry("+%d+%d" % (x, y))
         
-        self.edit_canvas()
+        self.edit_canvas(id_vl, printing_class, id_print, name_print, lastn_print)
     #_________________________________________FUNCTIONS(out of INIT)_________________________________________#
     
     
     def save_as_png(self):
-        root.deiconify()
         Label(root, text="PRINTING DATA...").pack()
         self.file = "C:/prctm_dog/canvas.png"
         ImageGrab.grab().crop((713, 168, 1210, 915)).save(self.file)
@@ -63,14 +62,16 @@ class print_class:
         try:
             self.canvitas.setup_gamer()
             #editar esto para poner las variables
-            self.canvitas.info(self.class_print, self.id_vl, self.name_print, self.lastn_print)
+            self.canvitas.info(self.printing_class, self.id_vl, self.name_print, self.lastn_print)
             
         except Exception as e:
             print(f"No se que le pasa :(\n{e}")
-                
+            
+        root.deiconify() 
         self.root.after(3000, self.save_as_png)
-        self.root.after(3000, self.root.withdraw)
-        self.root.after(3000, self.print_funct)
+        self.root.after(6000, self.root.withdraw)
+        self.root.after(9000, self.print_funct)
+        self.root.after(12000, root.destroy)
       
     def print_funct(self):
         
