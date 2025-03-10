@@ -54,7 +54,7 @@ class class_print:
         self.canvas.create_rectangle(4,425,399,599, fill= 'black', width=0)
 
         self.image_barcode = tk.PhotoImage(file="C:/prctm_dog/barcode.png")
-        self.canvas.create_image((30, 455), image=self.image_barcode, anchor='nw')
+        self.canvas.create_image((45, 455), image=self.image_barcode, anchor='nw')
 
     #___________________________________________________FRAME_____________________________________________________#  
     def round_rectangle(self,x1, y1, x2, y2, radius=25, **kwargs):

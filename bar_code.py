@@ -16,14 +16,14 @@ from click_here import print_class
 id_vl = 86765
 state_action = False
 
-class_print = "prisioner"
+printing_class = "prisioner"
 id_print = "69696969"
 name_print = "i am"
 lastn_print = "in jail"
    
 class barcode_class:
     print("bar_code.py is working")
-    def __init__(self, root, id_vl, state_action, class_print, id_print, name_print, lastn_print):
+    def __init__(self, root, id_vl, state_action, printing_class, id_print, name_print, lastn_print):
         
         root.overrideredirect(True)
         style = ttk.Style()
@@ -34,7 +34,7 @@ class barcode_class:
         self.root = root 
         self.id_vl = id_vl
 
-        self.class_print = class_print
+        self.printing_class = printing_class
         self.id_print = id_print
         self.name_print = name_print
         self.lastn_print = lastn_print
@@ -67,7 +67,7 @@ class barcode_class:
         #_______________________________________________________________________________________________________#
             #182x228y
         code = Frame(BarFrame, width =400, height =125, bg = '#1f1f1f') 
-        code.pack()
+        code.grid(row =0, column =0)
         #photo frame
         
         canvas = tkinter.Canvas(code, background = 'black', width=385, height=120) # problema si introduces directamente esto: image= frame_image
@@ -177,8 +177,16 @@ class barcode_class:
         #_______________________________________________________________________________________________________#
         
         def print_canvass():
+            id_vl_ii = self.id_vl
+            printing_class_ii = self.printing_class
+            id_print_ii = self.id_print
+            name_print_ii = self.name_print
+            lastn_print_ii = self.lastn_print
+            
             click_here_window = Toplevel(self.root)
             click_here_window.overrideredirect(True)
+            canva_screen = print_class(click_here_window)
+            canva_screen.edit_canvas(id_vl_ii, printing_class_ii, id_print_ii, name_print_ii, lastn_print_ii)
             screen_width = self.root.winfo_screenwidth()
             screen_height = self.root.winfo_screenheight()
             
@@ -186,11 +194,11 @@ class barcode_class:
             y = (screen_height - 600) // 2
             click_here_window.geometry("%dx%d+%d+%d" % (400, 600, x, y))
 
-            self.imprimiendo = class_print(click_here_window)
+            self.imprimiendo = print_class(click_here_window)
         #_______________________________________________________________________________________________________#
         
         self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
-        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, command= print_canvass, cursor='hand2'). pack(side =LEFT, padx =6)
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, command= print_canvass, cursor='hand2').grid(row=0, column=0, padx=6, pady=6)
         #_______________________________________________________________________________________________________#
         
         image_barcode()
@@ -200,7 +208,7 @@ class barcode_class:
 if __name__=='__main__':
     root = Tk()
     #para obtener la info y editar el canvas para imprimir (por si no me acuerdo)
-    aplication = barcode_class(root, id_vl, state_action, class_print, id_print, name_print, lastn_print)
+    aplication = barcode_class(root, id_vl, state_action, printing_class, id_print, name_print, lastn_print)
     #aplication.get_Image()
     root.mainloop()
 

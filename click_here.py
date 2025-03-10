@@ -7,18 +7,20 @@ from PIL import Image, ImageWin
 import win32print
 import win32ui
 
-id_vl = 86765
+id_vl_ii = 86765
 
-printing_class = "SLAVE 299"
-id_print = "86765"
-name_print = "IAM"
-lastn_print = "IN_JAIL"
-class print_class:
+printing_class_ii = "SLAVE 299"
+id_print_ii = "86765"
+name_print_ii = "IAM"
+lastn_print_ii = "IN_JAIL"
+class print_class(tk.Label):
     def __init__(self, root):
+        super().__init__(root) #superclass in a subclass.
+        
         root.overrideredirect(True) 
         self.root = root
         
-        self.root.geometry("200x40") # width x height + X coordinate + Y coordinate
+        self.root.geometry("200x30") # width x height + X coordinate + Y coordinate
         self.root.resizable(width =False, height =False)
         root.attributes("-topmost", True)
         
@@ -30,26 +32,29 @@ class print_class:
         y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
         root.geometry("+%d+%d" % (x, y))
         
-        self.edit_canvas(id_vl, printing_class, id_print, name_print, lastn_print)
     #_________________________________________FUNCTIONS(out of INIT)_________________________________________#
     
     
     def save_as_png(self):
-        Label(root, text="PRINTING DATA...", font =('courier', 15, 'bold'), bd =7, fg='white', bg='black').pack()
+        label = Label(self.root , text="PRINTING DATA...", font =('courier', 15, 'bold'), fg='white', bg='black')
+        label.grid(row=0, column=0)
+        label.update_idletasks() #siendo inteligente
+        
         self.file = "C:/prctm_dog/canvas.png"
         ImageGrab.grab().crop((713, 168, 1210, 915)).save(self.file)
         
         
-    def edit_canvas(self, id_vl, printing_class, id_print, name_print, lastn_print):
+    def edit_canvas(self, id_vl_ii, printing_class_ii, id_print_ii, name_print_ii, lastn_print_ii):
 
-        self.id_vl = id_vl
-        self.printing_class = printing_class
-        self.id_print = id_print
-        self.name_print = name_print
-        self.lastn_print = lastn_print
+        self.id_vl_ii = id_vl_ii
+        self.printing_class_ii = printing_class_ii
+        self.id_print_ii = id_print_ii
+        self.name_print_ii = name_print_ii
+        self.lastn_print_ii = lastn_print_ii
 
         window_canvas = Toplevel(self.root)
         window_canvas.overrideredirect(True)
+        self.root.attributes("-topmost", True)
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         
@@ -62,17 +67,17 @@ class print_class:
         try:
             self.canvitas.setup_gamer()
             #editar esto para poner las variables
-            self.canvitas.info(self.printing_class, self.id_vl, self.name_print, self.lastn_print)
+            self.canvitas.info(self.printing_class_ii, self.id_vl_ii, self.name_print_ii, self.lastn_print_ii)
             
         except Exception as e:
             print(f"No se que le pasa :(\n{e}")
             
        
         self.root.after(3000, self.save_as_png)
-        self.root.after(6000, root.deiconify)
+        self.root.after(6000, self.root.deiconify)
         self.root.after(9000, self.print_funct)
-        root.withdraw()
-        self.root.after(12000, root.destroy)
+        self.root.withdraw()
+        self.root.after(12000, self.root.destroy)
         #habia que sumar el timempo, eso es nuevo
       
     def print_funct(self):
@@ -136,6 +141,7 @@ class print_class:
 if __name__ == "__main__":
     root = tk.Tk()
     application = print_class(root)
+    application.edit_canvas(id_vl_ii, printing_class_ii, id_print_ii, name_print_ii, lastn_print_ii)
     root.mainloop()
 
 
