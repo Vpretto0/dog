@@ -1,13 +1,6 @@
 #CANVA
 from PIL import Image, ImageTk
 import tkinter as tk
-from tkinter import filedialog, messagebox
-import PIL.ImageGrab as ImageGrab
-from time import sleep
-from tkinter import Toplevel
-import win32print
-import win32ui
-
 class class_print:
     
     def __init__(self, root):
@@ -61,9 +54,9 @@ class class_print:
         self.canvas.create_rectangle(4,425,399,599, fill= 'black', width=0)
 
         self.image_barcode = tk.PhotoImage(file="C:/prctm_dog/barcode.png")
-        self.canvas.create_image((50, 455), image=self.image_barcode, anchor='nw')
+        self.canvas.create_image((30, 455), image=self.image_barcode, anchor='nw')
 
-        #___________________________________________________FRAME_____________________________________________________#
+    #___________________________________________________FRAME_____________________________________________________#  
     def round_rectangle(self,x1, y1, x2, y2, radius=25, **kwargs):
                 
         points = [x1+radius, y1,
@@ -95,11 +88,9 @@ class class_print:
         self.canvas.create_text(231, 100, text=f"{id_print}", font=('verdana', 16, 'bold'), fill='white', justify='center')
         self.canvas.create_text(200, 305, text=f"{name_print} {lastn_print}", font=('verdana', 17, 'bold'), fill='white')
 
-
     def setup_gamer(self):
         self.canvas.create_rectangle(4, 4, 399, 599, width=3, outline='white', fill='')
-        self.round_rectangle(5, 5, 399, 599, radius=20, width=2, outline='black', fill='')
-        
+        self.round_rectangle(5, 5, 399, 599, radius=20, width=2, outline='black', fill='')      
       
 if __name__ == "__main__":
     root = tk.Tk()
@@ -107,4 +98,4 @@ if __name__ == "__main__":
     application.setup_gamer()
     application.info("FBI", 12345678, "strange", "nm & ln")
     #application.canva_to_image() 
-    root.mainloop() 
+    root.mainloop()

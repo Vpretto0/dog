@@ -1,18 +1,17 @@
-
-from tkinter import ttk
 from tkinter import *
-from tkinter import filedialog
+from tkinter import ttk
 import tkinter.messagebox
-
-import db_identity
 
 import io
 from PIL import Image, ImageTk
 
+import db_identity
+
 import barcode
 from barcode.writer import ImageWriter
 
-#import win32api
+from click_here import print_class
+
 
 id_vl = 86765
 state_action = False
@@ -34,14 +33,13 @@ class barcode_class:
         
         self.root = root 
         self.id_vl = id_vl
-        
-        #print indentification
+
         self.class_print = class_print
         self.id_print = id_print
         self.name_print = name_print
         self.lastn_print = lastn_print
-        
-        self.state_action = state_action
+    
+        self.state_action = state_action #si
         
         titlespace = " "
         self.root.title(102 * titlespace + "Barcode")
@@ -62,17 +60,11 @@ class barcode_class:
         
         LeftFrame = Frame(TitleFrame, width =40, height=40, bg = '#1f1f1f')#put print func and icon here
         LeftFrame.grid(row =0, column =1)
-        
-        # TopFrame = Frame(TopFrame3, bd =5, width =300, height =228,padx =2, pady =4, bg = '#1f1f1f')
-        # TopFrame.pack(side =TOP, padx =0, pady =0)
-        # BottomFrame = Frame(TopFrame3, bd =7, width =45, height =45,padx =2, pady =4, bg = '#1f1f1f')
-        # BottomFrame.pack(side =BOTTOM, padx =0, pady =0)
-        # #_______________________________________________________________________________________________________#
+        #_______________________________________________________________________________________________________#
         
         self.lbltitle = Label(TitleFrame, font =('courier', 16, 'bold'),text ="BARCODE", bd =5, fg='white', bg='#1f1f1f')
         self.lbltitle.grid(row =0, column =0, padx =121)
         #_______________________________________________________________________________________________________#
-        
             #182x228y
         code = Frame(BarFrame, width =400, height =125, bg = '#1f1f1f') 
         code.pack()
@@ -81,7 +73,6 @@ class barcode_class:
         canvas = tkinter.Canvas(code, background = 'black', width=385, height=120) # problema si introduces directamente esto: image= frame_image
         canvas.grid(sticky = 'nsew')
         #_______________________________________________________________________________________________________#
-        
         
         def image_barcode():
             try:
@@ -120,8 +111,8 @@ class barcode_class:
                 bar_imagen=Image.open(data) 
                 bar_imagen= bar_imagen.resize((385, 120))
                 frame_code= ImageTk.PhotoImage(bar_imagen)
-        
         #_______________________________________________________________________________________________________#
+        
         def generate_barcode(alphanum_string):
             print("HELLO! from bar_generator.py")
             module = {
@@ -182,32 +173,24 @@ class barcode_class:
                 state_action = False
             else:
                 print("Barcode is already generated")
-                return
-            
+                return    
         #_______________________________________________________________________________________________________#
         
-        # def print_ident():
-        #     import print_ident_color
-        #     print_ident_color.info(class_print, id_print, name_print, lastn_print)
-        
-        # # Print File Function 
-        # def print_file(): 
+        def print_canvass():
+            click_here_window = Toplevel(self.root)
+            click_here_window.overrideredirect(True)
+            screen_width = self.root.winfo_screenwidth()
+            screen_height = self.root.winfo_screenheight()
             
-        #     # Ask for file (Which you want to print) 
-        #     file_to_print = 
-        #     #filedialog.askopenfilename( 
-        #     #initialdir="/", title="Select file",  
-        #     #filetypes=(("Text files", "*.txt"), ("all files", "*.*")))
-            
-        #     if file_to_print: 
-                
-        #         # Print Hard Copy of File 
-        #         win32api.ShellExecute(0, "print", file_to_print, None, ".", 0) 
-                #_______________________________________________________________________________________________________#
+            x = (screen_width - 400) // 2
+            y = (screen_height - 600) // 2
+            click_here_window.geometry("%dx%d+%d+%d" % (400, 600, x, y))
+
+            self.imprimiendo = class_print(click_here_window)
+        #_______________________________________________________________________________________________________#
         
         self.image_path= PhotoImage(file="C:/prctm_dog/images/printer-24.png") 
-        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, cursor='hand2'). pack(side =LEFT, padx =6)
-        
+        self.btnChange= Button(LeftFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, command= print_canvass, cursor='hand2'). pack(side =LEFT, padx =6)
         #_______________________________________________________________________________________________________#
         
         image_barcode()
@@ -216,7 +199,7 @@ class barcode_class:
      
 if __name__=='__main__':
     root = Tk()
-                                #para obtener la info y editar el canvas para imprimir (por si no me acuerdo)
+    #para obtener la info y editar el canvas para imprimir (por si no me acuerdo)
     aplication = barcode_class(root, id_vl, state_action, class_print, id_print, name_print, lastn_print)
     #aplication.get_Image()
     root.mainloop()
