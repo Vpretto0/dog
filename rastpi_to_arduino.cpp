@@ -1,7 +1,6 @@
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h" 
 
-
 static const uint8_t PIN_MP3_TX = 2; // Connects to module's RX
 static const uint8_t PIN_MP3_RX = 3; // Connects to module's TX
 SoftwareSerial softwareSerial(PIN_MP3_RX, PIN_MP3_TX);
@@ -20,7 +19,6 @@ void setup() {
 
   pinMode(pot, INPUT);
 
-  
   Serial.begin(9600);
   softwareSerial.begin(9600);
 
@@ -38,8 +36,8 @@ void sound(int number, int duration_ms){
   potValue = analogRead(pot);
 
 	if(potValue > 500 ){ 
-
 	 static unsigned long timer = millis();
+
  	 if (millis() - timer > duration_ms) { //duration_ms is the duration of the audio(number)
   		timer = millis();
 
@@ -108,6 +106,5 @@ void loop() {
     }
   }
 
-
-  leds;
+  leds();
 }

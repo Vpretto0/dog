@@ -2,7 +2,6 @@
 
 #install pyserial
 
-
 import db_identity_verification
 import db_identity
 import time
@@ -136,7 +135,7 @@ def get_dbinfo(id):
         cc.execute("INSERT INTO verification (date_time, ip_ipv6, pass, class, info, id) VALUES (%s, %s, %s, %s, %s, %s)", (tiempo, ip, pase, clase, info, id,))
         connn.commit()
     except Exception as e:
-        print("Error from get_dbinfo in general{e}")
+        print("Error from get_dbinfo in general: {e}")
     finally: 
         connn, cc = db_identity_verification.create_connection()
         conn, c = db_identity.create_connection()   
