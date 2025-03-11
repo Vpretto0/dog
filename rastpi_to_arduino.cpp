@@ -14,9 +14,6 @@ bool again_try = false;
 DFRobotDFPlayerMini player;
 
 void setup() {
-
-  pinMode(pot, INPUT);
-
   Serial.begin(9600);
   softwareSerial.begin(9600);
 
@@ -31,8 +28,6 @@ void setup() {
 }
 /*_____________________________________________________Functions______________________________________________*/
 void sound(int number, int duration_ms){
-  potValue = analogRead(pot);
-
 	static unsigned long timer = millis();
 
  	if (millis() - timer > duration_ms) { //duration_ms is the duration of the audio(number)
