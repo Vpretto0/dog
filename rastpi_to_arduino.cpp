@@ -16,7 +16,7 @@ DFRobotDFPlayerMini player;
 void setup() {
   Serial.begin(9600);
   softwareSerial.begin(9600);
-
+  println("speaker ready");
 
   if (player.begin(softwareSerial)) {
     Serial.println("OK");
@@ -27,15 +27,8 @@ void setup() {
   }      
 }
 /*_____________________________________________________Functions______________________________________________*/
-void sound(int number, int duration_ms){
-	static unsigned long timer = millis();
-
- 	if (millis() - timer > duration_ms) { //duration_ms is the duration of the audio(number)
-  	timer = millis();
-
-   	//(number) is the file number in the sd card, the order = the order you copied the file to it
-   	player.play(number);  
-  }
+void sound(int number){
+  player.play(number);  
 }
 
 void leds(){
@@ -70,12 +63,12 @@ void scanner(){
 void pass(){
   green = true;
   Serial.print("PASS_MODE");
-  sound(2, 3000);
+  sound(2);
 }
 void warning(){
   warn = true;
   Serial.print("WARNING_MODE");
-  sound(4, 15000);
+  sound(4);
 }
 void try_again(){
 
@@ -84,14 +77,15 @@ void verification(){
 
 }
 void end_sound(){
-  myDFPlayer.stop();    // Stop all sounds (including the looping sound)
-  delay(1000);
+  player.pause();    // Stop all sounds (including the looping sound)
+  delay(10000);
 }
 /*_____________________________________________________LOOP___________________________________________________*/
 void loop() {
 
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n'); //esto se puede cambiar a \r, pero no se si funcione
+    command.trim(); //trim for the spaces
     if (command == "PASS_MODE") {
       pass();
       end_sound();
@@ -103,4 +97,5 @@ void loop() {
   }
 
   leds();
+  delay(100);
 }
