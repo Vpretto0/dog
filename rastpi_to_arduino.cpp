@@ -16,12 +16,14 @@ DFRobotDFPlayerMini player;
 void setup() {
   Serial.begin(9600);
   softwareSerial.begin(9600);
-  println("speaker ready");
+  Serial.println("speaker ready");
 
   if (player.begin(softwareSerial)) {
-    Serial.println("OK");
-
+    Serial.println("OK, it is connected to the Speaker");
     player.volume(15);
+    player.play(2);
+    delay(3000);
+    player.pause(); 
   } else {
     Serial.println("Connecting to DFPlayer Mini failed!");
   }      
@@ -77,14 +79,14 @@ void verification(){
 
 }
 void end_sound(){
-  player.pause();    // Stop all sounds (including the looping sound)
   delay(10000);
+  player.pause();   
 }
 /*_____________________________________________________LOOP___________________________________________________*/
 void loop() {
 
   if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\n'); //esto se puede cambiar a \r, pero no se si funcione
+    String command = Serial.readString(); 
     command.trim(); //trim for the spaces
     if (command == "PASS_MODE") {
       pass();
