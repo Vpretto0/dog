@@ -33,7 +33,7 @@ int servo_pin = 13;
 int servo_position = 0;
 
 //library name:
-DFRobotDFPlayerMini player;
+DFRobotDFPlayerMini player;servo_posit
 Servo servo;
 
 void setup() {
@@ -393,8 +393,8 @@ void verification_true(){
   if (verif == true){
     Serial.print("VERIFICATION_MODE Activated");
     sound(1);
-    for (pos = 0; pos <= 180; pos += 1) {  //va de a uno
-    myservo.write(pos);  
+    for (servo_position = 0; servo_position <= 180; servo_position += 1) {  //va de a uno
+    myservo.write(servo_position);  
     delay(15);    
   }
   }
@@ -405,8 +405,8 @@ void verification_false(){
   if (verif == false){
     Serial.print("VERIFICATION_MODE Deactivated");
     sound(1);
-    for (pos = 180; pos >= 0; pos -= 1) { //este tambien
-    myservo.write(pos); 
+    for (servo_position = 180; servo_position >= 0; servo_position -= 1) { //este tambien
+    myservo.write(servo_position); 
     delay(15);
   }
   }
