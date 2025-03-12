@@ -29,9 +29,11 @@ def while_running(verification_id, people_id):
     
     try:    
         while True:
+            arduino_communication_verification()
+            print("Starting Servo...")
+            print("Please scan your ID")
             scanner_input = input()
             verification_id = scanner_input
-            
             c.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
             print("verification id:", verification_id,". READED")
             fetch = c.fetchone()
@@ -107,7 +109,6 @@ def get_dbinfo(id):
         info = info_base + 1
         print(info)
         
-        
         #id
         try:
             get_id = c.execute("SELECT id FROM people WHERE id = %s", (id,))
@@ -139,10 +140,6 @@ def get_dbinfo(id):
     finally: 
         connn, cc = db_identity_verification.create_connection()
         conn, c = db_identity.create_connection()   
-
-def arduino_communication_tryagain():
-    print("TRY AGAIN MODE\n\n>")
-    write_read("TRY_AGAIN_MODE")
     
 def write_read(x): 
 	arduino.write(bytes(x, 'utf-8')) 
@@ -150,15 +147,21 @@ def write_read(x):
 	data = arduino.readline() 
 	return data 
 
-
+def arduino_communication_verification():
+    print("VERIFICATION MODE\n\n>")
+    write_read("VERIFICATION_MODE_TRUE")
+    
+def arduino_communication_tryagain():
+    print("TRY AGAIN MODE\n\n>")
+    write_read("TRY_AGAIN_MODE")
+    
 def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
     print("WARNING MODE\n\n>")
     write_read("WARNING_MODE") 
-    
-    #codigo, para cuando termine
+    write_read("VERIFICATION_MODE_FALSE")
     
 def arduino_communication_pass():
     try:
@@ -168,6 +171,7 @@ def arduino_communication_pass():
         pase = True
         print("PASS MODE\n\n>")
         write_read("PASS_MODE")
+        write_read("VERIFICATION_MODE_FALSE")
        
     except Exception as e:
         print(f"Error {e}")   
