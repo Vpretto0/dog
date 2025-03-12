@@ -141,7 +141,8 @@ def get_dbinfo(id):
         conn, c = db_identity.create_connection()   
 
 def arduino_communication_tryagain():
-    print("TRY AGAIN MODE")
+    print("TRY AGAIN MODE\n\n>")
+    write_read("TRY_AGAIN_MODE")
     
 def write_read(x): 
 	arduino.write(bytes(x, 'utf-8')) 
@@ -154,7 +155,7 @@ def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
-    print("WARNING MODE\n\n")
+    print("WARNING MODE\n\n>")
     write_read("WARNING_MODE") 
     
     #codigo, para cuando termine
@@ -165,7 +166,7 @@ def arduino_communication_pass():
         #cc.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
         global pase
         pase = True
-        print("PASS MODE\n\n-")
+        print("PASS MODE\n\n>")
         write_read("PASS_MODE")
        
     except Exception as e:
