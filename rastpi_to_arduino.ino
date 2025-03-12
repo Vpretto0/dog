@@ -394,7 +394,7 @@ void verification_true(){
     Serial.print("VERIFICATION_MODE Activated");
     sound(1);
     for (servo_position = 0; servo_position <= 180; servo_position += 1) {  //va de a uno
-    myservo.write(servo_position);  
+    servo.write(servo_position);  
     delay(15);    
   }
   }
@@ -406,7 +406,7 @@ void verification_false(){
     Serial.print("VERIFICATION_MODE Deactivated");
     sound(1);
     for (servo_position = 180; servo_position >= 0; servo_position -= 1) { //este tambien
-    myservo.write(servo_position); 
+    servo.write(servo_position); 
     delay(15);
   }
   }
