@@ -33,7 +33,7 @@ int servo_pin = 13;
 int servo_position = 0;
 
 //library name:
-DFRobotDFPlayerMini player;servo_posit
+DFRobotDFPlayerMini player;
 Servo servo;
 
 void setup() {
