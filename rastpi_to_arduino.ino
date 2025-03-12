@@ -398,7 +398,7 @@ void verification_true(){
     sound(1);
     for (servo_position = 0; servo_position <= 180; servo_position += 1) {  //va de a uno
     servo.write(servo_position);  
-    delay(15);    
+    delay(150);    
   }
   }
 }
@@ -410,14 +410,14 @@ void verification_false(){
     sound(1);
     for (servo_position = 180; servo_position >= 0; servo_position -= 1) { //este tambien
     servo.write(servo_position); 
-    delay(15);
+    delay(150);
   }
   }
 }
 
 
 void end_sound(){
-  delay(10000);
+  delay(5000);
   player.pause();   
 }
 

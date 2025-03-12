@@ -55,19 +55,20 @@ def while_running(verification_id, people_id):
                     arduino_communication_warning() #WARNING MODE
                     print("people id:", "Invalid")
                     get_dbinfo(verification_id)
+                    time.sleep(5)
                     while_running(verification_id, people_id)
                     
                 else:
                     print("Match found, the communication is working")
                     arduino_communication_pass()
-                    time.sleep(35)
                     get_dbinfo(verification_id)
+                    time.sleep(25)
                     while_running(verification_id, people_id)
             else:
                 print("Match found, the communication is working")
                 arduino_communication_pass()
-                time.sleep(35)
                 get_dbinfo(verification_id)
+                time.sleep(25)
                 while_running(verification_id, people_id)
                 
     except Exception as e:
