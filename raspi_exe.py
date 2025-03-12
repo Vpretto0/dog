@@ -29,9 +29,8 @@ def while_running(verification_id, people_id):
     
     try:    
         while True:
+            time.sleep(35)
             arduino_communication_verification()
-            print("Starting Servo...")
-            print("Please scan your ID")
             scanner_input = input()
             verification_id = scanner_input
             c.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
@@ -79,6 +78,8 @@ def while_running(verification_id, people_id):
         verification_id = scanner_input      #id from scanner
         people_id = 1
         pase = False
+        write_read("VERIFICATION_MODE_TRUE")
+        print("System Closed\n")
         
         
         
