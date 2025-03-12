@@ -145,46 +145,39 @@ def get_dbinfo(id):
         conn, c = db_identity.create_connection()   
     
 def write_read(x): 
-	arduino.write(bytes(x, 'utf-8')) 
-	time.sleep(0.05) 
+	arduino.write(bytes(x, 'utf-8'))  
 	data = arduino.readline() 
 	return data 
 
 def arduino_communication_verification():
     print("VERIFICATION MODE\n\n>")
-    write_read("VERIFICATION_MODE_TRUE")
+    write_read("VERIFICATION_MODE_TRUE\n")
     
 def arduino_communication_tryagain():
     print("TRY AGAIN MODE\n\n>")
-    write_read("TRY_AGAIN_MODE")
+    write_read("TRY_AGAIN_MODE\n")
     
 def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
     print("WARNING MODE\n\n>")
-    write_read("WARNING_MODE") 
-    write_read("VERIFICATION_MODE_FALSE")
+    write_read("VERIFICATION_MODE_FALSE\n")
+    write_read("WARNING_MODE\n") 
     
 def arduino_communication_pass():
     try:
-        #connn, cc = db_identity_verification.create_connection()
-        #cc.execute("SELECT id FROM people WHERE id = %s", (verification_id,))
         global pase
         pase = True
         print("PASS MODE\n\n>")
-        write_read("PASS_MODE")
-        write_read("VERIFICATION_MODE_FALSE")
+        write_read("VERIFICATION_MODE_FALSE\n")
+        write_read("PASS_MODE\n")
        
     except Exception as e:
         print(f"Error {e}")   
         
     finally:
         pass
-        #db_identity_verification.close_connection(connn, cc) 
-    
-    
-    #codigo, para cuando termine
     
 while_running(verification_id, people_id)
 print("its working") 
