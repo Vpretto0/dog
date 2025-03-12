@@ -29,7 +29,6 @@ def while_running(verification_id, people_id):
     
     try:    
         while True:
-            time.sleep(35)
             arduino_communication_verification()
             scanner_input = input()
             verification_id = scanner_input
@@ -61,11 +60,13 @@ def while_running(verification_id, people_id):
                 else:
                     print("Match found, the communication is working")
                     arduino_communication_pass()
+                    time.sleep(35)
                     get_dbinfo(verification_id)
                     while_running(verification_id, people_id)
             else:
                 print("Match found, the communication is working")
                 arduino_communication_pass()
+                time.sleep(35)
                 get_dbinfo(verification_id)
                 while_running(verification_id, people_id)
                 

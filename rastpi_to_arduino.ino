@@ -73,6 +73,7 @@ void sound(int number){
 void leds(){
   int count = 0;
   if (green == true){
+    verif = false;
     set_color_led1(0, 255, 0);
     set_color_led2(0, 255, 0);
     set_color_led3(0, 255, 0);
@@ -126,7 +127,7 @@ void leds(){
     set_color_led3(0, 0, 0);
     green = false;
   }else if (warn == true){
-    // led red, blue and white; 
+    verif = false; 
     set_color_led1(255, 0, 0);
     set_color_led2(255, 0, 0);
     set_color_led3(255, 0, 0);
@@ -249,6 +250,7 @@ void leds(){
     set_color_led3(0, 0, 0);
     warn = false;
   }else if (again_try == true){
+    verif = false;
     set_color_led1(255, 0, 0);
     set_color_led2(255, 0, 0);
     set_color_led3(255, 0, 0);
