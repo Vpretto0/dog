@@ -70,7 +70,8 @@ void sound(int number){
   player.play(number);  
 }
 
-void leds(int count){
+void leds(){
+  int count = 0;
   if (green == true){
     set_color_led1(0, 255, 0);
     set_color_led2(0, 255, 0);
