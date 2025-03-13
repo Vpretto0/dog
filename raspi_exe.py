@@ -145,9 +145,10 @@ def get_dbinfo(id):
         conn, c = db_identity.create_connection()   
     
 def write_read(x): 
-	arduino.write(bytes(x, 'utf-8'))  
-	data = arduino.readline().decode().strip() #arduino.readline()  /el que esta es el profecional
-	return data 
+    arduino.write(bytes(x + '\n', 'utf-8'))  
+    time.sleep(0.1)
+    data = arduino.readline().decode().strip() #arduino.readline()  /el que esta es el profecional
+    return data 
 
 def arduino_communication_verification():
     arduino.flushInput()
