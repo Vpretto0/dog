@@ -134,7 +134,7 @@ void verification_true(){
   verif = true;
   if (verif == true){
     Serial.print("VERIFICATION_MODE Activated");
-    sound(1);
+    sound(3);
     for (servo_position = 0; servo_position <= 180; servo_position += 1) {  //va de a uno
     servo.write(servo_position);  
     delay(15);    

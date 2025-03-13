@@ -150,10 +150,12 @@ def write_read(x):
 	return data 
 
 def arduino_communication_verification():
+    arduino.flushInput()
     print("VERIFICATION MODE\n\n>")
     write_read("VERIFICATION_MODE_TRUE")
     
 def arduino_communication_tryagain():
+    arduino.flushInput()
     print("TRY AGAIN MODE\n\n")
     write_read("TRY_AGAIN_MODE")
     
@@ -161,6 +163,7 @@ def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
+    arduino.flushInput()
     print("WARNING MODE\n\n")
     write_read("VERIFICATION_MODE_FALSE")
     write_read("WARNING_MODE") 
@@ -169,6 +172,7 @@ def arduino_communication_pass():
     try:
         global pase
         pase = True
+        arduino.flushInput()
         print("PASS MODE\n\n")
         write_read("VERIFICATION_MODE_FALSE")
         write_read("PASS_MODE")
