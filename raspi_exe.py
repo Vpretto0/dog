@@ -151,33 +151,30 @@ def write_read(x):
 
 def arduino_communication_verification():
     print("VERIFICATION MODE\n\n>")
-    write_read("VERIFICATION_MODE_TRUE\n")
+    write_read("VERIFICATION_MODE_TRUE")
     
 def arduino_communication_tryagain():
-    print("TRY AGAIN MODE\n\n>")
-    write_read("TRY_AGAIN_MODE\n")
+    print("TRY AGAIN MODE\n\n")
+    write_read("TRY_AGAIN_MODE")
     
 def arduino_communication_warning():
     global pase, clase
     pase = False
     clase = "invalid"
-    print("WARNING MODE\n\n>")
-    write_read("VERIFICATION_MODE_FALSE\n")
-    write_read("WARNING_MODE\n") 
+    print("WARNING MODE\n\n")
+    write_read("VERIFICATION_MODE_FALSE")
+    write_read("WARNING_MODE") 
     
 def arduino_communication_pass():
     try:
         global pase
         pase = True
-        print("PASS MODE\n\n>")
-        write_read("VERIFICATION_MODE_FALSE\n")
-        write_read("PASS_MODE\n")
+        print("PASS MODE\n\n")
+        write_read("VERIFICATION_MODE_FALSE")
+        write_read("PASS_MODE")
        
     except Exception as e:
         print(f"Error {e}")   
-        
-    finally:
-        pass
     
 while_running(verification_id, people_id)
 print("its working") 
