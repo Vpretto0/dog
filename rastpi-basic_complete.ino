@@ -185,33 +185,33 @@ void loop() {
     switch (command.charAt(0)) { 
       case 'VERIFICATION_MODE':
         if (command == "VERIFICATION_MODE_TRUE") {
-            println("VERIFICATION_MODE_TRUE Activated");
+            Serial.println("VERIFICATION_MODE_TRUE Activated");
             verification_true();
             end_sound();
         }
         else if (command == "VERIFICATION_MODE_FALSE") {
-            println("VERIFICATION_MODE_FALSE Activated");
+            Serial.println("VERIFICATION_MODE_FALSE Activated");
             verification_false();
             end_sound();
         }break;
 
       case 'PASS_MODE':
         if (command == "PASS_MODE") {
-            println("PASS_MODE Activated");
+            Serial.println("PASS_MODE Activated");
             pass();
             end_sound();
         }break;
 
       case 'TRY_AGAIN_MODE':  
         if(command == "TRY_AGAIN_MODE"){
-            println("TRY_AGAIN_MODE Activated");
+            Serial.println("TRY_AGAIN_MODE Activated");
             try_again();
             end_sound();
         }break;
 
       case 'WARNING_MODE':
         if (command == "WARNING_MODE") {
-            println("WARNING_MODE Activated");
+            Serial.println("WARNING_MODE Activated");
             warning();
             end_sound();
         }break;
