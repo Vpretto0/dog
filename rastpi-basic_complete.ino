@@ -183,29 +183,37 @@ void loop() {
     command.trim(); //trim for the spaces
 
     switch (command.charAt(0)) { 
-      case 'V':
+      case 'VERIFICATION_MODE':
         if (command == "VERIFICATION_MODE_TRUE") {
-        verification_true();
-        end_sound();
+            println("VERIFICATION_MODE_TRUE Activated");
+            verification_true();
+            end_sound();
         }
         else if (command == "VERIFICATION_MODE_FALSE") {
-        verification_false();
-        end_sound();
+            println("VERIFICATION_MODE_FALSE Activated");
+            verification_false();
+            end_sound();
         }break;
-      case 'P':
+
+      case 'PASS_MODE':
         if (command == "PASS_MODE") {
-        pass();
-        end_sound();
+            println("PASS_MODE Activated");
+            pass();
+            end_sound();
         }break;
-      case 'T':  
+
+      case 'TRY_AGAIN_MODE':  
         if(command == "TRY_AGAIN_MODE"){
-        try_again();
-        end_sound();
+            println("TRY_AGAIN_MODE Activated");
+            try_again();
+            end_sound();
         }break;
-      case 'W':  
+
+      case 'WARNING_MODE':
         if (command == "WARNING_MODE") {
-        warning();
-        end_sound();
+            println("WARNING_MODE Activated");
+            warning();
+            end_sound();
         }break;
 
     default:
