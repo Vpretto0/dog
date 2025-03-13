@@ -146,7 +146,7 @@ def get_dbinfo(id):
     
 def write_read(x): 
 	arduino.write(bytes(x, 'utf-8'))  
-	data = arduino.readline() 
+	data = arduino.readline().decode().strip() #arduino.readline()  /el que esta es el profecional
 	return data 
 
 def arduino_communication_verification():
