@@ -72,37 +72,296 @@ void sound(int number){
 
 void leds(){
   int count = 0;
+//GREEN MODE:
   if (green == true){
     verif = false;
+    int count = 0;
     set_color_led1(0, 255, 0);
     set_color_led2(0, 255, 0);
     set_color_led3(0, 255, 0);
-    delay(10000);
+    delay(500);
+    set_color_led1(0, 0, 0);
+    delay(250);
+    set_color_led2(0, 0, 0);
+    delay(250);
+    set_color_led3(0, 0, 0);
+    count= 5;
+    while(count > 0 ) 
+    {
+      delay(500);
+      set_color_led1(0, 255, 0);
+      set_color_led2(0, 255, 0);
+      set_color_led3(0, 255, 0);
+      delay(500);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      count = count -1;  
+    }
+    count= 10;
+    while(count > 0 ) 
+    {
+      delay(250);
+      set_color_led1(0, 255, 0);
+      set_color_led2(0, 255, 0);
+      set_color_led3(0, 255, 0);
+      delay(250);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      count = count -1;  
+    }
+    count= 15;
+    while(count > 0 ) 
+    {
+      delay(50);
+      set_color_led1(0, 255, 0);
+      set_color_led2(0, 255, 0);
+      set_color_led3(0, 255, 0);
+      delay(50);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      count = count -1;  
+    }
+    set_color_led1(0, 0, 0);
+    set_color_led2(0, 0, 0);
+    set_color_led3(0, 0, 0);
     green = false;
+
+//WARN MODE:
   }else if (warn == true){
     verif = false; 
-    set_color_led1(255, 0, 0);
+    sset_color_led1(255, 0, 0);
     set_color_led2(255, 0, 0);
     set_color_led3(255, 0, 0);
-    delay(10000);
+    delay(500);
+    set_color_led1(0, 0, 255);
+    set_color_led2(0, 0, 255);
+    set_color_led3(0, 0, 255);
+    delay(500);
+    set_color_led1(255, 255, 255);
+    set_color_led2(255, 255, 255);
+    set_color_led3(255, 255, 255);
+    delay(500);
+    set_color_led1(255, 255, 255);
+    set_color_led2(255, 255, 255);
+    set_color_led3(255, 255, 255);
+    delay(750);
+    set_color_led1(255, 255, 255);
+    set_color_led2(255, 255, 255);
+    set_color_led3(255, 255, 255);
+    delay(750);
+    count = 50;
+    while(count > 0 ) 
+    {
+      set_color_led1(255, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(255, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(255, 0, 0);
+      delay(100);
+
+      set_color_led1(255, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(255, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(255, 0, 0);
+      delay(100);
+
+      set_color_led1(255, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(255, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(255, 0, 0);
+
+
+      delay(100);
+      set_color_led1(0, 0, 255);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 255);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 255);
+      delay(100);
+
+      set_color_led1(0, 0, 255);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 255);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 255);
+      delay(100);
+
+      set_color_led1(0, 0, 255);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 255);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 255);
+      delay(100);
+
+
+      set_color_led1(255, 255, 255);
+      set_color_led2(255, 255, 255);
+      set_color_led3(255, 255, 255);
+      delay(300);
+      set_color_led1(255, 255, 255);
+      set_color_led2(255, 255, 255);
+      set_color_led3(255, 255, 255);
+      delay(300);
+      count = count -1;  
+    }
+    set_color_led1(255, 0, 0);
+    set_color_led2(0, 0, 255);
+    set_color_led3(255, 255, 255);
+    delay(500);
+    set_color_led1(0, 0, 0);
+    set_color_led2(0, 0, 0);
+    set_color_led3(0, 0, 0);
     warn = false;
   }else if (again_try == true){
     verif = false;
     set_color_led1(255, 0, 0);
-    set_color_led2(0, 255, 0);
-    set_color_led3(0, 0, 255);
-    delay(10000);
-    again_try = false;
-
-  }else if (verif == true){
+    set_color_led2(255, 0, 0);
+    set_color_led3(255, 0, 0);
+    delay(50);
     set_color_led1(255, 255, 255);
     set_color_led2(255, 255, 255);
     set_color_led3(255, 255, 255);
+    delay(50);
+    set_color_led1(255, 0, 0);
+    delay(50);
+    set_color_led2(255, 0, 0);
+    delay(50);
+    set_color_led3(255, 0, 0);
+    delay(50);
+    count = 10;
+    while(count > 0 ) 
+    {
+      delay(100);
+      set_color_led1(255, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(255, 255, 255);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
+      count = count -1;  
+    }
+    count = 10;
+    while(count > 0 ) 
+    {
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(255, 0, 0);
+      set_color_led3(0, 0, 0);
+      delay(100);
+      set_color_led1(0, 0, 0);
+      set_color_led2(255, 255, 255);
+      set_color_led3(0, 0, 0);
+      count = count -1;  
+    }
+    count = 10;
+    while(count > 0 ) 
+    {
+      delay(250);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(255, 0, 0);
+      delay(250);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(255, 255, 255);
+      count = count -1;  
+    }
+    set_color_led1(0, 0, 0);
+    set_color_led2(0, 0, 0);
+    set_color_led3(0, 0, 0);
+    again_try = false;
+
+  }else if (verif == true){
+      count = 50;
+    while(count > 0 ) 
+    {
+      set_color_led1(255, 0, 0);
+      set_color_led2(0, 255, 0);
+      set_color_led3(255, 255, 255);
+      delay(100);
+      set_color_led1(255, 255, 255);
+      set_color_led2(255, 0, 0);
+      set_color_led3(0, 255, 0);
+      delay(100);
+      set_color_led1(0, 255, 0);
+      set_color_led2(255, 255, 255);
+      set_color_led3(255, 0, 0);
+      delay(100);
+      set_color_led1(0, 255, 0);
+      set_color_led2(255, 0, 0);
+      set_color_led3(255, 255, 255);
+      delay(100);
+      set_color_led1(255, 255, 255);
+      set_color_led2(0, 255, 0);
+      set_color_led3(255, 0, 0);
+      delay(100);
+      set_color_led1(255, 0, 0);
+      set_color_led2(255, 255, 255);
+      set_color_led3(0, 255, 0);
+      delay(100);
+      count = count -1;  
+    }
+    set_color_led1(0, 0, 0);
+    set_color_led2(0, 0, 0);
+    set_color_led3(0, 0, 0);
+    verif = false;
   }else{
     if (while_true == true){
-      set_color_led1(0, 0, 255);
-      set_color_led2(0, 0, 255);
-      set_color_led3(0, 0, 255);
+      count = 20;
+      while(count > 0 ) 
+      {
+        set_color_led1(255, 255, 255);
+        set_color_led2(255, 255, 255);
+        set_color_led3(255, 255, 255);
+          delay(100);
+          set_color_led1(0, 0, 0);
+          set_color_led2(0, 0, 0);
+          set_color_led3(0, 0, 0);
+          delay(100);
+          count = count -1;
+      }
     }  
   }
 }
@@ -135,7 +394,7 @@ void verification_true(){
   if (verif == true){
     Serial.print("VERIFICATION_MODE Activated");
     sound(3);
-    for (servo_position = 0; servo_position <= 180; servo_position += 1) {  //va de a uno
+    for (servo_position = 0; servo_position <= 90; servo_position += 1) {  //va de a uno
     servo.write(servo_position);  
     delay(15);    
   }
@@ -147,7 +406,7 @@ void verification_false(){
   if (verif == false){
     Serial.print("VERIFICATION_MODE Deactivated");
     sound(1);
-    for (servo_position = 180; servo_position >= 0; servo_position -= 1) { //este tambien
+    for (servo_position = 90; servo_position >= 0; servo_position -= 1) { //este tambien
     servo.write(servo_position); 
     delay(15);
   }
@@ -183,41 +442,33 @@ void loop() {
     command.trim(); //trim for the spaces
 
     if (command == "VERIFICATION_MODE_TRUE") {
-        Serial.println("VERIFICATION_MODE_TRUE Activated");
         verification_true();
-        end_sound();
         leds();
+        end_sound();
         return;
     }
     if (command == "VERIFICATION_MODE_FALSE") {
-        Serial.println("VERIFICATION_MODE_FALSE Activated");
         verification_false();
-        end_sound();
         leds();
+        end_sound();
         return;
     }
-
     if (command == "PASS_MODE") {
-        Serial.println("PASS_MODE Activated");
         pass();
-        end_sound();
         leds();
+        end_sound();
         return;
     }
-
     if(command == "TRY_AGAIN_MODE"){
-        Serial.println("TRY_AGAIN_MODE Activated");
         try_again();
-        end_sound();
         leds();
+        end_sound();
         return;
     }
-
     if (command == "WARNING_MODE") {
-        Serial.println("WARNING_MODE Activated");
         warning();
-        end_sound();
         leds();
+        end_sound();
         return;
     }
   }

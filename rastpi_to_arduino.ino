@@ -77,20 +77,20 @@ void leds(){
     set_color_led1(0, 255, 0);
     set_color_led2(0, 255, 0);
     set_color_led3(0, 255, 0);
-    delay(3000);
+    delay(500);
     set_color_led1(0, 0, 0);
-    delay(500);
+    delay(250);
     set_color_led2(0, 0, 0);
-    delay(500);
+    delay(250);
     set_color_led3(0, 0, 0);
     count= 5;
     while(count > 0 ) 
     {
-      delay(1000);
+      delay(500);
       set_color_led1(0, 255, 0);
       set_color_led2(0, 255, 0);
       set_color_led3(0, 255, 0);
-      delay(1000);
+      delay(500);
       set_color_led1(0, 0, 0);
       set_color_led2(0, 0, 0);
       set_color_led3(0, 0, 0);
@@ -99,11 +99,11 @@ void leds(){
     count= 10;
     while(count > 0 ) 
     {
-      delay(500);
+      delay(250);
       set_color_led1(0, 255, 0);
       set_color_led2(0, 255, 0);
       set_color_led3(0, 255, 0);
-      delay(500);
+      delay(250);
       set_color_led1(0, 0, 0);
       set_color_led2(0, 0, 0);
       set_color_led3(0, 0, 0);
@@ -112,11 +112,11 @@ void leds(){
     count= 15;
     while(count > 0 ) 
     {
-      delay(100);
+      delay(50);
       set_color_led1(0, 255, 0);
       set_color_led2(0, 255, 0);
       set_color_led3(0, 255, 0);
-      delay(100);
+      delay(50);
       set_color_led1(0, 0, 0);
       set_color_led2(0, 0, 0);
       set_color_led3(0, 0, 0);
@@ -254,18 +254,18 @@ void leds(){
     set_color_led1(255, 0, 0);
     set_color_led2(255, 0, 0);
     set_color_led3(255, 0, 0);
-    delay(100);
+    delay(50);
     set_color_led1(255, 255, 255);
     set_color_led2(255, 255, 255);
     set_color_led3(255, 255, 255);
-    delay(100);
+    delay(50);
     set_color_led1(255, 0, 0);
-    delay(100);
+    delay(50);
     set_color_led2(255, 0, 0);
-    delay(100);
+    delay(50);
     set_color_led3(255, 0, 0);
-    delay(100);
-    count = 15;
+    delay(50);
+    count = 10;
     while(count > 0 ) 
     {
       delay(100);
@@ -278,7 +278,7 @@ void leds(){
       set_color_led3(0, 0, 0);
       count = count -1;  
     }
-    count = 15;
+    count = 10;
     while(count > 0 ) 
     {
       delay(100);
@@ -291,14 +291,14 @@ void leds(){
       set_color_led3(0, 0, 0);
       count = count -1;  
     }
-    count = 15;
+    count = 10;
     while(count > 0 ) 
     {
-      delay(500);
+      delay(250);
       set_color_led1(0, 0, 0);
       set_color_led2(0, 0, 0);
       set_color_led3(255, 0, 0);
-      delay(500);
+      delay(250);
       set_color_led1(0, 0, 0);
       set_color_led2(0, 0, 0);
       set_color_led3(255, 255, 255);
