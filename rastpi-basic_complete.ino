@@ -186,12 +186,14 @@ void loop() {
         Serial.println("VERIFICATION_MODE_TRUE Activated");
         verification_true();
         end_sound();
+        leds();
         return;
     }
     if (command == "VERIFICATION_MODE_FALSE") {
         Serial.println("VERIFICATION_MODE_FALSE Activated");
         verification_false();
         end_sound();
+        leds();
         return;
     }
 
@@ -199,6 +201,7 @@ void loop() {
         Serial.println("PASS_MODE Activated");
         pass();
         end_sound();
+        leds();
         return;
     }
 
@@ -206,6 +209,7 @@ void loop() {
         Serial.println("TRY_AGAIN_MODE Activated");
         try_again();
         end_sound();
+        leds();
         return;
     }
 
@@ -213,9 +217,9 @@ void loop() {
         Serial.println("WARNING_MODE Activated");
         warning();
         end_sound();
+        leds();
         return;
     }
   }
-  leds();
   delay(100);
 }
