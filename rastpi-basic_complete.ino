@@ -179,46 +179,41 @@ void set_color_led3( int red_led, int green_led, int blue_led){
 void loop() {
 
   if (Serial.available() > 0) {
-    String command = Serial.readString(); 
+    String command = Serial.readStringUntil('\n'); 
     command.trim(); //trim for the spaces
 
-    switch (command.charAt(0)) { 
-      case 'VERIFICATION_MODE':
-        if (command == "VERIFICATION_MODE_TRUE") {
-            Serial.println("VERIFICATION_MODE_TRUE Activated");
-            verification_true();
-            end_sound();
-        }
-        else if (command == "VERIFICATION_MODE_FALSE") {
-            Serial.println("VERIFICATION_MODE_FALSE Activated");
-            verification_false();
-            end_sound();
-        }break;
+    if (command == "VERIFICATION_MODE_TRUE") {
+        Serial.println("VERIFICATION_MODE_TRUE Activated");
+        verification_true();
+        end_sound();
+        return;
+    }
+    if (command == "VERIFICATION_MODE_FALSE") {
+        Serial.println("VERIFICATION_MODE_FALSE Activated");
+        verification_false();
+        end_sound();
+        return;
+    }
 
-      case 'PASS_MODE':
-        if (command == "PASS_MODE") {
-            Serial.println("PASS_MODE Activated");
-            pass();
-            end_sound();
-        }break;
+    if (command == "PASS_MODE") {
+        Serial.println("PASS_MODE Activated");
+        pass();
+        end_sound();
+        return;
+    }
 
-      case 'TRY_AGAIN_MODE':  
-        if(command == "TRY_AGAIN_MODE"){
-            Serial.println("TRY_AGAIN_MODE Activated");
-            try_again();
-            end_sound();
-        }break;
+    if(command == "TRY_AGAIN_MODE"){
+        Serial.println("TRY_AGAIN_MODE Activated");
+        try_again();
+        end_sound();
+        return;
+    }
 
-      case 'WARNING_MODE':
-        if (command == "WARNING_MODE") {
-            Serial.println("WARNING_MODE Activated");
-            warning();
-            end_sound();
-        }break;
-
-    default:
-      while_true = true;
-      break;
+    if (command == "WARNING_MODE") {
+        Serial.println("WARNING_MODE Activated");
+        warning();
+        end_sound();
+        return;
     }
   }
   leds();
