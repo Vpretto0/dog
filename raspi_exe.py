@@ -45,6 +45,7 @@ def while_running(verification_id, people_id):
             
             if people_id == None:
                 print("This is your last chance, try again")
+                arduino_communication_tryagain()
                 verification_id2 = input()
                 c.execute("SELECT id FROM people WHERE id = %s", (verification_id2,))
                 people_id = c.fetchone()

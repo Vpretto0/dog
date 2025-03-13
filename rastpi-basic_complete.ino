@@ -132,7 +132,7 @@ void leds(){
 //WARN MODE:
   }else if (warn == true){
     verif = false; 
-    sset_color_led1(255, 0, 0);
+    set_color_led1(255, 0, 0);
     set_color_led2(255, 0, 0);
     set_color_led3(255, 0, 0);
     delay(500);
@@ -152,7 +152,7 @@ void leds(){
     set_color_led2(255, 255, 255);
     set_color_led3(255, 255, 255);
     delay(750);
-    count = 50;
+    count = 25;
     while(count > 0 ) 
     {
       set_color_led1(255, 0, 0);
@@ -238,6 +238,10 @@ void leds(){
       set_color_led1(255, 255, 255);
       set_color_led2(255, 255, 255);
       set_color_led3(255, 255, 255);
+      delay(300);
+      set_color_led1(0, 0, 0);
+      set_color_led2(0, 0, 0);
+      set_color_led3(0, 0, 0);
       delay(300);
       set_color_led1(255, 255, 255);
       set_color_led2(255, 255, 255);
@@ -269,7 +273,7 @@ void leds(){
     delay(50);
     set_color_led3(255, 0, 0);
     delay(50);
-    count = 10;
+    count = 5;
     while(count > 0 ) 
     {
       delay(100);
@@ -282,7 +286,7 @@ void leds(){
       set_color_led3(0, 0, 0);
       count = count -1;  
     }
-    count = 10;
+    count = 5;
     while(count > 0 ) 
     {
       delay(100);
@@ -295,7 +299,7 @@ void leds(){
       set_color_led3(0, 0, 0);
       count = count -1;  
     }
-    count = 10;
+    count = 5;
     while(count > 0 ) 
     {
       delay(250);
@@ -355,11 +359,11 @@ void leds(){
         set_color_led1(255, 255, 255);
         set_color_led2(255, 255, 255);
         set_color_led3(255, 255, 255);
-          delay(100);
+          delay(50);
           set_color_led1(0, 0, 0);
           set_color_led2(0, 0, 0);
           set_color_led3(0, 0, 0);
-          delay(100);
+          delay(50);
           count = count -1;
       }
     }  
@@ -370,21 +374,21 @@ void leds(){
 void pass(){
   while_true = false;
   green = true;
-  Serial.print("PASS_MODE Started");
+  Serial.println("PASS_MODE Started");
   sound(2);
 }
 
 void warning(){
   while_true = false;
   warn = true;
-  Serial.print("WARNING_MODE Started");
+  Serial.println("WARNING_MODE Started");
   sound(4);
 }
 
 void try_again(){
   while_true = false;
   again_try = true;
-  Serial.print("TRY_AGAIN_MODE Started");
+  Serial.println("TRY_AGAIN_MODE Started");
   sound(3);
 }
 
@@ -392,7 +396,7 @@ void verification_true(){
   while_true = false;
   verif = true;
   if (verif == true){
-    Serial.print("VERIFICATION_MODE Activated");
+    Serial.println("VERIFICATION_MODE Activated");
     sound(3);
     for (servo_position = 0; servo_position <= 90; servo_position += 1) {  //va de a uno
     servo.write(servo_position);  
@@ -404,7 +408,7 @@ void verification_false(){
   while_true = false;
   verif = false;
   if (verif == false){
-    Serial.print("VERIFICATION_MODE Deactivated");
+    Serial.println("VERIFICATION_MODE Deactivated");
     sound(1);
     for (servo_position = 90; servo_position >= 0; servo_position -= 1) { //este tambien
     servo.write(servo_position); 
@@ -440,35 +444,40 @@ void loop() {
   if (Serial.available() > 0) {
     String command = Serial.readStringUntil('\n'); 
     command.trim(); //trim for the spaces
-
-    if (command == "VERIFICATION_MODE_TRUE") {
-        verification_true();
+    if (command == "VERIFICATION_MODE_TRUE" || command == "VERIFICATION_MODE_FALSE" || command == "PASS_MODE" || command == "TRY_AGAIN_MODE" || command == "WARNING_MODE"){
+        if (command == "VERIFICATION_MODE_TRUE") {
+            verification_true();
+            leds();
+            end_sound();
+            return;
+        }
+        if (command == "VERIFICATION_MODE_FALSE") {
+            verification_false();
+            leds();
+            end_sound();
+            return;
+        }
+        if (command == "PASS_MODE") {
+            pass();
+            leds();
+            end_sound();
+            return;
+        }
+        if(command == "TRY_AGAIN_MODE"){
+            try_again();
+            leds();
+            end_sound();
+            return;
+        }
+        if (command == "WARNING_MODE") {
+            warning();
+            leds();
+            end_sound();
+            return;
+        }
+    }else{
+        while_true = true;
         leds();
-        end_sound();
-        return;
-    }
-    if (command == "VERIFICATION_MODE_FALSE") {
-        verification_false();
-        leds();
-        end_sound();
-        return;
-    }
-    if (command == "PASS_MODE") {
-        pass();
-        leds();
-        end_sound();
-        return;
-    }
-    if(command == "TRY_AGAIN_MODE"){
-        try_again();
-        leds();
-        end_sound();
-        return;
-    }
-    if (command == "WARNING_MODE") {
-        warning();
-        leds();
-        end_sound();
         return;
     }
   }
