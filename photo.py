@@ -18,8 +18,7 @@ class photo_class:
         root.overrideredirect(True)
         style = ttk.Style()
         style.theme_use('clam')
-        
-        root.configure(bg='#f1f1f1')
+       
         self.root = root 
         self.id_vl = id_vl
         titlespace = " "

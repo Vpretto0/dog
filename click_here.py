@@ -143,5 +143,3 @@ if __name__ == "__main__":
     application = print_class(root)
     application.edit_canvas(id_vl_ii, printing_class_ii, id_print_ii, name_print_ii, lastn_print_ii)
     root.mainloop()
-
-
