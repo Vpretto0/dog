@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
 
+
 class law_and_order:
     
     def __init__(self, root):
@@ -313,6 +314,8 @@ class law_and_order:
         self.people_records.pack(fill =BOTH, expand =1)
         self.people_records.bind("<ButtonRelease-1>", traineeinfo)
         DisplayData()
+        
+        
         #___________________________________________________BUTTONS____________________________________________________#
         self.btnAddNew = Button(RightFrame1a, text = "Add Data", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray',
             padx =15, pady=2, width =8, height =2,command =addData, bd =4). grid(row =0, column =0, padx =0)
@@ -332,7 +335,7 @@ class law_and_order:
         self.btnAddNew = Button(RightFrame1a, text = "Reset", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray',
             padx =15, pady=2, width =8, height =2, command =Reset,  bd =4). grid(row =5, column =0, padx =0)
         
-        self.btnAddNew = Button(RightFrame1a, text = "BACK", font =('courier', 14, 'bold'), fg = "red", bg = '#212121', activebackground='gray',
+        self.btnAddNew = Button(RightFrame1a, text = "EXIT", font =('courier', 14, 'bold'), fg = "red", bg = '#212121', activebackground='gray',
             padx =15, pady=2, width =8, height =2, command =iExit, bd =4). grid(row =6, column =0, padx =0)
 
         

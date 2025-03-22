@@ -1,0 +1,1 @@
+#Archivo para ver las camaras del robot (deberian ser 5)

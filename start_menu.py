@@ -3,6 +3,7 @@ from tkinter import *
 import tkinter.messagebox
 
 import law_and_order
+import verification_tracking
 
 from PIL import Image, ImageTk
 
@@ -23,6 +24,18 @@ class menu_start:
         
         root.withdraw()
         root.update_idletasks()#Hack
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         root.deiconify()
         
         screen_width = root.winfo_screenwidth()
@@ -48,7 +61,7 @@ class menu_start:
         ImageFrame = Frame(ContentFrame, bd =5, width = 445, height =300, relief = RIDGE, bg = 'black')
         ImageFrame.grid(row =0, column =2, padx=10)
         
-        SpaceContentFrame = Frame(ContentFrame, width =35, height =300, relief=RIDGE , bg = '#1f1f1f')
+        SpaceContentFrame = Frame(ContentFrame, width =35, height =293, relief=RIDGE , bg = '#1f1f1f')
         SpaceContentFrame.grid(row =0, column =1)
         
         ButtonFrame = Frame(ContentFrame, width =300, height =300, bg = '#1f1f1f')
@@ -67,7 +80,7 @@ class menu_start:
         DBFrame.grid(row =0, column =2)
    
         #__________________________________________________FRAMES___________________________________________________#
-        self.lbltitle = Label(TitleFrame, font=('Courier', 35, 'bold'), text="The MATRIX DOG", fg='white', bg='#1f1f1f')
+        self.lbltitle = Label(TitleFrame, font=('Courier', 40, 'bold'), text="The MATRIX DOG", fg='white', bg='#1f1f1f')
         self.lbltitle.grid(row=0, column=0)
         self.lblsubtitle = Label(SubtitleFrame, font=('Courier', 11, 'bold'), text="THE MOST SECURE APP IN THE WORLD SINCE YEAR 0000 0001", fg='white', bg='#1f1f1f')
         self.lblsubtitle.grid(row=0, column=0)
@@ -94,7 +107,7 @@ class menu_start:
         self.image_path= PhotoImage(file="C:/prctm_dog/images/info-24.png") 
         self.btnChange= Button(HelpFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, activebackground='#212121', cursor='hand2').grid(row=0, column=0, padx=25, pady=20)
         
-        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE,
+        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.verification_tracking_function,
             padx =0, pady=0, width =25, height =0, bd=5). grid(row =0, column =0, sticky='ew')
         
         self.btnAddNew = Button(DBFrame, text = "DATA BASE", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.law_and_order_function,
@@ -118,10 +131,15 @@ class menu_start:
     
     def law_and_order_function(self):
         law = Toplevel(self.root) 
-        law_and_order.law_and_order(law)
-        root.withdraw()
+        law.law_and_order = law_and_order.law_and_order(law)
+        self.root.withdraw()
         
         #y ahora que?
+        
+    def verification_tracking_function(self):
+        verif = Toplevel(self.root)
+        verif.verification_tracking = verification_tracking.db_verification(verif)
+        self.root.withdraw()
         
        
         
