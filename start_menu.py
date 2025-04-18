@@ -24,18 +24,7 @@ class menu_start:
         
         root.withdraw()
         root.update_idletasks()#Hack
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         root.deiconify()
         
         screen_width = root.winfo_screenwidth()

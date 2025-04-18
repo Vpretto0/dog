@@ -18,7 +18,7 @@ class tracking_robot:
         
         self.root.attributes("-topmost", True)
         self.root.title("ROBOT TRACKING")
-        self.root.geometry("800x750+25+15")
+        self.root.geometry("800x750+25+25")
         
         #____________________________________________________FRAMES___________________________________________________#
     
