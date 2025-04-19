@@ -13,7 +13,7 @@ from tkinter import ttk
 from tkinter import *
 import time
 
-positions = { 1 : 1, 2 : 2, 3 : 3, 4 : 4, 5 : 5} #pos : cam
+positions = { 1 : 1, 2 : 2, 3 : 3, 4 : 4, 5 : 5} #pos : cam      //DICCIONARIO
 class Camera_guy:
     
     def __init__(self, root):
@@ -32,6 +32,7 @@ class Camera_guy:
         self.root.geometry("800x750+25+25")
         
         self.main_pos = 1   #si no funciona poner abajo
+        self.init_cameras()
         
         #____________________________________________________FRAMES___________________________________________________#
     
@@ -74,14 +75,14 @@ class Camera_guy:
         self.FifthCameraButton.grid(row=0, column=0, padx=5, pady=5)
         
     #_____________________________________________________Defs____________________________________________________#
-    def init_cameras(self):
-        camera_1.Camera_1(55)
-        camera_2.Camera_2(10)
-        camera_3.Camera_3(10)
-        camera_4.Camera_4(10)
-        camera_5.Camera_5(10)
-        
     
+    def init_cameras(self):
+        self.camera1 = camera_1.Camera_1(55)
+        self.camera2 = camera_2.Camera_2(10)
+        self.camera3 = camera_3.Camera_3(10)
+        self.camera4 = camera_4.Camera_4(10)
+        self.camera5 = camera_5.Camera_5(10)
+        
     def change_pos(self, pos_changed):
         main_pos = 1
         sec_pos = pos_changed + 1
@@ -94,11 +95,11 @@ class Camera_guy:
         self.main_pos = positions[1]
         self.changed_main_pos = positions[pos_changed + 1]
         self.sizes()
-        
+        self.camera_distr()
         
     def sizes(self):
-        
         if self.main_pos == 1:
+            self.focus_camera = 1
             camera_1.Camera_1(55)
             
             camera_2.Camera_2(10)
@@ -106,6 +107,7 @@ class Camera_guy:
             camera_4.Camera_4(10)
             camera_5.Camera_5(10)
         elif self.main_pos == 2:
+            self.focus_camera = 2
             camera_2.Camera_2(55)
             
             camera_1.Camera_1(10)
@@ -113,22 +115,23 @@ class Camera_guy:
             camera_4.Camera_4(10)
             camera_5.Camera_5(10)
         elif self.main_pos == 3:
+            self.focus_camera = 3
             camera_3.Camera_3(55)
             
             camera_1.Camera_1(10)
             camera_2.Camera_2(10)
             camera_4.Camera_4(10)
-            camera_5.Camera_5(10)
-            
+            camera_5.Camera_5(10)  
         elif self.main_pos == 4:
+            self.focus_camera = 4
             camera_4.Camera_4(55)
             
             camera_1.Camera_1(10)
             camera_2.Camera_2(10)
             camera_3.Camera_3(10)
-            camera_5.Camera_5(10)
-            
+            camera_5.Camera_5(10)  
         elif self.main_pos == 5:
+            self.focus_camera = 5
             camera_5.Camera_5(55)
             
             camera_1.Camera_1(10)
@@ -136,8 +139,31 @@ class Camera_guy:
             camera_3.Camera_3(10)
             camera_4.Camera_4(10)
             
+    def camera_frames(self):   
+        self.camera_frames = {  #la funcion definitiva
+            1: self.ImageOnMainCamera,
+            2: self.SecondCameraPos,
+            3: self.ThirdCameraPos,
+            4: self.FourthCameraPos,
+            5: self.FifthCameraPos
+        }
             
-    
+    def camera_distr(self): #si no funciona con image, quemar la escuela    //(probar con PIL)
+        
+        for visual_pos, cam_id in positions.items():    #position & camera frames
+            frame = self.camera_frames[cam_id]  #de aqui accede a los diccionaarios
+            if visual_pos == 1:
+                frame.grid(row=0, column=1)
+            elif visual_pos == 2:
+                frame.grid(row=0, column=0)   
+            elif visual_pos == 3:
+                frame.grid(row=1, column=0)   
+            elif visual_pos == 4:
+                frame.grid(row=2, column=0)
+            elif visual_pos == 5:
+                frame.grid(row=3, column=0)
+                    
+        
     
 if __name__ == "__main__":
     root = tk.Tk()
