@@ -11,7 +11,7 @@ import camera_5
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-import time
+from PIL import Image, ImageTk
 
 positions = { 1 : 1, 2 : 2, 3 : 3, 4 : 4, 5 : 5} #pos : cam      //DICCIONARIO
 class Camera_guy:
@@ -73,6 +73,14 @@ class Camera_guy:
         
         self.FifthCameraButton = Button(self.FifthCameraPos, text="", bg='#1f1f1f', fg='white', command=lambda: self.change_pos(4))
         self.FifthCameraButton.grid(row=0, column=0, padx=5, pady=5)
+        #_____________________________________________________IMAGE____________________________________________________#
+        
+        self.imagealarm = Image.open("C:\prctm_dog\images\siren.gif")
+        self.imagealarm = self.imageFrame.resize((100, 100), Image.ANTIALIAS)
+        self.imagealarm = ImageTk.PhotoImage(self.imagealarm)
+        
+        ImageOnMainCamera = Label(self.ImageOnMainCamera, image=self.imagealarm)
+        ImageOnMainCamera.grid(row=0, column=0, padx=5, pady=5)
         
     #_____________________________________________________Defs____________________________________________________#
     

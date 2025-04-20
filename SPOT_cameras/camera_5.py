@@ -17,7 +17,7 @@ class Camera_5:
         server_ip = "192.168.80.3"  #si da problemas improvisar
         server_port = 6666
 
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(5)
         cap.set(3, 1280)  #width
         cap.set(4, 720)  #height 
 
