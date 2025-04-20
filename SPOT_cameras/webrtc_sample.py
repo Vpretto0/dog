@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.DEBUG, filename='webrtc.log', filemode='a+')
 STDERR = logging.getLogger('stderr')
 
 
-class InterceptStdErr:
+class InterceptStdErr:#?
     """Intercept all exceptions and print them to StdErr without interrupting."""
     _stderr = sys.stderr
 
@@ -37,10 +37,10 @@ class WebRTCCommands(Subcommands):
 
     def __init__(self, subparsers, command_dict):
         super(WebRTCCommands, self).__init__(subparsers, command_dict,
-                                             [WebRTCSaveCommand, WebRTCRecordCommand])
+                                             [WebRTCSaveCommand, WebRTCRecordCommand]) #no vamos a grabar
 
 
-class WebRTCSaveCommand(Command):
+class WebRTCSaveCommand(Command): @#tampoco
     """Save webrtc stream as a sequence of images"""
 
     NAME = 'save'
@@ -74,13 +74,13 @@ class WebRTCSaveCommand(Command):
 
         try:
             webrtc_thread.join()
-            print('Successfully saved webrtc images to local directory.')
+            print('Successfully saved webrtc images to local directory.') #no vamos a guardar imagenes
         except KeyboardInterrupt:
             shutdown_flag.set()
             webrtc_thread.join(timeout=3.0)
 
 
-class WebRTCRecordCommand(Command):
+class WebRTCRecordCommand(Command): #no vamos a grabar nada
     """Save webrtc stream as video or audio"""
 
     NAME = 'record'
@@ -116,71 +116,4 @@ class WebRTCRecordCommand(Command):
         loop.run_until_complete(record_webrtc(options, robot.user_token, recorder))
 
 
-# WebRTC must be in its own thread with its own event loop.
-async def record_webrtc(options, token, recorder):
-    config = RTCConfiguration(iceServers=[])
-    client = WebRTCClient(options.hostname, options.sdp_port, options.sdp_filename,
-                          options.cam_ssl_cert, token, config, media_recorder=recorder,
-                          recorder_type=options.track)
-    await client.start()
 
-    # wait for connection to be established before recording
-    while client.pc.iceConnectionState != 'completed':
-        await asyncio.sleep(0.1)
-
-    # start recording
-    await recorder.start()
-    try:
-        await asyncio.sleep(options.time)
-    except KeyboardInterrupt:
-        pass
-    finally:
-        # close everything
-        await client.pc.close()
-        await recorder.stop()
-
-
-# WebRTC must be in its own thread with its own event loop.
-def start_webrtc(shutdown_flag, options, token, process_func, recorder=None):
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-    config = RTCConfiguration(iceServers=[])
-    client = WebRTCClient(options.hostname, options.sdp_port, options.sdp_filename,
-                          options.cam_ssl_cert, token, config, media_recorder=recorder)
-
-    asyncio.gather(client.start(), process_func(client, options, shutdown_flag),
-                   monitor_shutdown(shutdown_flag, client))
-    loop.run_forever()
-
-
-# Frame processing occurs; otherwise it waits.
-async def process_frame(client, options, shutdown_flag):
-    count = 0
-    while asyncio.get_event_loop().is_running():
-        try:
-            frame = await client.video_frame_queue.get()
-            frame.to_image().save(f'{options.dst_prefix}-{count}.jpg')
-            count += 1
-            if count >= options.count:
-                break
-        except Exception as e:
-            print(e)
-        try:
-            # discard audio frames
-            while not client.audio_frame_queue.empty():
-                await client.audio_frame_queue.get()
-        except Exception as e:
-            print(e)
-
-    shutdown_flag.set()
-
-
-# Flag must be monitored in a different coroutine and sleep to allow frame
-# processing to occur.
-async def monitor_shutdown(shutdown_flag, client):
-    while not shutdown_flag.is_set():
-        await asyncio.sleep(1.0)
-
-    await client.pc.close()
-    asyncio.get_event_loop().stop()

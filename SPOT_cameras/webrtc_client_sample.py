@@ -27,21 +27,21 @@ class SpotCAMMediaStreamTrack(MediaStreamTrack):
 class WebRTCClient:
 
     def __init__(self, hostname, sdp_port, sdp_filename, cam_ssl_cert, token, rtc_config,
-                 media_recorder=None, recorder_type=None):
+                 media_recorder=None, recorder_type=None): #no se va a grabar nada
         self.pc = RTCPeerConnection(configuration=rtc_config)
 
         self.video_frame_queue = asyncio.Queue()
-        self.audio_frame_queue = asyncio.Queue()
+        self.audio_frame_queue = asyncio.Queue() #audio es muy complicado
 
         self.hostname = hostname
         self.token = token
         self.sdp_port = sdp_port
-        self.media_recorder = media_recorder
-        self.media_black_hole = None
-        self.recorder_type = recorder_type
-        self.sdp_filename = sdp_filename
-        self.cam_ssl_cert = cam_ssl_cert
-        self.sink_task = None
+        self.media_recorder = media_recorder    #no vamos a grabar
+        self.media_black_hole = None #deprecado (para mi)
+        self.recorder_type = recorder_type #tampoco
+        self.sdp_filename = sdp_filename #no vamos a guardar nada
+        self.cam_ssl_cert = cam_ssl_cert    #se ve importante
+        self.sink_task = None   #si
 
     def get_bearer_token(self, mock=False):
         if mock:
@@ -101,12 +101,12 @@ class WebRTCClient:
         def _on_track(track):
             print(f'Received track: {track.kind}')
 
-            if self.media_recorder:
+            if self.media_recorder: #no vamos a grabar
                 if track.kind == self.recorder_type:
                     self.media_recorder.addTrack(track)
                 else:
                     # We only care about the track we are recording.
-                    self.media_black_hole = MediaBlackhole()
+                    self.media_black_hole = MediaBlackhole()    #ya elimiamos esto, asi que no se si es necesario
                     self.media_black_hole.addTrack(track)
                     loop = asyncio.get_event_loop()
                     self.sink_task = loop.create_task(self.media_black_hole.start())
@@ -116,7 +116,7 @@ class WebRTCClient:
                     video_track.kind = 'video'
                     self.pc.addTrack(video_track)
 
-                if track.kind == 'audio':
+                if track.kind == 'audio':   #no audio
                     self.media_recorder = MediaBlackhole()
                     self.media_recorder.addTrack(track)
                     loop = asyncio.get_event_loop()
