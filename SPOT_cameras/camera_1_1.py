@@ -16,7 +16,8 @@ from bosdyn.client.spot_cam.media_log import MediaLogClient
 import bosdyn.client.util
 from bosdyn.client.directory_registration import DirectoryRegistrationClient, DirectoryRegistrationKeepAlive
 from bosdyn.client.data_acquisition_plugin_service import DataAcquisitionPluginService
-from bosdyn.client.util import setup_logging
+from bosdyn.client.auth import AuthClient
+
 
 DEFAULT_WEB_REQUEST_TIMEOUT = 10.0
     
@@ -205,3 +206,15 @@ if __name__ == "__main__":
         count=50,
         dst_prefix='frame'
     )
+    shutdown_flag = threading.Event()
+    # sdk = bosdyn.client.create_standard_sdk('WebRTCClient')
+    # robot = sdk.create_robot(options.hostname)
+    
+    # guid, secret = get_guid_and_secret(options)
+    # robot.authenticate(guid, secret)
+    
+    # auth_client = robot.ensure_client(AuthClient.default_service_name)
+    # token = auth_client.get_auth_token().token
+    ##Descomentar como intento de hacer que funcione (por problemas con el token)
+    
+    start_webrtc(shutdown_flag, options)    #Token
