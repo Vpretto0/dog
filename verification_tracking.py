@@ -6,7 +6,6 @@ from tkinter import ttk, messagebox
 import db_identity_verification
 from robot_tracking import tracking_robot
 
-
 class db_verification:
     
     def __init__(self, root):
@@ -99,8 +98,7 @@ class db_verification:
         def robot_trk():
             tracking_cam = Toplevel(self.root) 
             self.trk = tracking_robot(tracking_cam)
-
-
+        robot_trk()
         #______________________________________________VERIFICATION FRAME______________________________________________#
         
         scroll_y = Scrollbar(MainFrame, orient = VERTICAL, bg='#1f1f1f')
