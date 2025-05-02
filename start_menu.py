@@ -3,7 +3,7 @@ from tkinter import *
 import tkinter.messagebox
 
 import law_and_order
-import verification_tracking
+#import verification_tracking
 
 from PIL import Image, ImageTk
 
@@ -126,9 +126,10 @@ class menu_start:
         #y ahora que?
         
     def verification_tracking_function(self):
-        verif = Toplevel(self.root)
-        verif.verification_tracking = verification_tracking.db_verification(verif)
-        self.root.withdraw()
+        pass
+        # verif = Toplevel(self.root)
+        # verif.verification_tracking = verification_tracking.db_verification(verif)
+        # self.root.withdraw()
         
        
         

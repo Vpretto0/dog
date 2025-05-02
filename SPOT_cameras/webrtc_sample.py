@@ -40,7 +40,7 @@ class WebRTCCommands(Subcommands):
                                              [WebRTCSaveCommand, WebRTCRecordCommand]) #no vamos a grabar
 
 
-class WebRTCSaveCommand(Command): @#tampoco
+class WebRTCSaveCommand(Command): #tampoco
     """Save webrtc stream as a sequence of images"""
 
     NAME = 'save'

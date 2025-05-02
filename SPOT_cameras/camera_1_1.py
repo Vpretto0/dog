@@ -7,6 +7,9 @@ import sys
 import logging
 import numpy as np
 import argparse
+import os
+import urllib3
+import json
 from aiortc import MediaStreamTrack, RTCPeerConnection, RTCSessionDescription, RTCConfiguration
 from aiortc.contrib.media import MediaRecorder
 from bosdyn.client.command_line import Command, Subcommands
@@ -21,19 +24,20 @@ from bosdyn.client.auth import AuthClient
 
 DEFAULT_WEB_REQUEST_TIMEOUT = 10.0
     
-logging.basicConfig(level=logging.DEBUG, filename='webrtc.log', filemode='a+')
-STDERR = logging.getLogger('stderr')
+# logging.basicConfig(level=logging.DEBUG, filename='webrtc.log', filemode='a+')
+# STDERR = logging.getLogger('stderr')
 
+#experimento, para no tener que iniciar sesion
 
-class InterceptStdErr:#?
-    """Intercept all exceptions and print them to StdErr without interrupting."""
-    _stderr = sys.stderr
+# class InterceptStdErr:#?
+#     """Intercept all exceptions and print them to StdErr without interrupting."""
+#     _stderr = sys.stderr
 
-    def __init__(self):
-        pass
+#     def __init__(self):
+#         pass
 
-    def write(self, data):
-        STDERR.error(data)
+#     def write(self, data):
+#         STDERR.error(data)
 class SpotCAMMediaStreamTrack(MediaStreamTrack):
     def __init__(self, track, queue):
         super().__init__()
@@ -111,12 +115,12 @@ class WebRTCClient:
                 self.send_sdp_answer_to_spot_cam(token, offer_id,
                                                 self.pc.localDescription.sdp.encode())
                 
-        # @self.pc.on('track')
-        # def on_track(track):
-        #     print(f'Received track: {track.kind}')
-        #     #elimine medio parrafo aqui, si hay error verificar aqui
-        #     if track.kind == 'video':
-        #         video_track = SpotCAMMediaStreamTrack(track, self.video_frame_queue)   
+        @self.pc.on('track')
+        def on_track(track):
+            print(f'Received track: {track.kind}')
+            #elimine medio parrafo aqui, si hay error verificar aqui
+            if track.kind == 'video':
+                video_track = SpotCAMMediaStreamTrack(track, self.video_frame_queue)   
         #         # video_track.kind = 'video'
         #         # self.pc.addTrack(video_track)     ????????????????????????????????????????????????? #revisar
 
@@ -173,7 +177,7 @@ async def monitor_shutdown(shutdown_flag, client):
     
 
 # WebRTC must be in its own thread with its own event loop.
-def start_webrtc(shutdown_flag, options, token, process_func, recorder=None):
+def start_webrtc(shutdown_flag, options, token):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
@@ -181,9 +185,20 @@ def start_webrtc(shutdown_flag, options, token, process_func, recorder=None):
     client = WebRTCClient(options.hostname, options.sdp_port, options.sdp_filename,
                         options.cam_ssl_cert, token, config)
 
-    asyncio.gather(client.start(), process_func(client, options, shutdown_flag),
+    asyncio.gather(client.start(),      #process_func(client, options, token, shutdown_flag)
                 monitor_shutdown(shutdown_flag, client))
+    token = urllib3.PoolManager(num_pools=100)
     loop.run_forever()
+    
+def get_guid_and_secret(options):
+    payload_creds_path = '/opt/bosdyn/credentials.json'
+    if not os.path.exists(payload_creds_path):
+        raise FileNotFoundError(f"Credentials file not found at {payload_creds_path}.")
+    with open(payload_creds_path, 'r') as f:
+        creds = json.load(f)
+        
+    return creds['guid'], creds['secret']
+    
 
 class Options:
     def __init__ (self, hostname, sdp_port, sdp_filename, cam_ssl_cert, time, count, dst_prefix):
@@ -207,14 +222,19 @@ if __name__ == "__main__":
         dst_prefix='frame'
     )
     shutdown_flag = threading.Event()
-    # sdk = bosdyn.client.create_standard_sdk('WebRTCClient')
-    # robot = sdk.create_robot(options.hostname)
-    
-    # guid, secret = get_guid_and_secret(options)
-    # robot.authenticate(guid, secret)
+    sdk = bosdyn.client.create_standard_sdk('WebRTCClient')
+    robot = sdk.create_robot(options.hostname)
+    # # guid, secret = get_guid_and_secret(options)
+    # try:
+    #     robot.authenticate('admin','zmnta28fvcym')
+    # except:
+    #     robot.authenticate('admin','zmnta28fvcym1')
     
     # auth_client = robot.ensure_client(AuthClient.default_service_name)
-    # token = auth_client.get_auth_token().token
-    ##Descomentar como intento de hacer que funcione (por problemas con el token)
+    # token = auth_client.auth_with_token().token
+    # ##comentar como intento de hacer que funcione (por problemas con el token)
     
-    start_webrtc(shutdown_flag, options)    #Token
+    start_webrtc(shutdown_flag, options, process_frame)    #Token
+            #debe funcionar
+    # with keep_alive:
+    #     service_runner.run_until_interrupt()

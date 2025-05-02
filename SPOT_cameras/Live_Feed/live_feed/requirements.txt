@@ -1,0 +1,10 @@
+-f ../../../prebuilt
+bosdyn-client >= 3.1
+# From get_image example
+numpy
+opencv-python
+scipy
+# From stitch_front_images example
+Pillow
+pygame
+pyopengl

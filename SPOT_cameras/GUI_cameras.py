@@ -1,8 +1,4 @@
 import camera_1
-import camera_2
-import camera_3
-import camera_4
-import camera_5
 #import cv2, socket y todo eso
 
 import tkinter as tk
@@ -89,10 +85,10 @@ class Camera_guy:
     def init_cameras(self):
         
         self.camera1 = camera_1.Camera_1(55)
-        self.camera2 = camera_2.Camera_2(10)
-        self.camera3 = camera_3.Camera_3(10)
-        self.camera4 = camera_4.Camera_4(10)
-        self.camera5 = camera_5.Camera_5(10)
+        # self.camera2 = camera_2.Camera_2(10)
+        # self.camera3 = camera_3.Camera_3(10)
+        # self.camera4 = camera_4.Camera_4(10)
+        # self.camera5 = camera_5.Camera_5(10)
         
     def change_pos(self, pos_changed):
         # main_pos = 1
