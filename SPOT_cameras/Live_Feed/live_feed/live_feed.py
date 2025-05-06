@@ -8,12 +8,9 @@
 
 import io
 import os
-import sys
 from contextlib import contextmanager
 from ctypes import *
-
 import numpy
-import OpenGL
 import pygame
 from OpenGL.GL import *
 from OpenGL.GL import GL_VERTEX_SHADER, shaders
@@ -21,7 +18,6 @@ from OpenGL.GLU import *
 from PIL import Image
 from pygame.locals import *
 
-import bosdyn.api
 import bosdyn.client.util
 from bosdyn.api import image_pb2
 from bosdyn.client.frame_helpers import BODY_FRAME_NAME, get_a_tform_b, get_vision_tform_body
@@ -345,8 +341,8 @@ def stitch(robot, options):
     """Stitch two front fisheye images together"""
     pygame.init()
 
-    display = (1080, 720)
-    pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL)
+    display = (800, 450)   #Deberia de cambiar el tamano 
+    pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.NOFRAME) #deberia quitar la barra superior
     clock = pygame.time.Clock()
 
     with open('shader_vert.glsl', 'r') as file:
@@ -383,8 +379,8 @@ def stitch(robot, options):
 
     while running:
 
-        display = (1080, 720)
-        pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE)
+        display = (1080, 720)    
+        pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE) 
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

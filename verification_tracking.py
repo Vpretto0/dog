@@ -95,10 +95,6 @@ class db_verification:
             self.people_records.tag_configure('invalid', background='#1c0f0f', foreground='red')
             self.people_records.tag_configure('FBI', background='#0f101c', foreground='blue')      
             
-        # def robot_trk():
-        #     tracking_cam = Toplevel(self.root) 
-        #     self.trk = tracking_robot(tracking_cam)
-        # robot_trk()
         #______________________________________________VERIFICATION FRAME______________________________________________#
         
         scroll_y = Scrollbar(MainFrame, orient = VERTICAL, bg='#1f1f1f')
