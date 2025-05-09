@@ -126,7 +126,7 @@ class barcode_class:
                 'write_text': False
             }
 
-            code128 = barcode.get_barcode_class('code128') # The Code128 is a barcode symbology.
+            code128 = barcode.get_barcode_class('code128') # Barcode symbology.
             barcode_instance = code128(alphanum_string, writer=ImageWriter())
 
             return barcode_instance.save("barcode", options=module)

@@ -1,4 +1,3 @@
-"""Archivo para ver las camaras del robot (deberian ser 5) y la rarita esa"""
 import subprocess
 import os
 import sys
@@ -11,6 +10,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk, messagebox
 import pygame
+from pygame import *
 
 user = "admin"
 pswrd = "zmnta28fvcym"
@@ -36,46 +36,52 @@ def start_with_the_password(init_cam, arg=None):
     return process  #no alvidar return
 
 class PygameEmbed:
-        def __init__(self, parent, user, pswrd, init_cam):
-            os.environ['SDL_WINDOWID'] = str(parent.winfo_id()) 
-            if sys.platform == "win32": #no deberia causar problemas
-                os.environ['SDL_VIDEODRIVER'] = 'windib'
-
+        def __init__(self, user, pswrd, init_cam):
+            
+            #parent.update_idletasks()
+            #parent.update()
+            #os.environ['SDL_WINDOWID'] = str(parent.winfo_id()) 
             pygame.init()
-            self.width = parent.winfo_width()
-            self.height = parent.winfo_height()
-            self.screen = pygame.display.set_mode((self.width, self.height))
+            
+            #self.width = parent.winfo_width()
+            #self.height = parent.winfo_height()
+            
+            self.screen = pygame.display.set_mode((800, 600), pygame.NOFRAME)
+            if sys.platform == "win32":
+                os.environ['SDL_VIDEODRIVER'] = 'windib'
+                hwnd = pygame.display.get_wm_info()['window']
+                ctypes.windll.user32.SetWindowPos(
+                    hwnd, -1, 0, 0, 0, 0,
+                    0x0001 | 0x0002  # SWP_NOSIZE | SWP_NOMOVE
+                )
             self.running = True
             self.username = user
             self.password = pswrd
             self.init_cam = init_cam
-            
-            screen = pygame.display.set_mode((800, 650))
-            hwnd = pygame.display.get_wm_info()['window']
-            ctypes.windll.user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002)  # SWP_NOSIZE | SWP_NOMOVE
         
         def run(self):
             
             clock = pygame.time.Clock()
-            font = pygame.font.SysFont(None, 28)
-            # while self.running:
-            #     for event in pygame.event.get():
-            #         if event.type == pygame.QUIT:
-            #             self.running = False
+            #font = pygame.font.SysFont(None, 28)
+            while self.running:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
                 # self.screen.fill((205, 160, 52))
                 # user_text = font.render(f"Usuario: {self.username}", True, (255, 255, 255))
                 # pass_text = font.render(f"Contraseña: {'*' * len(self.password)}", True, (255, 255, 255))
                 # script_text = font.render(f"Script: {self.script_name}", True, (255, 255, 255))
 
-                # self.screen.blit(user_text, (10, 10))     //Recordar cambiar esto pq lo quiero eliminar
+                # self.screen.blit(user_text, (10, 10)) 
                 # self.screen.blit(pass_text, (10, 40))
                 # self.screen.blit(script_text, (10, 70))
-            #     pygame.display.flip()   #improvisar en el futuro
-            #     clock.tick(30)  
-            # pygame.quit()
+                
+                pygame.display.flip()
+                clock.tick(30)  
+            pygame.quit()
             
-def py_start(parent, username, password):
-        pg = PygameEmbed(parent, init_cam, username, password)
+def py_start(parent, username, password, init_cam):
+        pg = PygameEmbed(parent, username, password, init_cam)
         thread = threading.Thread(target=pg.run, daemon=True)
         thread.start()
         return pg, thread   #return
@@ -84,7 +90,7 @@ def toplv_cam( root, username, password):
     
     toplv = tk.Toplevel(root)
     toplv.title("Cámara")
-    toplv.geometry("800x650+25+25")   #cambiar si no me gusta el tamano
+    toplv.geometry("800x850+25+25")   #cambiar si no me gusta el tamano
     frame = Frame(toplv, bd=5, relief=RIDGE, width=800, height=650)
     frame.grid()
     
@@ -98,34 +104,32 @@ def toplv_cam( root, username, password):
     GifFrame.grid(row=0, column=0)
     
     gifile= "C:/prctm_dog/images/siren.gif"
-    gif_image = tk.PhotoImage(file=gifile)
+    gif_image = PhotoImage(file=gifile)
     
-    gif_lbl = Label(GifFrame, bg='#1f1f1f')
+    gif_lbl = Label(GifFrame) 
     gif_lbl.grid()
-    try:
-        gif_image_temp = tk.PhotoImage(file=gifile, format="gif -index 0")
-        total_frames = 0
-        while True:
-            tk.PhotoImage(file=gifile, format=f"gif -index {total_frames}")
+    
+    total_frames = 0
+    gifimage_objects = []
+    while True:
+        try:
+            frame = PhotoImage(file=gifile, format=f"gif -index {total_frames}")
+            gifimage_objects.append(frame)
             total_frames += 1
-    except:
-        pass
-    gifimage_objects = [
-        tk.PhotoImage(file=gifile, format=f"gif -index {i}")
-        for i in range(total_frames)
-    ]
+        except:
+            break
         
     def animation(current_frame=0):
         image = gifimage_objects[current_frame]
         gif_lbl.configure(image=image)
         gif_lbl.image = image 
 
-        next_frame = (current_frame + 1) % total_frames
+        next_frame = (current_frame + 1) % total_frames #a %
         root.after(100, animation, next_frame)
     animation()
     toplv.update()
     
-    pg_embed, _ = py_start(frame, username, password)
+    pg_embed, _ = py_start(frame, username, password, init_cam=None)
     
     def on_close():
         pg_embed.running = False
@@ -135,7 +139,7 @@ def toplv_cam( root, username, password):
     toplv.protocol("WM_DELETE_WINDOW", on_close)
     time.sleep(0.3) 
     return toplv    #return
-
+    
 class tracking_robot:
     
     def __init__(self, root):
@@ -156,7 +160,6 @@ class tracking_robot:
         self.root.geometry("800x750+25+25")
         
         self.estop_process = None
-        
         
         #____________________________________________________TK(?)___________________________________________________#
         #1080
@@ -198,10 +201,8 @@ class tracking_robot:
         SwitchFrame = Frame(MainFrame, bd=5, width=290, height=150, relief=RIDGE, bg='#1f1f1f')
         SwitchFrame.grid(pady=20)
         
-        self.btn_mode = Button(MainFrame, text=self.mode, command=self.button_manual_auto, bg="#444", fg="white", width=15)
+        self.btn_mode = Button(SwitchFrame, text=self.mode, command=self.button_manual_auto, bg="red", fg="white", width=15)
         self.btn_mode.grid(pady=10)    
-        
-        
         
         #self.start(command, user, pswrd, arg=None)
         toplv_cam(self.root, user, pswrd)
@@ -219,8 +220,7 @@ class tracking_robot:
     def wasd_button(self):
         messagebox.showinfo("Manual Mode", "Controls: \nW = Forward\nS = Backward\nA = Left\nD - Right\nQ = Turn Left\nE = Turn Right")
         messagebox.showinfo("Manual Mode", "Commands: \nTAB = Quit\nT = Time-sync\nSPACE = Estop\nP = Power\nI = Take Image\nO = Video mode\nf = Stand\nr = Self-right\nv = Sit\nb = Battery-change\nESC = Stop\n1 = Return/Acquire Lease")
-        import SPOT_wasd as Wasd
-        Wasd.wasd(self.root)
+        self.start(init_wasd, user, pswrd)
     
     
     #VER COMO ADAPTAR EL TAMANO DEL ESTOP EN EL RAW

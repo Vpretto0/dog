@@ -21,7 +21,7 @@ class db_verification:
         
         self.root.attributes("-topmost", True)
         self.root.title("MATRIX DOG - ROBOT TRACKING VERIFICTION OF DB")
-        self.root.geometry("650x290+850+65")
+        self.root.geometry("650x290+850+105")
         
         #____________________________________________________FRAMES___________________________________________________#
         
@@ -92,8 +92,8 @@ class db_verification:
                 self.people_records.item(CAPTCHA, tags=('FBI',))
                 
             self.people_records.tag_configure('staff', background='#2e2e2e')
-            self.people_records.tag_configure('invalid', background='#1c0f0f', foreground='red')
-            self.people_records.tag_configure('FBI', background='#0f101c', foreground='blue')      
+            self.people_records.tag_configure('invalid', background='#1c0f0f', foreground='darkred')
+            self.people_records.tag_configure('FBI', background='#0f101c', foreground='darkblue')      
             
         #______________________________________________VERIFICATION FRAME______________________________________________#
         

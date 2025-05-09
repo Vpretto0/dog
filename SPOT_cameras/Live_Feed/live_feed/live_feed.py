@@ -341,7 +341,7 @@ def stitch(robot, options):
     """Stitch two front fisheye images together"""
     pygame.init()
 
-    display = (800, 450)   #Deberia de cambiar el tamano 
+    display = (720, 540)   #Deberia de cambiar el tamano 
     pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.NOFRAME) #deberia quitar la barra superior
     clock = pygame.time.Clock()
 
@@ -379,8 +379,8 @@ def stitch(robot, options):
 
     while running:
 
-        display = (1080, 720)    
-        pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.RESIZABLE) 
+        display = (620, 440)    
+        pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.NOFRAME) 
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -455,6 +455,8 @@ def main():
 
     return True
 
+def auto_log():
+    pass
 
 if __name__ == '__main__':
     main()

@@ -111,11 +111,11 @@ class menu_start:
             return
         
     def options(self):
-        self.iExit = tkinter.messagebox.showinfo("MATRIX DOG", "No options for you")
+        self.iExit = tkinter.messagebox.showinfo("MATRIX DOG", "No options, \nbut I want some money")
         return
         
     def language(self):
-        self.iExit = tkinter.messagebox.showinfo("MATRIX DOG", "Why you do want to change the Language?\n\nYou speak English")
+        self.iExit = tkinter.messagebox.showinfo("MATRIX DOG", "Why you do want to change the Language?\n\nYou can speak English")
         return
     
     def law_and_order_function(self):
