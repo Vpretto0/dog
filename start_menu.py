@@ -11,8 +11,6 @@ from PIL import Image, ImageTk
 
 #CORREGIR
 init_cam = "python C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/live_feed.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
-user = "admin"
-pswrd = "zmnta28fvcym"
 class menu_start:
 
     def __init__(self, root):
@@ -101,7 +99,7 @@ class menu_start:
         self.image_path= PhotoImage(file="C:/prctm_dog/images/info-24.png") 
         self.btnChange= Button(HelpFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, activebackground='#212121', cursor='hand2').grid(row=0, column=0, padx=25, pady=20)
         
-        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.main_tracking,
+        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.verification_tracking_function,
             padx =0, pady=0, width =25, height =0, bd=5). grid(row =0, column =0, sticky='ew')
         
         self.btnAddNew = Button(DBFrame, text = "DATA BASE", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.law_and_order_function,
@@ -134,8 +132,6 @@ class menu_start:
             self.root.destroy()
             os.system('python C:\prctm_dog\law_and_order.py')
         
-        #y ahora que?
-        
     def verification_tracking_function(self):
         self.root.withdraw()
         try:
@@ -146,36 +142,6 @@ class menu_start:
             self.root.after(1000)
             self.root.destroy()
             os.system('python C:\prctm_dog\main_tracking.py')
-        
-    def start_with_the_password(self, init_cam, user, pswrd):
-        args = init_cam.split()
-        process = subprocess.Popen(     #POPEN
-            args,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
-        time.sleep(1)
-        process.stdin.write(user + "\n")
-        process.stdin.write(pswrd + "\n")
-        process.stdin.flush()
-        return process  #no alvidar return
-
-
-    def start(self, command, user, pswrd):
-            try:
-                self.start_with_the_password(command, user, pswrd)
-            except Exception as e:
-                print(f"Error desde MI script {command}: {e}")
-                return None
-            
-    def main_tracking(self):
-        self.start(init_cam, user, pswrd)
-        
-        # time.sleep(1)
-        # self.verification_tracking_function()
-       
         
 if __name__=='__main__':
     root = Tk()

@@ -11,7 +11,8 @@ from SPOT_gps.gps_map import MapApp
 
 user = "admin"
 pswrd = "zmnta28fvcym"
-init_cam = "python SPOT_cameras/live_feed_controls.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
+command = "python live_feed.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
+directory = "C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/"
 init_map = "python SPOT_gps/gps_listener.py 192.168.80.3"
 init_wasd = "python SPOT_wasd/wasd.py 192.168.80.3"
 init_estop = "python SPOT_estop/estop.py 192.168.80.3"
@@ -51,9 +52,25 @@ class tracking_main:
                 map_window = Toplevel(self.root) 
                 self.mp = MapApp(map_window)
         MAP_MAP()
+        
+        def open_terminal(venv, command, directory=None):
+            cmd = 'start powershell -NoExit -Command "'
+            if directory:
+                cmd += f'cd \'{directory}\'; '
+            if venv:
+                cmd += f'& \'{venv}\\Scripts\\activate\'; '
+                
+            if command:
+                cmd += command
+            cmd += '"'
+            subprocess.Popen(cmd, shell=True)
+
+        #open_terminal(venv="C:/prctm_dog/.venv", command="python C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/live_feed.py 172.20.10.1 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100")
+        #open_terminal(directory=<directory>, command=<script>)
+        
         #____________________________________________________FRAMES___________________________________________________#
 
-        MainFrame = Frame(self.root, width=1450, height=700, bg='green')        #ya
+        MainFrame = Frame(self.root, width=1450, height=700, bg='green')  
         MainFrame.grid()
         
         LeftFrame = Frame(MainFrame, width=770, height=690, bg='green')
@@ -81,7 +98,7 @@ class tracking_main:
     #Left Stuff=
         GifFrame = Frame(LeftFrame, width=765, height=180, bg='green')
         GifFrame.grid(row=0, column=0)
-        CameraFrame = Frame(LeftFrame, width=765, height=420, bg='darkred')
+        CameraFrame = Frame(LeftFrame, width=765, height=420, bg='green')
         CameraFrame.grid(row=1, column=0)
         downLStuffFrame = Frame(LeftFrame, width=765, height=90, bg='green')
         downLStuffFrame.grid(row=2, column=0)
@@ -149,6 +166,10 @@ class tracking_main:
             self.SwitchButton.config(text=self.mode)
             print("Automatic Mode")
             
+    def manual_mode(self):
+        messagebox.showinfo("Manual Mode", "Controls: \nW = Forward\nS = Backward\nA = Left\nD - Right\nQ = Turn Left\nE = Turn Right                        ") 
+        messagebox.showinfo("Manual Mode", "Commands: \nTAB = Quit\nT = Time-sync\nSPACE = Estop\nP = Power\nI = Take Image\nO = Video mode\nf = Stand\nr = Self-right\nv = Sit\nb = Battery-change\nESC = Stop\n1 = Return/Acquire Lease                  ")
+            
 #Back Button=
     def back(self):
         self.root.withdraw()
@@ -184,16 +205,6 @@ class tracking_main:
 #                 print(f"Error al iniciar MI script {command}: {e}")
 #                 return None
             
-# # WASD=        
-#     def wasd_button(self):
-#         messagebox.showinfo("Manual Mode", "Controls: \nW = Forward\nS = Backward\nA = Left\nD - Right\nQ = Turn Left\nE = Turn Right                           ")
-#         messagebox.showinfo("Manual Mode", "Commands: \nTAB = Quit\nT = Time-sync\nSPACE = Estop\nP = Power\nI = Take Image\nO = Video mode\nf = Stand\nr = Self-right\nv = Sit\nb = Battery-change\nESC = Stop\n1 = Return/Acquire Lease                   ")
-#         self.start(init_wasd, user, pswrd)
-            
-
-#     def manual_mode(self):
-#         self.wasd_button()
-#         time.sleep(0.5)
         
 # #Screenshot Button=
 #     def save_as_png(self):
@@ -207,8 +218,6 @@ class tracking_main:
         
 #         label.after(2000, label.destroy)
 #         #RECORDAR SUMER LOS TIEMPOS
-    
-    
 
             
 if __name__ == "__main__":

@@ -595,8 +595,8 @@ def _setup_logging(verbose):
     if verbose:
         stream_level = logging.DEBUG
     else:
-        stream_level = logging.INFO
-
+        stream_level = logging.INFO   
+            
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(stream_level)
     stream_handler.setFormatter(log_formatter)
@@ -622,7 +622,9 @@ def main():
     robot = sdk.create_robot(options.hostname)
     try:
         bosdyn.client.util.authenticate(robot)
+        LOGGER.info("syncing")
         robot.start_time_sync(options.time_sync_interval_sec)
+        LOGGER.info("synced")
     except RpcError as err:
         LOGGER.error('Failed to communicate with robot: %s', err)
         return False

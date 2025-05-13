@@ -144,15 +144,13 @@ class law_and_order:
                             
                         finally:
                             action.set(False)
-                            
-                            tkinter.messagebox.showerror("Error with boolean", "Error accessing the boolean in barcode or photo")
                         tkinter.messagebox.showinfo("THE LAW AND ORDER", "Record Entered Successfully")
                         
                         #arreglado
                         Reset()
                     
                 else:
-                    tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
+                    pass
                     #super dificil de arreglar
             
         def DisplayData():
@@ -175,7 +173,7 @@ class law_and_order:
                         print("No data")
                             
                 else:
-                    tkinter.messagebox.showerror("THE LAW AND ORDER", "Error Entering to database")
+                    pass
                     #super dificil de arreglar
                 db_identity.close_connection(conn, c)
                     

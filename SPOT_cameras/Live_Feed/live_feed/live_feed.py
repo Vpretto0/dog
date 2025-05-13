@@ -345,10 +345,7 @@ def stitch(robot, options):
 
     """Stitch two front fisheye images together"""
     
-    x= -1000
-    y= 0
-    
-    os.environ['SDL_VIDEO_WINDOW_POS'] = " %d , %d " % (10, y)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = "140,250"
     pygame.init()
     
     # if sys.platform == "win32":
