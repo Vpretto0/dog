@@ -20,7 +20,7 @@ from PIL import Image, ImageEnhance
 
 import bosdyn.api.basic_command_pb2 as basic_command_pb2
 import bosdyn.api.power_pb2 as PowerServiceProto
-# import bosdyn.api.robot_command_pb2 as robot_command_pb2
+import bosdyn.api.robot_command_pb2 as robot_command_pb2
 import bosdyn.api.robot_state_pb2 as robot_state_proto
 import bosdyn.api.spot.robot_command_pb2 as spot_command_pb2
 import bosdyn.client.util

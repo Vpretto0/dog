@@ -41,8 +41,7 @@ def create_table(connn, cc):
                 `info` int NOT NULL,
                 `id` int NOT NULL,
                 FOREIGN KEY (id) REFERENCES people(id))
-            )
-        ''')#copy
+            ''')#copy
         #constraint deleted: ,
                 #CONSTRAINT check_class CHECK (`class` IN ('student', 'staff', 'guest')
         

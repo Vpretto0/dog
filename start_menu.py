@@ -1,7 +1,9 @@
 from tkinter import ttk
 from tkinter import *
 import tkinter.messagebox
-
+import os
+import time
+import subprocess
 import law_and_order
 #import verification_tracking
 
@@ -96,7 +98,7 @@ class menu_start:
         self.image_path= PhotoImage(file="C:/prctm_dog/images/info-24.png") 
         self.btnChange= Button(HelpFrame,text= "click", image=self.image_path, bg= '#1f1f1f', fg= 'green', borderwidth=0, activebackground='#212121', cursor='hand2').grid(row=0, column=0, padx=25, pady=20)
         
-        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.verification_tracking_function,
+        self.btnAddNew = Button(TrackingFrame, text = "ROBOT TRACKING", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.main_tracking,
             padx =0, pady=0, width =25, height =0, bd=5). grid(row =0, column =0, sticky='ew')
         
         self.btnAddNew = Button(DBFrame, text = "DATA BASE", font =('courier', 14, 'bold'), fg='white', bg = '#212121', activebackground='gray', relief=RIDGE, command=self.law_and_order_function,
@@ -119,18 +121,38 @@ class menu_start:
         return
     
     def law_and_order_function(self):
-        law = Toplevel(self.root) 
-        law.law_and_order = law_and_order.law_and_order(law)
         self.root.withdraw()
+        try:
+            os.system('.venv/Scripts/activate')
+        except Exception:
+            pass
+        finally:
+            self.root.after(1000)
+            self.root.destroy()
+            os.system('python C:\prctm_dog\law_and_order.py')
         
         #y ahora que?
         
     def verification_tracking_function(self):
-        pass
-        # verif = Toplevel(self.root)
-        # verif.verification_tracking = verification_tracking.db_verification(verif)
-        # self.root.withdraw()
+        self.root.withdraw()
+        try:
+            os.system('.venv/Scripts/activate')
+        except Exception:
+            pass
+        finally:
+            self.root.after(1000)
+            self.root.destroy()
+            os.system('python C:\prctm_dog\main_tracking.py')
         
+    def main_tracking(self):
+        #CORREGIR
+        def CAM_INIT():
+            init_cam = "python C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/live_feed.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
+            yes = os.system(init_cam)      
+            subprocess.call(yes, creationflags=subprocess.CREATE_NEW_CONSOLE)
+        CAM_INIT()
+        time.sleep(1)
+        self.verification_tracking_function()
        
         
 if __name__=='__main__':

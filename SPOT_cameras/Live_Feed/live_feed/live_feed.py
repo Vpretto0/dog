@@ -8,6 +8,11 @@
 
 import io
 import os
+import time
+import sys
+import win32con
+import win32gui
+import subprocess
 from contextlib import contextmanager
 from ctypes import *
 import numpy
@@ -339,15 +344,30 @@ def stitch(robot, options):
     global gl_pixel_format ### SDL
 
     """Stitch two front fisheye images together"""
+    
+    x= 0
+    y= -50
+    
+    os.environ['SDL_VIDEO_WINDOW_POS'] = " %d , %d " % (x, y)
     pygame.init()
+    
+    # if sys.platform == "win32":
+    #             os.environ['SDL_VIDEODRIVER'] = 'windib'
+    #             hwnd = pygame.display.get_wm_info()['window']
+    #             ctypes.windll.user32.SetWindowPos(
+    #                 hwnd, -1, 0, 0, 0, 0,
+    #                 0x0001 | 0x0002  # SWP_NOSIZE | SWP_NOMOVE
+    #             )
+    # win32gui.SetWindowPos(pygame.display.get_wm_info()['window'], win32con.HWND_TOPMOST, 0,0,0,0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
+    pygame.display.set_mode(( 100 , 100 ))
 
     display = (720, 540)   #Deberia de cambiar el tamano 
     pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.NOFRAME) #deberia quitar la barra superior
     clock = pygame.time.Clock()
 
-    with open('shader_vert.glsl', 'r') as file:
+    with open('C:\prctm_dog\SPOT_cameras\Live_Feed\live_feed\shader_vert.glsl', 'r') as file:
         vert_shader = file.read()
-    with open('shader_frag.glsl', 'r') as file:
+    with open('C:\prctm_dog\SPOT_cameras\Live_Feed\live_feed\shader_frag.glsl', 'r') as file:
         frag_shader = file.read()
 
     program = CompiledShader(vert_shader, frag_shader)
@@ -455,8 +475,6 @@ def main():
 
     return True
 
-def auto_log():
-    pass
 
 if __name__ == '__main__':
     main()

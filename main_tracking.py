@@ -1,13 +1,16 @@
 from tkinter import *
+import time
 import tkinter as tk
 from tkinter import ttk, Tk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageGrab
+import os
 
 from verification_tracking import db_verification
 
 class tracking_main:
     
     def __init__(self, root):
+        #Init Camera=
         self.root = root
         
         root.overrideredirect(True)
@@ -22,7 +25,7 @@ class tracking_main:
         self.root.title("MATRIX DOG")
         self.root.geometry("1425x700+75+55")
 
-        root.update_idletasks()  #("Hack")
+        root.update_idletasks()  #("Hack")  
         
         # x = (root.winfo_screenwidth() - root.winfo_reqwidth()) / 2
         # y = (root.winfo_screenheight() - root.winfo_reqheight()) / 2
@@ -37,8 +40,8 @@ class tracking_main:
         DB_verification()
         
         #____________________________________________________FRAMES___________________________________________________#
-        
-        MainFrame = Frame(self.root, width=1450, height=700, bg='green')        #quitar el marco al final
+
+        MainFrame = Frame(self.root, width=1450, height=700, bg='green')        #ya
         MainFrame.grid()
         
         LeftFrame = Frame(MainFrame, width=770, height=690, bg='green')
@@ -53,7 +56,7 @@ class tracking_main:
         downRStuffFrame = Frame(RightFrame, width=670, height=345, bg='green')
         downRStuffFrame.grid(row=1, column=0)
     
-        MapFrame = Frame(downRStuffFrame, width=342, height=345, bg='purple')
+        MapFrame = Frame(downRStuffFrame, width=342, height=345, bg='darkblue')
         MapFrame.grid(row=0, column=0)
         ButtonsFrame = Frame(downRStuffFrame, width=338, height=345, bg='green')
         ButtonsFrame.grid(row=0, column=1)
@@ -66,7 +69,7 @@ class tracking_main:
     #Left Stuff=
         GifFrame = Frame(LeftFrame, width=765, height=180, bg='green')
         GifFrame.grid(row=0, column=0)
-        CameraFrame = Frame(LeftFrame, width=765, height=420, bg='yellow')
+        CameraFrame = Frame(LeftFrame, width=765, height=420, bg='darkred')
         CameraFrame.grid(row=1, column=0)
         downLStuffFrame = Frame(LeftFrame, width=765, height=90, bg='green')
         downLStuffFrame.grid(row=2, column=0)
@@ -74,7 +77,7 @@ class tracking_main:
         #_____________________________________________________BUTTONS___________________________________________________#
         
     #Left Buttons=
-        BackButton = Button(downLStuffFrame, bd=5, relief=RIDGE, text="Back", width=85, height=2, fg='white', bg = '#212121', activebackground='gray')
+        BackButton = Button(downLStuffFrame, bd=5, relief=RIDGE, text="GO BACK", width=85, height=2, fg='white', bg = '#212121', activebackground='gray', command=self.back)
         BackButton.grid(row=0, column=0, padx=5, pady=20)
         
         self.NotificationImg= PhotoImage(file="C:/prctm_dog/images/notification_icon.png") 
@@ -90,7 +93,7 @@ class tracking_main:
         eStopButton = Button(eStopButtonFrame, image=self.e_path, fg='green', bg = 'green', activebackground='green', borderwidth=0, cursor='hand2')
         eStopButton.grid(row=0, column=0, padx=6, pady=6)
          
-        self.SwitchButton = Button(SwitchButtonFrame, bd=5, width=25, height=3, relief=RIDGE, text=self.mode, font =('courier', 10, 'bold'), command=self.button_manual_auto, fg='white', bg = '#212121', activebackground='gray')
+        self.SwitchButton = Button(SwitchButtonFrame, bd=10, width=25, height=3, relief=RIDGE, text=self.mode, font =('courier', 10, 'bold'), command=self.button_manual_auto, fg='white', bg = '#212121', activebackground='gray')
         self.SwitchButton.grid(row=0, column=0, padx=10, pady=20)
     
     #GIF=
@@ -133,9 +136,42 @@ class tracking_main:
             self.mode = "Automatic Mode"
             self.SwitchButton.config(text=self.mode)
             print("Automatic Mode")
+            
+#Back Button=
+    def back(self):
+        self.root.withdraw()
+        try:
+            os.system('.venv/Scripts/activate')
+        except Exception:
+            pass
+        finally:
+            self.root.after(1000)
+            self.root.destroy()
+            os.system('python C:\prctm_dog\start_menu.py')
         
+# #Screenshot Button=
+#     def save_as_png(self):
+#         self.file = "C:/prctm_dog/security_picture.png"
+#         ImageGrab.grab().crop((713, 168, 1210, 915)).save(self.file)
 
+#         self.root.after(2000)
+#         label = Label(self.CamLavel, text="DATA SAVED...", font =('courier', 15, 'bold'), fg='#1f1f1f', bg='black', bd=5, relief=RIDGE)
+#         label.grid()
+#         label.update_idletasks() 
+        
+#         label.after(2000, label.destroy)
+#         #RECORDAR SUMER LOS TIEMPOS
+
+#WASD=
+    def wasd(self):
+        self.root.withdraw()
+        self.root.after(1000)
+        self.root.destroy()
+        os.system('python C:\prctm_dog\main_tracking.py')
+
+            
 if __name__ == "__main__":
     root = Tk()
     app = tracking_main(root)
+    
     root.mainloop()
