@@ -345,10 +345,10 @@ def stitch(robot, options):
 
     """Stitch two front fisheye images together"""
     
-    x= 0
-    y= -50
+    x= -1000
+    y= 0
     
-    os.environ['SDL_VIDEO_WINDOW_POS'] = " %d , %d " % (x, y)
+    os.environ['SDL_VIDEO_WINDOW_POS'] = " %d , %d " % (10, y)
     pygame.init()
     
     # if sys.platform == "win32":
@@ -359,7 +359,7 @@ def stitch(robot, options):
     #                 0x0001 | 0x0002  # SWP_NOSIZE | SWP_NOMOVE
     #             )
     # win32gui.SetWindowPos(pygame.display.get_wm_info()['window'], win32con.HWND_TOPMOST, 0,0,0,0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
-    pygame.display.set_mode(( 100 , 100 ))
+    # pygame.display.set_mode(( 100 , 100 ))
 
     display = (720, 540)   #Deberia de cambiar el tamano 
     pygame.display.set_mode(display, pygame.DOUBLEBUF | pygame.OPENGL | pygame.NOFRAME) #deberia quitar la barra superior

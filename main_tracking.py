@@ -1,12 +1,20 @@
 from tkinter import *
 import time
+import subprocess
 import tkinter as tk
-from tkinter import ttk, Tk
+from tkinter import ttk, Tk, messagebox
 from PIL import Image, ImageTk, ImageGrab
 import os
 
 from verification_tracking import db_verification
+from SPOT_gps.gps_map import MapApp
 
+user = "admin"
+pswrd = "zmnta28fvcym"
+init_cam = "python SPOT_cameras/live_feed_controls.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
+init_map = "python SPOT_gps/gps_listener.py 192.168.80.3"
+init_wasd = "python SPOT_wasd/wasd.py 192.168.80.3"
+init_estop = "python SPOT_estop/estop.py 192.168.80.3"
 class tracking_main:
     
     def __init__(self, root):
@@ -35,10 +43,14 @@ class tracking_main:
         
         #TopLevel
         def DB_verification():
-                db_window = Toplevel(self.root) 
-                self.pw = db_verification(db_window)
+            db_window = Toplevel(self.root) 
+            self.pw = db_verification(db_window)
         DB_verification()
-        
+        #MAP=         
+        def MAP_MAP():
+                map_window = Toplevel(self.root) 
+                self.mp = MapApp(map_window)
+        MAP_MAP()
         #____________________________________________________FRAMES___________________________________________________#
 
         MainFrame = Frame(self.root, width=1450, height=700, bg='green')        #ya
@@ -56,7 +68,7 @@ class tracking_main:
         downRStuffFrame = Frame(RightFrame, width=670, height=345, bg='green')
         downRStuffFrame.grid(row=1, column=0)
     
-        MapFrame = Frame(downRStuffFrame, width=342, height=345, bg='darkblue')
+        MapFrame = Frame(downRStuffFrame, width=342, height=345, bg='green')
         MapFrame.grid(row=0, column=0)
         ButtonsFrame = Frame(downRStuffFrame, width=338, height=345, bg='green')
         ButtonsFrame.grid(row=0, column=1)
@@ -130,7 +142,7 @@ class tracking_main:
         if self.mode == "Automatic Mode":
             self.mode = "Manual Mode"
             self.SwitchButton.config(text=self.mode)
-            #self.manual_mode()
+            self.manual_mode()
             print("Manual Mode")
         else:
             self.mode = "Automatic Mode"
@@ -148,6 +160,40 @@ class tracking_main:
             self.root.after(1000)
             self.root.destroy()
             os.system('python C:\prctm_dog\start_menu.py')
+         
+# #START=
+#     def start_with_the_password(self, init_cam, user, pswrd):
+#         args = init_cam.split()
+#         process = subprocess.Popen(     #POPEN
+#             args,
+#             stdin=subprocess.PIPE,
+#             stdout=subprocess.PIPE,
+#             stderr=subprocess.PIPE,
+#             text=True
+#         )
+#         process.stdin.write(user + "\n")
+#         process.stdin.write(pswrd + "\n")
+#         process.stdin.flush()
+#         return process  #no alvidar return
+
+
+#     def start(self, command, user, pswrd):
+#             try:
+#                 self.start_with_the_password(command, user, pswrd)
+#             except Exception as e:
+#                 print(f"Error al iniciar MI script {command}: {e}")
+#                 return None
+            
+# # WASD=        
+#     def wasd_button(self):
+#         messagebox.showinfo("Manual Mode", "Controls: \nW = Forward\nS = Backward\nA = Left\nD - Right\nQ = Turn Left\nE = Turn Right                           ")
+#         messagebox.showinfo("Manual Mode", "Commands: \nTAB = Quit\nT = Time-sync\nSPACE = Estop\nP = Power\nI = Take Image\nO = Video mode\nf = Stand\nr = Self-right\nv = Sit\nb = Battery-change\nESC = Stop\n1 = Return/Acquire Lease                   ")
+#         self.start(init_wasd, user, pswrd)
+            
+
+#     def manual_mode(self):
+#         self.wasd_button()
+#         time.sleep(0.5)
         
 # #Screenshot Button=
 #     def save_as_png(self):
@@ -161,17 +207,11 @@ class tracking_main:
         
 #         label.after(2000, label.destroy)
 #         #RECORDAR SUMER LOS TIEMPOS
-
-#WASD=
-    def wasd(self):
-        self.root.withdraw()
-        self.root.after(1000)
-        self.root.destroy()
-        os.system('python C:\prctm_dog\main_tracking.py')
+    
+    
 
             
 if __name__ == "__main__":
     root = Tk()
     app = tracking_main(root)
-    
     root.mainloop()

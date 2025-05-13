@@ -9,7 +9,10 @@ import law_and_order
 
 from PIL import Image, ImageTk
 
-
+#CORREGIR
+init_cam = "python C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/live_feed.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
+user = "admin"
+pswrd = "zmnta28fvcym"
 class menu_start:
 
     def __init__(self, root):
@@ -144,15 +147,34 @@ class menu_start:
             self.root.destroy()
             os.system('python C:\prctm_dog\main_tracking.py')
         
-    def main_tracking(self):
-        #CORREGIR
-        def CAM_INIT():
-            init_cam = "python C:/prctm_dog/SPOT_cameras/Live_Feed/live_feed/live_feed.py 192.168.80.3 --pixel-format PIXEL_FORMAT_GREYSCALE_U8 -j 100"
-            yes = os.system(init_cam)      
-            subprocess.call(yes, creationflags=subprocess.CREATE_NEW_CONSOLE)
-        CAM_INIT()
+    def start_with_the_password(self, init_cam, user, pswrd):
+        args = init_cam.split()
+        process = subprocess.Popen(     #POPEN
+            args,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
         time.sleep(1)
-        self.verification_tracking_function()
+        process.stdin.write(user + "\n")
+        process.stdin.write(pswrd + "\n")
+        process.stdin.flush()
+        return process  #no alvidar return
+
+
+    def start(self, command, user, pswrd):
+            try:
+                self.start_with_the_password(command, user, pswrd)
+            except Exception as e:
+                print(f"Error desde MI script {command}: {e}")
+                return None
+            
+    def main_tracking(self):
+        self.start(init_cam, user, pswrd)
+        
+        # time.sleep(1)
+        # self.verification_tracking_function()
        
         
 if __name__=='__main__':
